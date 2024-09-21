@@ -1,2 +1,2 @@
 # LogBotics
-FRC robotics Logging Application
+FRC Robotics Logging Application
