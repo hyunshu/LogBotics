@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRC_App.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+            <Image
+                Source="logbotics.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="LogBotics logo" />
+
+            <Label
+                Text="Welcome to LogBotics!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="Enter user information to login"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="User log in here" />
+
+            <Label Text="Enter username:"/>
+            <Entry x:Name="UserNameEntry" Placeholder="Type username..."/>
+
+            <Label Text="Enter password:"/>
+            <Entry x:Name="UserPasswordEntry" Placeholder="Type password..."/>
+
+            <Button
+                x:Name="LoginBtn"
+                Text="Log In" 
+                SemanticProperties.Hint="Counts the number of times you click"
+                Clicked="OnSubmitClicked"
+                HorizontalOptions="Fill" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
