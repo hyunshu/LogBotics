@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FRC-App")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+b87739b2fd183666d8543df0ec36968dafb4707c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0+d30c30048c31b0ab12416f3258fcecbae4e22fa2")]
 [assembly: System.Reflection.AssemblyProductAttribute("FRC-App")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FRC-App")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
