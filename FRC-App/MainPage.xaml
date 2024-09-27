@@ -32,10 +32,19 @@
 
             <Button
                 x:Name="LoginBtn"
+                BackgroundColor="#4169E1"
                 Text="Log In" 
-                SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnSubmitClicked"
+                SemanticProperties.Hint="Logs user in"
+                Clicked="LogInUser"
                 HorizontalOptions="Fill" />
+
+            <Button
+            x:Name="CreateAcctBtn"
+            BackgroundColor="#1E90FF"
+            Text="Create Account" 
+            SemanticProperties.Hint="Creates user account"
+            Clicked="CreateAccount"
+            HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 

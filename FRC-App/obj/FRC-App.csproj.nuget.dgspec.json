@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\FRC-App\\FRC-App.csproj": {}
+    "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj": {}
   },
   "projects": {
-    "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\FRC-App\\FRC-App.csproj": {
+    "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\FRC-App\\FRC-App.csproj",
+        "projectUniqueName": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj",
         "projectName": "FRC-App",
-        "projectPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\FRC-App\\FRC-App.csproj",
+        "projectPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj",
         "packagesPath": "C:\\Users\\glrsa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\FRC-App\\obj\\",
+        "outputPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "configFilePaths": [
@@ -72,6 +72,10 @@
               "target": "Package",
               "version": "[8.0.8, )",
               "autoReferenced": true
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
@@ -115,6 +119,10 @@
               "target": "Package",
               "version": "[8.0.8, )",
               "autoReferenced": true
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
@@ -153,6 +161,10 @@
             "Microsoft.Maui.Controls.Compatibility": {
               "target": "Package",
               "version": "[8.0.82, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.9.172, )"
             }
           },
           "imports": [
