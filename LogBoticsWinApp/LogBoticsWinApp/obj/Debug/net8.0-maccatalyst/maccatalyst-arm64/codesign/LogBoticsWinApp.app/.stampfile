@@ -1,1 +1,0 @@
--v --force --timestamp=none --sign - --entitlements /Users/hyunshu/ShuShu/LogBotics/LogBoticsWinApp/LogBoticsWinApp/obj/Debug/net8.0-maccatalyst/maccatalyst-arm64/Entitlements.xcent /Users/hyunshu/ShuShu/LogBotics/LogBoticsWinApp/LogBoticsWinApp/bin/Debug/net8.0-maccatalyst/maccatalyst-arm64/LogBoticsWinApp.app
