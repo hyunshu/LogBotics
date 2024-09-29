@@ -34,4 +34,3 @@ public class Motor
     public void UpdateTorque(double newTorque) { _torque = newTorque; }
     public void UpdateTemperature(double newTemp) { _temperature = newTemp; }
     public void UpdateVoltage(double newVoltage) { _voltage = newVoltage; }
-}
