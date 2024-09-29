@@ -13,7 +13,8 @@ namespace FRC_App.Services
                 return;
             }
 
-            string databasePath = Path.Combine(Directory.GetCurrentDirectory(), "database.db"); // Might need to change this to a diff directory in the future
+            string databasePath = Path.Combine(FileSystem.AppDataDirectory, "database.db");  // Might need to change this to a diff directory in the future
+            Console.WriteLine(databasePath);
 
             db = new SQLiteAsyncConnection(databasePath);
 

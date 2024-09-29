@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-ios17.5": {
+    "net8.0-ios18.0": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -492,7 +492,7 @@
         }
       }
     },
-    "net8.0-ios17.5/iossimulator-x64": {
+    "net8.0-ios18.0/iossimulator-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -983,7 +983,7 @@
         }
       }
     },
-    "net8.0-ios17.5/maccatalyst-x64": {
+    "net8.0-ios18.0/maccatalyst-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1474,7 +1474,7 @@
         }
       }
     },
-    "net8.0-ios17.5/win10-x64": {
+    "net8.0-ios18.0/win10-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1965,7 +1965,7 @@
         }
       }
     },
-    "net8.0-maccatalyst17.5": {
+    "net8.0-maccatalyst18.0": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -2550,7 +2550,7 @@
         }
       }
     },
-    "net8.0-maccatalyst17.5/iossimulator-x64": {
+    "net8.0-maccatalyst18.0/iossimulator-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -3045,7 +3045,7 @@
         }
       }
     },
-    "net8.0-maccatalyst17.5/maccatalyst-x64": {
+    "net8.0-maccatalyst18.0/maccatalyst-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -3543,7 +3543,7 @@
         }
       }
     },
-    "net8.0-maccatalyst17.5/win10-x64": {
+    "net8.0-maccatalyst18.0/win10-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -8962,14 +8962,14 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-ios17.5": [
+    "net8.0-ios18.0": [
       "Microsoft.Extensions.Logging.Debug >= 8.0.0",
       "Microsoft.Maui.Controls >= 8.0.82",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.82",
       "Microsoft.NET.ILLink.Tasks >= 8.0.8",
       "sqlite-net-pcl >= 1.9.172"
     ],
-    "net8.0-maccatalyst17.5": [
+    "net8.0-maccatalyst18.0": [
       "Microsoft.Extensions.Logging.Debug >= 8.0.0",
       "Microsoft.Maui.Controls >= 8.0.82",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.82",
@@ -9009,11 +9009,11 @@
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0-ios17.5": {
+        "net8.0-ios18.0": {
           "targetAlias": "net8.0-ios",
           "projectReferences": {}
         },
-        "net8.0-maccatalyst17.5": {
+        "net8.0-maccatalyst18.0": {
           "targetAlias": "net8.0-maccatalyst",
           "projectReferences": {}
         },
@@ -9034,7 +9034,7 @@
       }
     },
     "frameworks": {
-      "net8.0-ios17.5": {
+      "net8.0-ios18.0": {
         "targetAlias": "net8.0-ios",
         "dependencies": {
           "Microsoft.Extensions.Logging.Debug": {
@@ -9081,7 +9081,7 @@
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
       },
-      "net8.0-maccatalyst17.5": {
+      "net8.0-maccatalyst18.0": {
         "targetAlias": "net8.0-maccatalyst",
         "dependencies": {
           "Microsoft.Extensions.Logging.Debug": {
