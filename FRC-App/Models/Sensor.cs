@@ -33,4 +33,3 @@ public class Sensor
     public void UpdateSensorValue(double newValue) { _sensorValue = newValue; }
     public void UpdateStatus(bool newStatus) { _status = newStatus; }
     public void UpdateUnit(string newUnit) { _unit = newUnit; }
-}
