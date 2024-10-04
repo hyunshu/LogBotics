@@ -18,7 +18,8 @@ public partial class MainPage : ContentPage
         	var user = await UserDatabase.GetUser(username);
 
 			if (user != null && user.Password == password) {
-				await DisplayAlert("Success", "Login successful!", "OK");
+				await DisplayAlert("Success", "Login successful!", "Get Started"); 
+				await Navigation.PushAsync(new HomePage());
 			} else {
 				await DisplayAlert("Error", "Invalid username or password.", "OK");
 			}
@@ -37,7 +38,8 @@ public partial class MainPage : ContentPage
 			try
             {
                 await UserDatabase.AddUser(username, password);
-                await DisplayAlert("Success", "Account created successfully!", "OK");
+                await DisplayAlert("Success", "Account created successfully!", "Log in");
+				await Navigation.PushAsync(new HomePage());
             }
             catch (Exception ex)
             {
