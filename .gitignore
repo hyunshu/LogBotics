@@ -1,2 +1,4 @@
 /FRC-App/bin/Debug/
 /FRC-App/obj/Debug/
+.vscode/
+.DS_Store
