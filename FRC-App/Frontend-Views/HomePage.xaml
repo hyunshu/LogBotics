@@ -3,24 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.HomePage"
              Title="HomePage">
-    <VerticalStackLayout>
+    <VerticalStackLayout 
+        Padding="20"
+        Spacing="20"
+        VerticalOptions="Center">
+        
         <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+            Text="Home Page"
+            FontSize="32" 
+            FontAttributes="Bold" 
+            HorizontalOptions="Center" 
+            TextColor="#4169E1"
+            Margin="0,20,0,20"/>
+
+         <Label 
+            Text="Manage your FRC data easily and efficiently!" 
+            FontSize="20" 
+            HorizontalOptions="Center" 
+            TextColor="Gray" 
+            Margin="0,10,0,0"/>
+        
         <Button
-                x:Name="DataImport"
-                BackgroundColor="#4169E1"
-                Text="Import Data" 
-                SemanticProperties.Hint="Imports FRC the Data"
-                Clicked="ImportData"
-                HorizontalOptions="Fill" />
+            x:Name="DataImport"
+            BackgroundColor="#4169E1"
+            Text="Import Data" 
+            TextColor="White"
+            SemanticProperties.Hint="Imports FRC Data"
+            Clicked="ImportData"
+            HorizontalOptions="Fill" 
+            CornerRadius="10"
+            Padding="15"
+            FontSize="18" />
+
         <Button
-                x:Name="DataExport"
-                BackgroundColor="#4169E1"
-                Text="Export Data" 
-                SemanticProperties.Hint="Exports FRC the Data to CSV and otherwise"
-                Clicked="ExportData"
-                HorizontalOptions="Fill" />
+            x:Name="DataExport"
+            BackgroundColor="#4169E1"
+            Text="Export Data" 
+            TextColor="White"
+            SemanticProperties.Hint="Exports FRC Data to CSV"
+            Clicked="ExportData"
+            HorizontalOptions="Fill" 
+            CornerRadius="10"
+            Padding="15"
+            FontSize="18" />
+        
     </VerticalStackLayout>
 </ContentPage>
