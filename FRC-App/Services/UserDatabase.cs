@@ -21,11 +21,13 @@ namespace FRC_App.Services
             await db.CreateTableAsync<User>();
         }
 
-        public static async Task AddUser(string name, string password, bool isAdmin = false)
+        public static async Task AddUser(string teamName, string teamNumber, string name, string password, bool isAdmin = false)
         {
             await Init();
             var user = new User
             {
+                TeamName = teamName,
+                TeamNumber = teamNumber,
                 Username = name,
                 Password = password,
                 IsAdmin = isAdmin  // Store the admin status

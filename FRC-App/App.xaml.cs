@@ -17,7 +17,7 @@ public partial class App : Application
 		var adminUser = await UserDatabase.GetUser("admin");
 		if (adminUser == null)
 		{
-			await UserDatabase.AddUser("admin", "qwer", true);
+			await UserDatabase.AddUser("admin", "0", "admin", "qwer", true);
 		}
 	}
 
