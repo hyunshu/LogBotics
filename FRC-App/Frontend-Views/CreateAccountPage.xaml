@@ -47,7 +47,7 @@
                 <Label Text="Password"
                         FontSize="16"
                         TextColor="Gray" />
-                <Entry x:Name="PasswordEntry" IsPassword="True" FontSize="16" WidthRequest="300" />
+                <Entry x:Name="UserPasswordEntry" IsPassword="True" FontSize="16" WidthRequest="300" />
             </VerticalStackLayout>
 
             <VerticalStackLayout HorizontalOptions="FillAndExpand">
