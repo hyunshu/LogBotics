@@ -19,6 +19,7 @@
             <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
             <Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" />
             <Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" />
+            <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />
             <Button Text="Log Out" BackgroundColor="White" TextColor="Black" BorderColor="Black" CornerRadius="10" Clicked="LogOut" />
         
             <!-- User Information Section -->

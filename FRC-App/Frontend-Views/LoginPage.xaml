@@ -62,6 +62,4 @@
             Clicked="RedirectToCreateAccountPage"
             HorizontalOptions="Fill" />
         </VerticalStackLayout>
-
-
 </ContentPage>
