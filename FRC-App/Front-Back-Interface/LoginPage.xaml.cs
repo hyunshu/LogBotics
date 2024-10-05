@@ -24,10 +24,10 @@ public partial class LoginPage : ContentPage
 			if (user != null && user.Password == password) {
 				if (user.IsAdmin) {
 					await DisplayAlert("Success", "Admin login successful!", "Get Started");
-					Application.Current.MainPage = new HomePage();  // Redirect to admin page
+					Application.Current.MainPage = new HomePage(user);  // Redirect to admin page
 				} else {
 					await DisplayAlert("Success", "Login successful!", "Get Started");
-					Application.Current.MainPage = new HomePage();  // Redirect to regular homepage
+					Application.Current.MainPage = new HomePage(user);  // Redirect to regular homepage
 				}
 			} else {
 				await DisplayAlert("Error", "Invalid username or password.", "OK");
