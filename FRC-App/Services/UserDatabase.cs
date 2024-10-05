@@ -13,7 +13,7 @@ namespace FRC_App.Services
                 return;
             }
 
-            string databasePath = Path.Combine(FileSystem.AppDataDirectory, "database.db");  // Might need to change this to a diff directory in the future
+            string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
             Console.WriteLine(databasePath);
 
             db = new SQLiteAsyncConnection(databasePath);
@@ -21,17 +21,19 @@ namespace FRC_App.Services
             await db.CreateTableAsync<User>();
         }
 
-        public static async Task AddUser(string name, string password)
+        public static async Task AddUser(string name, string password, bool isAdmin = false)
         {
             await Init();
             var user = new User
             {
-                Username = name, 
-                Password = password
+                Username = name,
+                Password = password,
+                IsAdmin = isAdmin  // Store the admin status
             };
 
             var id = await db.InsertAsync(user);
         }
+
 
         public static async Task<User> GetUser(string username)
         {
