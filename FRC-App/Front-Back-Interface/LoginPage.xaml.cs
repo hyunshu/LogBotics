@@ -3,15 +3,19 @@
 namespace FRC_App;
 public partial class LoginPage : ContentPage
 {
-
 	public LoginPage()
 	{
 		InitializeComponent();
 	}
 
+	private void OnTogglePasswordVisibilityToggled(object sender, ToggledEventArgs e)
+	{
+		UserPasswordEntry.IsPassword = !e.Value;
+	}
+
 	private async void LogInUser(object sender, EventArgs e)
 	{
-		string username = UserNameEntry.Text;
+		string username = UsernameEntry.Text;
 		string password = UserPasswordEntry.Text;
 
 		if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)) { 
@@ -35,7 +39,7 @@ public partial class LoginPage : ContentPage
 
 	private async void CreateAccount(object sender, EventArgs e)
 	{
-		string username = UserNameEntry.Text;
+		string username = UsernameEntry.Text;
 		string password = UserPasswordEntry.Text;
 
 		if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)) {
