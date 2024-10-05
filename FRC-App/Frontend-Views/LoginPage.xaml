@@ -24,11 +24,28 @@
                 SemanticProperties.HeadingLevel="Level2"
                 SemanticProperties.Description="User log in here" />
 
-            <Label Text="Enter username:"/>
-            <Entry x:Name="UserNameEntry" Placeholder="Type username..."/>
+            <!-- Username Entry -->
+            <Label Text="Username"/>
+            <Entry x:Name="UsernameEntry"
+                FontSize="18" />
 
-            <Label Text="Enter password:"/>
-            <Entry x:Name="UserPasswordEntry" Placeholder="Type password..."/>
+            <!-- Password Entry with Show/Hide toggle using Switch -->
+            <Label Text="Password"/>
+            <Grid>
+                <Entry x:Name="UserPasswordEntry"
+                   IsPassword="True"
+                   FontSize="18"
+                   HorizontalOptions="FillAndExpand" />
+
+                <!-- Switch for password visibility -->
+                <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="Center">
+                    <Label Text="Show Password  " VerticalOptions="Center" FontSize="14" TextColor="Gray" />
+                    <Switch x:Name="PasswordVisibilitySwitch" 
+                            Toggled="OnTogglePasswordVisibilityToggled" 
+                            HorizontalOptions="End" />
+                </HorizontalStackLayout>
+            </Grid>
+
 
             <Button
                 x:Name="LoginBtn"
