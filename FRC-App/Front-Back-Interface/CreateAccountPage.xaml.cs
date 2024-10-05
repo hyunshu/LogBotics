@@ -20,6 +20,13 @@ public partial class CreateAccountPage : ContentPage
                 && !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)
                 && !string.IsNullOrEmpty(confirmPassword)) {
 
+            bool userExists = await UserDatabase.CheckUserExistsAsync(username);
+            if (userExists)
+            {
+                await DisplayAlert("Error", "Username already exists. Please choose another username.", "OK");
+                return;
+            }
+
             if (password.Length < 4) {
                 await DisplayAlert("Error", "Password must be at least 4 characters long.", "OK");
                 return;

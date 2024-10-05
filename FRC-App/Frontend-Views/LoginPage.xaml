@@ -25,7 +25,8 @@
             <!-- Username Entry -->
             <Label Text="Username"/>
             <Entry x:Name="UsernameEntry"
-                FontSize="18" />
+                FontSize="18"
+                HeightRequest="50" />
 
             <!-- Password Entry with Show/Hide toggle using Switch -->
             <Label Text="Password"/>
@@ -33,7 +34,8 @@
                 <Entry x:Name="UserPasswordEntry"
                    IsPassword="True"
                    FontSize="18"
-                   HorizontalOptions="FillAndExpand" />
+                   HorizontalOptions="FillAndExpand"
+                   HeightRequest="50" />
 
                 <!-- Switch for password visibility -->
                 <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="Center">

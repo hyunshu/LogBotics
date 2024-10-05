@@ -44,6 +44,13 @@ namespace FRC_App.Services
 
             return user;
         }
+
+        public static async Task<bool> CheckUserExistsAsync(string username)
+        {
+            // Assuming you're using SQLite or similar, adjust this query to your actual DB structure
+            var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            return existingUser != null;
+        }
     }
 
 }
