@@ -24,10 +24,10 @@ public partial class LoginPage : ContentPage
 			if (user != null && user.Password == password) {
 				if (user.IsAdmin) {
 					await DisplayAlert("Success", "Admin login successful!", "Get Started");
-					await Navigation.PushAsync(new HomePage());  // Redirect to admin page
+					await Navigation.PushAsync(new HomePage(user));  // Redirect to admin page
 				} else {
 					await DisplayAlert("Success", "Login successful!", "Get Started");
-					await Navigation.PushAsync(new HomePage());  // Redirect to regular homepage
+					await Navigation.PushAsync(new HomePage(user));  // Redirect to regular homepage
 				}
 			} else {
 				await DisplayAlert("Error", "Invalid username or password.", "OK");
@@ -47,7 +47,9 @@ public partial class LoginPage : ContentPage
             {
                 await UserDatabase.AddUser(username, password);
                 await DisplayAlert("Success", "Account created successfully!", "Log in");
-				await Navigation.PushAsync(new HomePage());
+
+				var user = await UserDatabase.GetUser(username);
+				await Navigation.PushAsync(new HomePage(user));
             }
             catch (Exception ex)
             {

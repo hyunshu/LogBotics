@@ -1,10 +1,16 @@
+using FRC_App.Models;
+
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
-	public HomePage()
+
+	public User currentUser { get; private set; }
+
+	public HomePage(User user)
 	{
 		InitializeComponent();
+		currentUser = user;
 	}
 
 	DataImport dataStructure;
@@ -16,6 +22,7 @@ public partial class HomePage : ContentPage
         dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
         rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
 
+		Console.WriteLine($"Logged in user: {currentUser.Username}");		// testing if user data was passed from loginPage
 		await DisplayAlert("Success", "Data Imported", "Continue"); 
 	}
 
