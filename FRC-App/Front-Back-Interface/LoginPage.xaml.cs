@@ -1,10 +1,10 @@
 ﻿using FRC_App.Services;
 
 namespace FRC_App;
-public partial class MainPage : ContentPage
+public partial class LoginPage : ContentPage
 {
 
-	public MainPage()
+	public LoginPage()
 	{
 		InitializeComponent();
 	}
@@ -15,15 +15,19 @@ public partial class MainPage : ContentPage
 		string password = UserPasswordEntry.Text;
 
 		if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)) { 
-        	var user = await UserDatabase.GetUser(username);
+			var user = await UserDatabase.GetUser(username);
 
 			if (user != null && user.Password == password) {
-				await DisplayAlert("Success", "Login successful!", "Get Started"); 
-				await Navigation.PushAsync(new HomePage());
+				if (user.IsAdmin) {
+					await DisplayAlert("Success", "Admin login successful!", "Get Started");
+					await Navigation.PushAsync(new HomePage());  // Redirect to admin page
+				} else {
+					await DisplayAlert("Success", "Login successful!", "Get Started");
+					await Navigation.PushAsync(new HomePage());  // Redirect to regular homepage
+				}
 			} else {
 				await DisplayAlert("Error", "Invalid username or password.", "OK");
 			}
-
 		} else {
 			await DisplayAlert("Error", "Missing info.", "OK");
 		}
