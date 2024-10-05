@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-ios18.0": {
+    "net8.0-ios17.5": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -492,7 +492,7 @@
         }
       }
     },
-    "net8.0-ios18.0/iossimulator-x64": {
+    "net8.0-ios17.5/iossimulator-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -983,7 +983,7 @@
         }
       }
     },
-    "net8.0-ios18.0/maccatalyst-x64": {
+    "net8.0-ios17.5/maccatalyst-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1474,7 +1474,7 @@
         }
       }
     },
-    "net8.0-ios18.0/win10-x64": {
+    "net8.0-ios17.5/win10-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -1965,7 +1965,7 @@
         }
       }
     },
-    "net8.0-maccatalyst18.0": {
+    "net8.0-maccatalyst17.5": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -2550,7 +2550,7 @@
         }
       }
     },
-    "net8.0-maccatalyst18.0/iossimulator-x64": {
+    "net8.0-maccatalyst17.5/iossimulator-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -3045,7 +3045,7 @@
         }
       }
     },
-    "net8.0-maccatalyst18.0/maccatalyst-x64": {
+    "net8.0-maccatalyst17.5/maccatalyst-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -3543,7 +3543,7 @@
         }
       }
     },
-    "net8.0-maccatalyst18.0/win10-x64": {
+    "net8.0-maccatalyst17.5/win10-x64": {
       "Microsoft.Extensions.Configuration/8.0.0": {
         "type": "package",
         "dependencies": {
@@ -8962,14 +8962,14 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0-ios18.0": [
+    "net8.0-ios17.5": [
       "Microsoft.Extensions.Logging.Debug >= 8.0.0",
       "Microsoft.Maui.Controls >= 8.0.82",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.82",
       "Microsoft.NET.ILLink.Tasks >= 8.0.8",
       "sqlite-net-pcl >= 1.9.172"
     ],
-    "net8.0-maccatalyst18.0": [
+    "net8.0-maccatalyst17.5": [
       "Microsoft.Extensions.Logging.Debug >= 8.0.0",
       "Microsoft.Maui.Controls >= 8.0.82",
       "Microsoft.Maui.Controls.Compatibility >= 8.0.82",
@@ -8984,20 +8984,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\glrsa\\.nuget\\packages\\": {}
+    "C:\\Users\\jamor\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj",
+      "projectUniqueName": "C:\\Users\\jamor\\OneDrive\\Desktop\\Coding_Projects\\LogBotics\\FRC-App\\FRC-App.csproj",
       "projectName": "FRC-App",
-      "projectPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\FRC-App.csproj",
-      "packagesPath": "C:\\Users\\glrsa\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\glrsa\\OneDrive\\Desktop\\School_Stuff\\CS307_Project\\LogBotics\\FRC-App\\obj\\",
+      "projectPath": "C:\\Users\\jamor\\OneDrive\\Desktop\\Coding_Projects\\LogBotics\\FRC-App\\FRC-App.csproj",
+      "packagesPath": "C:\\Users\\jamor\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jamor\\OneDrive\\Desktop\\Coding_Projects\\LogBotics\\FRC-App\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\glrsa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\jamor\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0-ios",
@@ -9005,15 +9011,16 @@
         "net8.0-windows10.0.19041.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0-ios18.0": {
+        "net8.0-ios17.5": {
           "targetAlias": "net8.0-ios",
           "projectReferences": {}
         },
-        "net8.0-maccatalyst18.0": {
+        "net8.0-maccatalyst17.5": {
           "targetAlias": "net8.0-maccatalyst",
           "projectReferences": {}
         },
@@ -9034,7 +9041,7 @@
       }
     },
     "frameworks": {
-      "net8.0-ios18.0": {
+      "net8.0-ios17.5": {
         "targetAlias": "net8.0-ios",
         "dependencies": {
           "Microsoft.Extensions.Logging.Debug": {
@@ -9081,7 +9088,7 @@
         },
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.402/PortableRuntimeIdentifierGraph.json"
       },
-      "net8.0-maccatalyst18.0": {
+      "net8.0-maccatalyst17.5": {
         "targetAlias": "net8.0-maccatalyst",
         "dependencies": {
           "Microsoft.Extensions.Logging.Debug": {

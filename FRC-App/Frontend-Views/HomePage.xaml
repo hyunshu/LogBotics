@@ -8,5 +8,19 @@
             Text="Welcome to .NET MAUI!"
             VerticalOptions="Center" 
             HorizontalOptions="Center" />
+        <Button
+                x:Name="DataImport"
+                BackgroundColor="#4169E1"
+                Text="Import Data" 
+                SemanticProperties.Hint="Imports FRC the Data"
+                Clicked="ImportData"
+                HorizontalOptions="Fill" />
+        <Button
+                x:Name="DataExport"
+                BackgroundColor="#4169E1"
+                Text="Export Data" 
+                SemanticProperties.Hint="Exports FRC the Data to CSV and otherwise"
+                Clicked="ExportData"
+                HorizontalOptions="Fill" />
     </VerticalStackLayout>
 </ContentPage>
