@@ -37,8 +37,11 @@ public partial class LoginPage : ContentPage
 		}
 	}
 
-	private async void CreateAccount(object sender, EventArgs e)
+	private async void RedirectToCreateAccountPage(object sender, EventArgs e)
 	{
+		await Navigation.PushAsync(new CreateAccountPage());
+
+		/*
 		string username = UsernameEntry.Text;
 		string password = UserPasswordEntry.Text;
 
@@ -58,6 +61,7 @@ public partial class LoginPage : ContentPage
 		} else {
 			await DisplayAlert("Error", "Missing info.", "OK");
 		}
+		*/
 	}
 }
 

@@ -3,10 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.LoginPage">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+
+        <VerticalStackLayout Padding="30,0" Spacing="25">
             <Image
                 Source="logbotics.png"
                 HeightRequest="185"
@@ -46,7 +44,6 @@
                 </HorizontalStackLayout>
             </Grid>
 
-
             <Button
                 x:Name="LoginBtn"
                 BackgroundColor="#4169E1"
@@ -59,10 +56,10 @@
             x:Name="CreateAcctBtn"
             BackgroundColor="#1E90FF"
             Text="Create Account" 
-            SemanticProperties.Hint="Creates user account"
-            Clicked="CreateAccount"
+            SemanticProperties.Hint="Redirects to create account page"
+            Clicked="RedirectToCreateAccountPage"
             HorizontalOptions="Fill" />
         </VerticalStackLayout>
-    </ScrollView>
+
 
 </ContentPage>
