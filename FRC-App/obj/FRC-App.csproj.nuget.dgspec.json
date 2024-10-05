@@ -14,6 +14,9 @@
         "outputPath": "/Users/hyunshu/ShuShu/LogBotics/FRC-App/obj/",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
           "/Users/hyunshu/.nuget/NuGet/NuGet.Config"
         ],
