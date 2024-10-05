@@ -2,3 +2,4 @@
 /FRC-App/obj/Debug/
 .vscode/
 .DS_Store
+project.nuget.cache
