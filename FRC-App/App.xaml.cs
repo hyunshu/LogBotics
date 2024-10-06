@@ -21,6 +21,21 @@ public partial class App : Application
 		}
 	}
 
+	public void LoadTheme(string theme) {
+
+		ResourceDictionary? dictionary = theme switch
+		{
+			"DarkTheme" => new Resources.Styles.DarkTheme(),
+			"LightTheme" => new Resources.Styles.LightTheme(),
+			_ => null 
+		};
+
+		if (dictionary != null) {
+			Resources.MergedDictionaries.Clear();
+			Resources.MergedDictionaries.Add(dictionary);
+		}
+	}
+
 	// Other lifecycle methods
 	protected override void OnSleep() { }
 	protected override void OnResume() { }

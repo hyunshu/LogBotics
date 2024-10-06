@@ -41,7 +41,7 @@ public partial class HomePage : ContentPage
 
 	private async void Preference(object sender, EventArgs e)
 	{
-		await Navigation.PushAsync(new PreferencePage());
+		await Navigation.PushAsync(new PreferencePage(currentUser));
 	}
 
 	private async void LogOut(object sender, EventArgs e)
