@@ -1,16 +1,17 @@
 using FRC_App.Models;
 
+
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
-
 	public User currentUser { get; private set; }
 
 	public HomePage(User user)
 	{
 		InitializeComponent();
 		currentUser = user;
+		BindingContext = currentUser;
 	}
 
 	DataImport dataStructure;
@@ -35,6 +36,20 @@ public partial class HomePage : ContentPage
 			export.ToCSV(rawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
 
 			await DisplayAlert("Success", "Data Exported", "Continue"); 
+		}
+	}
+
+	private async void Preference(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new PreferencePage());
+	}
+
+	private async void LogOut(object sender, EventArgs e)
+	{
+		bool answer = await DisplayAlert("Log Out", "Are you sure you want to log out?", "Yes", "No");
+		if (answer)
+		{
+			Application.Current.MainPage = new NavigationPage(new LoginPage());
 		}
 	}
 }
