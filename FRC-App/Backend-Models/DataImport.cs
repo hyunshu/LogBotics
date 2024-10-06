@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using FRC_App.Models;
 
+namespace FRC_App.Import
+{
 public class DataImport
 {
     public List<string> dataTypes;
@@ -142,13 +145,15 @@ public class DataImport
      * @param rawData
      * @param fileName
      */
-    public void StoreRawData(List<List<List<double>>> rawData)
+    public void StoreRawData(List<List<List<double>>> rawData, User user)
     {
-        // TODO
+        user.DataStructure = this;
+        user.rawData = rawData;
     }
 
     public void SendRawData()
     {
         // TODO
     }
+}
 }

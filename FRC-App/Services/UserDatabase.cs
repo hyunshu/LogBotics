@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using FRC_App.Models;
+using FRC_App.Import;
 using SQLite;
 
 namespace FRC_App.Services
@@ -32,6 +33,16 @@ namespace FRC_App.Services
                 Password = password,
                 IsAdmin = isAdmin  // Store the admin status
             };
+
+            var id = await db.InsertAsync(user);
+        }
+
+
+        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData)
+        {
+            await Init();
+            
+            import.StoreRawData(rawData,user);
 
             var id = await db.InsertAsync(user);
         }
