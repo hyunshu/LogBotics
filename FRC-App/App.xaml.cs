@@ -21,6 +21,7 @@ public partial class App : Application
 		}
 	}
 
+	/* Rodger's Theme implementation
 	public void LoadTheme(string theme) {
 
 		ResourceDictionary? dictionary = theme switch
@@ -35,6 +36,58 @@ public partial class App : Application
 			Resources.MergedDictionaries.Add(dictionary);
 		}
 	}
+	*/
+
+	// Apply theme
+    public void LoadTheme(string theme)
+    {
+        if (theme == "Light Theme")
+        {
+            Current.UserAppTheme = AppTheme.Light;
+        }
+        else
+        {
+            Current.UserAppTheme = AppTheme.Dark;
+        }
+    }
+
+    // Apply font size
+    public void SetAppFontSize(string fontSize)
+    {
+        double size = fontSize switch
+        {
+            "Small" => 12,
+            "Medium" => 16,
+            "Large" => 20,
+            _ => 16,
+        };
+        Resources["AppFontSize"] = size;
+    }
+
+    // Apply layout style
+    public void SetAppLayoutStyle(string layoutStyle)
+    {
+		//impleme nt layout style
+    }
+
+    // Save and load preferences - This is not working properly
+	// Have to implement this such that each user has their own preferences saved
+    public void SaveThemePreference(string theme) => Preferences.Set("theme", theme);
+    public string GetSavedTheme() => Preferences.Get("theme", "Light Theme");
+
+    public void SaveFontSizePreference(string fontSize) => Preferences.Set("fontSize", fontSize);
+    public string GetSavedFontSize() => Preferences.Get("fontSize", "Medium");
+
+    public void SaveLayoutPreference(string layoutStyle) => Preferences.Set("layout", layoutStyle);
+    public string GetSavedLayoutStyle() => Preferences.Get("layout", "Spacious");
+
+    public void SaveNotificationPreference(bool isEnabled) => Preferences.Set("notificationsEnabled", isEnabled);
+    public bool GetNotificationPreference() => Preferences.Get("notificationsEnabled", true);
+
+    public void LogOutUser()
+    {
+        // Perform any cleanup or session management needed during log out.
+    }
 
 	// Other lifecycle methods
 	protected override void OnSleep() { }
