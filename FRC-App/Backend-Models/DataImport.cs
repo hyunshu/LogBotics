@@ -76,6 +76,67 @@ public class DataImport
     }
 
     /**
+     * --- FromCSV() ---
+     * Reads the inputted raw data from the disk in a CSV under "fileName".
+     * Breaks the csv into each type (motor, sensor, ...)
+     * and labels as well to the various data streams into variables
+     * Should actually store raw data with SQL when that is implemented (not simply
+     * return it).
+     * @param rawData
+     * @param fileName
+     */
+    public Tuple<DataImport,List<List<List<double>>>> FromCSV(string directoryPath, string fileName)
+    {
+
+        String[] fileNames = Directory.GetFiles($"../FRCData/");
+
+        List<string> dataTypes = new List<string> {};
+        List<List<string>> dataUnits = new List<List<string>> {};
+        List<List<List<double>>> rawData = new List<List<List<double>>> {};
+
+        foreach (string file in fileNames)
+        {
+            int nameEnd = file.IndexOf("_", StringComparison.Ordinal);
+
+            if (String.Equals(file.Substring(0,nameEnd), fileName)) {
+                
+                int typeEnd = file.IndexOf(".csv", StringComparison.Ordinal);
+
+                dataTypes.Append(file.Substring(nameEnd,typeEnd));
+
+                using (StreamReader reader = new StreamReader($"{directoryPath}/{fileName}")) 
+                {
+                    string labels = reader.ReadLine();
+                    List<string> fileUnits = labels.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
+                    dataUnits.Append(fileUnits);
+
+                    String line = "";
+                    List<List<double>> fileData = new List<List<double>>(fileUnits.Count());
+
+                    while ((line = reader.ReadLine()) != null)
+                    {
+                        string[] columns = line.Split(',');
+                        // Loop over each data step (row):
+                        int j = 0;
+                        foreach (var x in columns)
+                        {
+                            // Loop over each label (column):
+                            double val = Double.Parse(x);
+                            fileData[j].Append(val);
+                            j++;
+                        }
+                    }
+                    rawData.Append(fileData);
+                }
+            }
+        }
+
+        DataImport import = new DataImport(dataTypes,dataUnits);
+        Tuple<DataImport, List<List<List<double>>>> allData = new Tuple<DataImport, List<List<List<double>>>>(import,rawData);
+        return allData;
+    }
+
+    /**
      * --- storeRawData() ---
      * Stores the inputted raw data to the disk as variables via SQL.
      * @param rawData
