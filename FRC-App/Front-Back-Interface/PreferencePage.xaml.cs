@@ -19,6 +19,10 @@ public partial class PreferencePage : ContentPage
             // Change the app theme based on user selection
             ((App)Application.Current).LoadTheme(selectedTheme);
             DisplayAlert("Theme Changed", $"You have selected the {selectedTheme}.", "OK"); 
+
+            // Save the user's theme to their preferences
+            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
+            Preferences.Set(userKey, selectedTheme);
         }
     }
 
@@ -31,8 +35,9 @@ public partial class PreferencePage : ContentPage
 
             DisplayAlert("Font Size Changed", $"You have selected {selectedFontSize} font size.", "OK");
 
-            // Save the font size preference
-            ((App)Application.Current).SaveFontSizePreference(selectedFontSize);
+            // Save the font size preference to the user 
+            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_fontSize";
+            Preferences.Set(userKey, selectedFontSize);
         }
     }
 
@@ -45,8 +50,9 @@ public partial class PreferencePage : ContentPage
 
             DisplayAlert("Layout Changed", $"You have selected the {selectedLayout} layout style.", "OK");
 
-            // Save the layout preference
-            ((App)Application.Current).SaveLayoutPreference(selectedLayout);
+            // Save the layout preference to the user
+            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_layoutStyle";
+            Preferences.Set(userKey, selectedLayout);;
         }
     }
 

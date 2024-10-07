@@ -21,23 +21,6 @@ public partial class App : Application
 		}
 	}
 
-	/* Rodger's Theme implementation
-	public void LoadTheme(string theme) {
-
-		ResourceDictionary? dictionary = theme switch
-		{
-			"DarkTheme" => new Resources.Styles.DarkTheme(),
-			"LightTheme" => new Resources.Styles.LightTheme(),
-			_ => null 
-		};
-
-		if (dictionary != null) {
-			Resources.MergedDictionaries.Clear();
-			Resources.MergedDictionaries.Add(dictionary);
-		}
-	}
-	*/
-
 	// Apply theme
     public void LoadTheme(string theme)
     {
@@ -72,14 +55,17 @@ public partial class App : Application
 
     // Save and load preferences - This is not working properly
 	// Have to implement this such that each user has their own preferences saved
-    public void SaveThemePreference(string theme) => Preferences.Set("theme", theme);
-    public string GetSavedTheme() => Preferences.Get("theme", "Light Theme");
+	
+	// NOTE: Implemented these in PreferencePage and HomePage
 
-    public void SaveFontSizePreference(string fontSize) => Preferences.Set("fontSize", fontSize);
-    public string GetSavedFontSize() => Preferences.Get("fontSize", "Medium");
+    // public void SaveThemePreference(string theme) => Preferences.Set("theme", theme);
+    // public string GetSavedTheme() => Preferences.Get("theme", "Light Theme");
 
-    public void SaveLayoutPreference(string layoutStyle) => Preferences.Set("layout", layoutStyle);
-    public string GetSavedLayoutStyle() => Preferences.Get("layout", "Spacious");
+    // public void SaveFontSizePreference(string fontSize) => Preferences.Set("fontSize", fontSize);
+    // public string GetSavedFontSize() => Preferences.Get("fontSize", "Medium");
+
+    // public void SaveLayoutPreference(string layoutStyle) => Preferences.Set("layout", layoutStyle);
+    // public string GetSavedLayoutStyle() => Preferences.Get("layout", "Spacious");
 
     public void SaveNotificationPreference(bool isEnabled) => Preferences.Set("notificationsEnabled", isEnabled);
     public bool GetNotificationPreference() => Preferences.Get("notificationsEnabled", true);
