@@ -1,5 +1,6 @@
 using FRC_App.Models;
 using FRC_App.Services;
+using SQLitePCL;
 
 
 namespace FRC_App;
@@ -22,7 +23,18 @@ public partial class HomePage : ContentPage
 
 	private async void ImportData(object sender, EventArgs e)
 	{
-		await Navigation.PushAsync(new ImportData(currentUser));
+		//await Navigation.PushAsync(new ImportData(currentUser));
+		dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
+		string fileFamilyName = "SampleDemo";
+        rawData = dataStructure.FromCSV("../FRCData/",fileFamilyName);
+
+		await UserDatabase.storeData(currentUser,dataStructure,rawData);
+
+		Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+		Console.WriteLine($"{currentUser.dataUnits}");
+		Console.WriteLine($"{currentUser.rawData}");
+
+		await DisplayAlert("Success", $"{fileFamilyName} Data Imported", "Continue"); 
 	}
 
 	DataImport dataStructure;
