@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRC_App.PreferencePage"
+             Title="Preferences">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Theme Selection -->
+            <Label Text="Appearance" FontAttributes="Bold" FontSize="Medium" />
+            <Frame CornerRadius="8" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Select Theme:" FontSize="Small" />
+                    <Picker x:Name="themePicker" SelectedIndexChanged="OnThemeChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Light Theme</x:String>
+                                <x:String>Dark Theme</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Font Size Settings -->
+            <Label Text="Text Settings" FontAttributes="Bold" FontSize="Medium" />
+            <Frame CornerRadius="8" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Select Font Size:" FontSize="Small" />
+                    <Picker x:Name="fontSizePicker" SelectedIndexChanged="OnFontSizeChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Small</x:String>
+                                <x:String>Medium</x:String>
+                                <x:String>Large</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Layout Settings -->
+            <Label Text="Layout Settings" FontAttributes="Bold" FontSize="Medium" />
+            <Frame CornerRadius="8" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Select Layout Style:" FontSize="Small" />
+                    <Picker x:Name="layoutPicker" SelectedIndexChanged="OnLayoutChanged">
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Compact</x:String>
+                                <x:String>Spacious</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Notification Settings -->
+            <Label Text="Notifications" FontAttributes="Bold" FontSize="Medium" />
+            <Frame CornerRadius="8" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Enable Notifications:" FontSize="Small" />
+                    <Switch x:Name="notificationSwitch" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Account Settings -->
+            <Label Text="Account" FontAttributes="Bold" FontSize="Medium" />
+            <Frame CornerRadius="8" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Manage your account settings here." FontSize="Small" />
+                    <Button Text="Edit Account Information" Clicked="OnEditAccountClicked" />
+                    <Button Text="Log Out" Clicked="OnLogOutClicked" TextColor="Red" />
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -1,19 +1,25 @@
 using FRC_App.Models;
 using FRC_App.Services;
 
+
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
-
 	public User currentUser { get; private set; }
 
 	public HomePage(User user)
 	{
 		InitializeComponent();
 		currentUser = user;
+
 		Console.WriteLine($"Logged in user: {currentUser.Username}");  // testing if user data was passed from loginPage
+
+		BindingContext = currentUser;
+
+		loadUserPreferences();
 	}
+
 
 	DataImport dataStructure;
 	public List<List<List<double>>> rawData;
@@ -111,6 +117,37 @@ public partial class HomePage : ContentPage
 			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
 
 			await DisplayAlert("Success", "Data Exported", "Continue"); 
+		}
+	}
+
+	private async void Preference(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new PreferencePage(currentUser));
+	}
+
+	public void loadUserPreferences() {
+		string userThemeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
+		string userFontSizeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_fontSize";
+		string userLayoutKey = $"{currentUser.Username}_{currentUser.TeamNumber}_layoutStyle";
+
+		string userTheme = Preferences.Get(userThemeKey, "Dark Theme");
+		((App)Application.Current).LoadTheme(userTheme);
+
+		string userFontSize = Preferences.Get(userFontSizeKey, "Medium");
+		((App)Application.Current).SetAppFontSize(userFontSize);
+
+		string userLayout = Preferences.Get(userLayoutKey, "Spacious");
+		((App)Application.Current).SetAppLayoutStyle(userLayout);
+		
+	}
+
+	private async void LogOut(object sender, EventArgs e)
+	{
+		bool answer = await DisplayAlert("Log Out", "Are you sure you want to log out?", "Yes", "No");
+		if (answer)
+		{
+			Application.Current.MainPage = new NavigationPage(new LoginPage());
+			// ((App)Application.Current).LoadTheme("Dark Theme");
 		}
 	}
 }

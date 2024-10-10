@@ -14,7 +14,6 @@ namespace FRC_App.Services
             }
 
             string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
-            Console.WriteLine(databasePath);
 
             db = new SQLiteAsyncConnection(databasePath);
 
@@ -53,6 +52,13 @@ namespace FRC_App.Services
             var user = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
 
             return user;
+        }
+
+        public static async Task<bool> CheckUserExistsAsync(string username)
+        {
+            // Assuming you're using SQLite or similar, adjust this query to your actual DB structure
+            var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            return existingUser != null;
         }
     }
 
