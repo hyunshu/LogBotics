@@ -20,11 +20,15 @@ public partial class HomePage : ContentPage
 		loadUserPreferences();
 	}
 
+	private async void ImportData(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new ImportData(currentUser));
+	}
 
 	DataImport dataStructure;
 	public List<List<List<double>>> rawData;
 
-	private async void ImportData(object sender, EventArgs e)
+	private async void ImportFakeData(object sender, EventArgs e)
 	{
 		// Generate Fake Test FRC Data:
         dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
@@ -36,7 +40,7 @@ public partial class HomePage : ContentPage
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
 
-		await DisplayAlert("Success", "Data Imported", "Continue"); 
+		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
 	}
 
 	private async void ExportData(object sender, EventArgs e)
@@ -138,7 +142,6 @@ public partial class HomePage : ContentPage
 
 		string userLayout = Preferences.Get(userLayoutKey, "Spacious");
 		((App)Application.Current).SetAppLayoutStyle(userLayout);
-		
 	}
 
 	private async void LogOut(object sender, EventArgs e)
