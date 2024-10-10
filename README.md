@@ -8,6 +8,6 @@ https://learn.microsoft.com/en-us/dotnet/maui/get-started/installation?view=net-
 ### To download the required packages, run these commands:
 `dotnet add package sqlite-net-pcl`
 `dotnet add package SKiaSharp.Views.Maui.Controls`
-`dotnet add pacakge Microcharts.Maui`
-
+`dotnet add package Microcharts.Maui`
+`dotnet add package PdfSharpCore`
 
