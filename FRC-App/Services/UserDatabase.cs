@@ -1,6 +1,5 @@
 using System.Threading.Tasks;
 using FRC_App.Models;
-using FRC_App.Import;
 using SQLite;
 
 namespace FRC_App.Services
@@ -44,7 +43,7 @@ namespace FRC_App.Services
             
             import.StoreRawData(rawData,user);
 
-            var id = await db.InsertAsync(user);
+            await db.UpdateAsync(user);
         }
 
 
