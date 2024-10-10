@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using FRC_App.Models;
-using Windows.Globalization.NumberFormatting;
+// using Windows.Globalization.NumberFormatting; // does not work in MacOS
 
 public class DataImport
 {
@@ -88,15 +88,13 @@ public class DataImport
      * Reads the inputted raw data from the disk in a CSV under "fileName".
      * Breaks the csv into each type (motor, sensor, ...)
      * and labels as well to the various data streams into variables
-     * Should actually store raw data with SQL when that is implemented (not simply
-     * return it).
      * @param rawData
      * @param fileName
      */
-    public Tuple<DataImport,List<List<List<double>>>> FromCSV(string directoryPath, string fileName)
+    public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
     {
 
-        String[] fileNames = Directory.GetFiles($"../FRCData/");
+        String[] fileNames = Directory.GetFiles(directoryPath);
 
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};
@@ -105,14 +103,14 @@ public class DataImport
         foreach (string file in fileNames)
         {
             int nameEnd = file.IndexOf("_", StringComparison.Ordinal);
-
-            if (String.Equals(file.Substring(0,nameEnd), fileName)) {
+            string readFilename = file.Substring(0,nameEnd);
+            if (readFilename.Equals(directoryPath + fileName)) {
                 
                 int typeEnd = file.IndexOf(".csv", StringComparison.Ordinal);
+                string dataType = file.Substring(nameEnd + 1, typeEnd - nameEnd - 1);
+                dataTypes.Add(dataType);
 
-                dataTypes.Add(file.Substring(nameEnd,typeEnd));
-
-                using (StreamReader reader = new StreamReader($"{directoryPath}/{fileName}")) 
+                using (StreamReader reader = new StreamReader(file)) 
                 {
                     string labels = reader.ReadLine();
                     List<string> fileUnits = labels.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -120,10 +118,11 @@ public class DataImport
 
                     String line = "";
                     List<List<double>> fileData = new List<List<double>>(fileUnits.Count());
+                    for (int i=0;i<fileUnits.Count();i++) fileData.Add(new List<double>{});
 
                     while ((line = reader.ReadLine()) != null)
                     {
-                        string[] columns = line.Split(',');
+                        string[] columns = line.Split(',',StringSplitOptions.RemoveEmptyEntries);
                         // Loop over each data step (row):
                         int j = 0;
                         foreach (var x in columns)
@@ -139,9 +138,9 @@ public class DataImport
             }
         }
 
-        DataImport import = new DataImport(dataTypes,dataUnits);
-        Tuple<DataImport, List<List<List<double>>>> allData = new Tuple<DataImport, List<List<List<double>>>>(import,rawData);
-        return allData;
+        this.dataTypes = dataTypes;
+        this.dataUnits = dataUnits;
+        return rawData;
     }
 
     /**

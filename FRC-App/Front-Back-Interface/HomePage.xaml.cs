@@ -66,6 +66,12 @@ public partial class HomePage : ContentPage
 
 	private async void ImportData(object sender, EventArgs e)
 	{
+		await Navigation.PushAsync(new ImportData(currentUser));
+		 
+	}
+
+	private async void ImportFakeData(object sender, EventArgs e)
+	{
 		// Generate Fake Test FRC Data:
         dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
         rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
@@ -76,7 +82,7 @@ public partial class HomePage : ContentPage
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
 
-		await DisplayAlert("Success", "Data Imported", "Continue"); 
+		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
 	}
 
 	private async void ExportData(object sender, EventArgs e)
@@ -186,8 +192,9 @@ public partial class HomePage : ContentPage
 		bool answer = await DisplayAlert("Log Out", "Are you sure you want to log out?", "Yes", "No");
 		if (answer)
 		{
+			((App)Application.Current).LoadTheme("Dark Theme");
 			Application.Current.MainPage = new NavigationPage(new LoginPage());
-			// ((App)Application.Current).LoadTheme("Dark Theme");
+			
 		}
 	}
 }
