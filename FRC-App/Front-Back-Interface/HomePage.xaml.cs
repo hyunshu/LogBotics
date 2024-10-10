@@ -10,33 +10,7 @@ public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
 
-	 ChartEntry[] entries = new[]
-        {
-            new ChartEntry(212)
-            {
-                Label = "Windows",
-                ValueLabel = "112",
-                Color = SKColor.Parse("#2c3e50")
-            },
-            new ChartEntry(248)
-            {
-                Label = "Android",
-                ValueLabel = "648",
-                Color = SKColor.Parse("#77d065")
-            },
-            new ChartEntry(128)
-            {
-                Label = "iOS",
-                ValueLabel = "428",
-                Color = SKColor.Parse("#b455b6")
-            },
-            new ChartEntry(514)
-            {
-                Label = ".NET MAUI",
-                ValueLabel = "214",
-                Color = SKColor.Parse("#3498db")
-            }
-        };
+	public ChartEntry[] entries;
 
 	public HomePage(User user)
 	{
@@ -48,16 +22,56 @@ public partial class HomePage : ContentPage
 		BindingContext = currentUser;
 
 		loadUserPreferences();
+		loadUserData();
+	}
 
-		chartView.Chart = new BarChart
-		{
-			Entries = entries
-		};
+	public void loadUserData() {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		chartView1.Chart = new LineChart
-		{
-			Entries = entries
-		};
+		if (hasData) {
+			entries = new[]
+			{
+				new ChartEntry(212)
+				{
+					Label = "Windows",
+					ValueLabel = "112",
+					Color = SKColor.Parse("#2c3e50")
+				},
+				new ChartEntry(248)
+				{
+					Label = "Android",
+					ValueLabel = "648",
+					Color = SKColor.Parse("#77d065")
+				},
+				new ChartEntry(128)
+				{
+					Label = "iOS",
+					ValueLabel = "428",
+					Color = SKColor.Parse("#b455b6")
+				},
+				new ChartEntry(514)
+				{
+					Label = ".NET MAUI",
+					ValueLabel = "214",
+					Color = SKColor.Parse("#3498db")
+				}
+			};
+
+			chartView.Chart = new LineChart
+			{
+				Entries = entries,
+				LabelTextSize = 30,
+				LineMode = LineMode.Straight,
+				LineSize = 8,
+				PointMode = PointMode.Circle,
+				PointSize = 18
+			};
+
+			chartView.IsVisible = true;
+		} else {
+			DisplayAlert("No Data", "No data in your database.", "OK");
+			chartView.IsVisible = false;
+		}
 	}
 
 
@@ -82,6 +96,7 @@ public partial class HomePage : ContentPage
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
 
+		loadUserData();
 		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
 	}
 

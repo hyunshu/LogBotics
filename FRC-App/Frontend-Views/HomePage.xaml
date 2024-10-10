@@ -3,14 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FRC_App.HomePage"
-             Title="HomePage">
+             Title="HomePage + Data Visualization">
     <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
         <!-- Main visualized data area -->
         <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
-             <microcharts:ChartView x:Name="chartView" />
-        </Frame>
-        <Frame Grid.Row="2" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
-            <microcharts:ChartView x:Name="chartView1" />
+             <microcharts:ChartView x:Name="chartView" IsVisible="False"/>
         </Frame>
 
         <!-- Right-side button menu -->
