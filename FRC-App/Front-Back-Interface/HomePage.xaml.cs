@@ -2,6 +2,9 @@ using FRC_App.Models;
 using FRC_App.Services;
 using Microcharts;
 using SkiaSharp;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+
 
 
 namespace FRC_App;
@@ -210,6 +213,83 @@ public partial class HomePage : ContentPage
 			((App)Application.Current).LoadTheme("Dark Theme");
 			Application.Current.MainPage = new NavigationPage(new LoginPage());
 			
+		}
+	}
+
+	private async void ExportToJpeg(object sender, EventArgs e)
+	{
+		if (chartView.Chart != null)
+		{
+			var chart = chartView.Chart;
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);	// may not work for mac
+
+			using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
+			{
+				using (var canvas = new SKCanvas(bitmap))
+				{
+					canvas.Clear(SKColors.White);
+					chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+
+					using (var image = SKImage.FromBitmap(bitmap))
+					using (var data = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+					{
+						var filePath = Path.Combine(desktopPath, "chart.jpeg");
+						using (var stream = File.OpenWrite(filePath))
+						{
+							data.SaveTo(stream);
+						}
+
+						await DisplayAlert("Export Successful", $"JPEG saved to {filePath}", "OK");
+					}
+				}
+			}
+		}
+		else
+		{
+			await DisplayAlert("No Data", "No chart data available to export.", "OK");
+		}
+	}
+
+	private async void ExportToPdf(object sender, EventArgs e)
+	{
+		if (chartView.Chart != null)
+		{
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
+
+			using (var bitmap = new SKBitmap(600, 400))
+			{
+				using (var canvas = new SKCanvas(bitmap))
+				{
+					canvas.Clear(SKColors.White);
+					chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+
+					using (var image = SKImage.FromBitmap(bitmap))
+					using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+					{
+						var pdfPath = Path.Combine(desktopPath, "chart.pdf");
+						
+						using (var pdf = new PdfDocument())
+						{
+							var pdfPage = pdf.AddPage();
+							var graphics = XGraphics.FromPdfPage(pdfPage);
+							
+							using (var ms = new MemoryStream(data.ToArray()))
+							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
+							{
+								graphics.DrawImage(img, 0, 0, pdfPage.Width, pdfPage.Height);
+							}
+							
+							pdf.Save(pdfPath);
+						}
+
+						await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+					}
+				}
+			}
+		}
+		else
+		{
+			await DisplayAlert("No Data", "No chart data available to export.", "OK");
 		}
 	}
 }

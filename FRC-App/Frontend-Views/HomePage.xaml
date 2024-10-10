@@ -6,8 +6,17 @@
              Title="HomePage + Data Visualization">
     <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
         <!-- Main visualized data area -->
-        <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
-             <microcharts:ChartView x:Name="chartView" IsVisible="False"/>
+          <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+            <StackLayout Spacing="10">
+                <!-- Export Buttons -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Button Text="Export JPEG" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToJpeg" />
+                    <Button Text="Export PDF" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToPdf" />
+                </StackLayout>
+
+                <!-- Chart View -->
+                <microcharts:ChartView x:Name="chartView" IsVisible="False" HeightRequest="800" />
+            </StackLayout>
         </Frame>
 
         <!-- Right-side button menu -->
