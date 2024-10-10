@@ -36,6 +36,16 @@ namespace FRC_App.Services
         }
 
 
+        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData)
+        {
+            await Init();
+            
+            import.StoreRawData(rawData,user);
+
+            await db.UpdateAsync(user);
+        }
+
+
         public static async Task<User> GetUser(string username)
         {
             await Init();
