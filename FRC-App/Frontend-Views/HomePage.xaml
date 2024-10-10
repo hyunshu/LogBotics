@@ -9,6 +9,9 @@
         <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
              <microcharts:ChartView x:Name="chartView" />
         </Frame>
+        <Frame Grid.Row="2" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+            <microcharts:ChartView x:Name="chartView1" />
+        </Frame>
 
         <!-- Right-side button menu -->
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
