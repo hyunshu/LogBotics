@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FRC_App.HomePage"
              Title="HomePage">
     <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
         <!-- Main visualized data area -->
         <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
-            <Label Text="Visualized Data"
-                   FontSize="Large"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center" />
+             <microcharts:ChartView x:Name="chartView" />
         </Frame>
 
         <!-- Right-side button menu -->
