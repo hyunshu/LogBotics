@@ -23,12 +23,11 @@ public partial class ImportData : ContentPage
     {
         try
         {
-            // Open the file picker to select a file, allowing any file type
             var result = await FilePicker.Default.PickAsync(new PickOptions
             {
-                PickerTitle = "Please select a file"
-                // FileTypes = null will allow all file types
+                PickerTitle = "Please select a file to import"
             });
+
 
             if (result != null)
             {
@@ -37,10 +36,13 @@ public partial class ImportData : ContentPage
                 // Display the selected file name
                 SelectedFileLabel.Text = $"Selected file: {fileName}";
 
-                // Optional: Read the file stream if needed
+                // Read the file stream
                 using (var stream = await result.OpenReadAsync())
                 {
-                    // You can process the file stream here
+                    // Read the file
+                    DataImport dataStructure = new DataImport();
+                    // List<List<List<double>>> rawData = dataStructure.FromCSV(result.FullPath, fileName);
+                    // dataStructure.StoreRawData(rawData, currentUser);
                 }
             }
             else
