@@ -1,6 +1,10 @@
 using FRC_App.Models;
 using FRC_App.Services;
-using SQLitePCL;
+using Microcharts;
+using SkiaSharp;
+using PdfSharpCore.Drawing;
+using PdfSharpCore.Pdf;
+
 
 
 namespace FRC_App;
@@ -8,6 +12,8 @@ namespace FRC_App;
 public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
+
+	public ChartEntry[] entries;
 
 	public HomePage(User user)
 	{
@@ -19,26 +25,68 @@ public partial class HomePage : ContentPage
 		BindingContext = currentUser;
 
 		loadUserPreferences();
+		loadUserData();
 	}
 
-	private async void ImportData(object sender, EventArgs e)
-	{
-		//await Navigation.PushAsync(new ImportData(currentUser));
-		dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
-		string fileFamilyName = "SampleDemo";
-        rawData = dataStructure.FromCSV("../FRCData/",fileFamilyName);
+	public void loadUserData() {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		await UserDatabase.storeData(currentUser,dataStructure,rawData);
+		if (hasData) {
+			entries = new[]
+			{
+				new ChartEntry(212)
+				{
+					Label = "Windows",
+					ValueLabel = "112",
+					Color = SKColor.Parse("#2c3e50")
+				},
+				new ChartEntry(248)
+				{
+					Label = "Android",
+					ValueLabel = "648",
+					Color = SKColor.Parse("#77d065")
+				},
+				new ChartEntry(128)
+				{
+					Label = "iOS",
+					ValueLabel = "428",
+					Color = SKColor.Parse("#b455b6")
+				},
+				new ChartEntry(514)
+				{
+					Label = ".NET MAUI",
+					ValueLabel = "214",
+					Color = SKColor.Parse("#3498db")
+				}
+			};
 
-		Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-		Console.WriteLine($"{currentUser.dataUnits}");
-		Console.WriteLine($"{currentUser.rawData}");
+			chartView.Chart = new LineChart
+			{
+				Entries = entries,
+				LabelTextSize = 30,
+				LineMode = LineMode.Straight,
+				LineSize = 8,
+				PointMode = PointMode.Circle,
+				PointSize = 18
+			};
 
-		await DisplayAlert("Success", $"{fileFamilyName} Data Imported", "Continue"); 
+			chartView.IsVisible = true;
+		} else {
+			DisplayAlert("No Data", "No data in your database.", "OK");
+			chartView.IsVisible = false;
+		}
 	}
+
+
 
 	DataImport dataStructure;
 	public List<List<List<double>>> rawData;
+
+	private async void ImportData(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new ImportData(currentUser));
+		 
+	}
 
 	private async void ImportFakeData(object sender, EventArgs e)
 	{
@@ -52,6 +100,7 @@ public partial class HomePage : ContentPage
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
 
+		loadUserData();
 		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
 	}
 
@@ -161,8 +210,86 @@ public partial class HomePage : ContentPage
 		bool answer = await DisplayAlert("Log Out", "Are you sure you want to log out?", "Yes", "No");
 		if (answer)
 		{
+			((App)Application.Current).LoadTheme("Dark Theme");
 			Application.Current.MainPage = new NavigationPage(new LoginPage());
-			// ((App)Application.Current).LoadTheme("Dark Theme");
+			
+		}
+	}
+
+	private async void ExportToJpeg(object sender, EventArgs e)
+	{
+		if (chartView.Chart != null)
+		{
+			var chart = chartView.Chart;
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);	// may not work for mac
+
+			using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
+			{
+				using (var canvas = new SKCanvas(bitmap))
+				{
+					canvas.Clear(SKColors.White);
+					chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+
+					using (var image = SKImage.FromBitmap(bitmap))
+					using (var data = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+					{
+						var filePath = Path.Combine(desktopPath, "chart.jpeg");
+						using (var stream = File.OpenWrite(filePath))
+						{
+							data.SaveTo(stream);
+						}
+
+						await DisplayAlert("Export Successful", $"JPEG saved to {filePath}", "OK");
+					}
+				}
+			}
+		}
+		else
+		{
+			await DisplayAlert("No Data", "No chart data available to export.", "OK");
+		}
+	}
+
+	private async void ExportToPdf(object sender, EventArgs e)
+	{
+		if (chartView.Chart != null)
+		{
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
+
+			using (var bitmap = new SKBitmap(600, 400))
+			{
+				using (var canvas = new SKCanvas(bitmap))
+				{
+					canvas.Clear(SKColors.White);
+					chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+
+					using (var image = SKImage.FromBitmap(bitmap))
+					using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+					{
+						var pdfPath = Path.Combine(desktopPath, "chart.pdf");
+						
+						using (var pdf = new PdfDocument())
+						{
+							var pdfPage = pdf.AddPage();
+							var graphics = XGraphics.FromPdfPage(pdfPage);
+							
+							using (var ms = new MemoryStream(data.ToArray()))
+							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
+							{
+								graphics.DrawImage(img, 0, 0, pdfPage.Width, pdfPage.Height);
+							}
+							
+							pdf.Save(pdfPath);
+						}
+
+						await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+					}
+				}
+			}
+		}
+		else
+		{
+			await DisplayAlert("No Data", "No chart data available to export.", "OK");
 		}
 	}
 }
