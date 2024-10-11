@@ -41,8 +41,8 @@ public partial class ImportData : ContentPage
                 {
                     // Read the file
                     DataImport dataStructure = new DataImport();
-                    // List<List<List<double>>> rawData = dataStructure.FromCSV(result.FullPath, fileName);
-                    // dataStructure.StoreRawData(rawData, currentUser);
+                    List<List<List<double>>> rawData = dataStructure.FromCSV(result.FullPath, fileName);
+                    dataStructure.StoreRawData(rawData, currentUser);
                 }
             }
             else
