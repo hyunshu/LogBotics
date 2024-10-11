@@ -13,7 +13,9 @@ public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
 
-	public ChartEntry[] entries;
+	public ChartEntry[] motorEntry;
+	public ChartEntry[] sensorEntry;
+	public ChartEntry[] controlSystemEntry;
 
 	public HomePage(User user)
 	{
@@ -32,40 +34,55 @@ public partial class HomePage : ContentPage
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
 		if (hasData) {
-			entries = new[]
+			DataImport dataStructure = new DataImport();
+			List<List<List<double>>> rawData = dataStructure.RetrieveRawData(currentUser);
+			int motorEntrySize = rawData[0][0].Count;
+			int sensorEntrySize = rawData[1][0].Count;
+			int controlSystemEntrySize = rawData[2][0].Count;
+			
+			motorEntry = new ChartEntry[motorEntrySize];
+			sensorEntry = new ChartEntry[sensorEntrySize];
+			controlSystemEntry = new ChartEntry[controlSystemEntrySize];
+
+			for (int i = 0; i < motorEntrySize; i++)
 			{
-				new ChartEntry(212)
+				motorEntry[i] = new ChartEntry((float)rawData[0][1][i])
 				{
-					Label = "Windows",
-					ValueLabel = "112",
-					Color = SKColor.Parse("#2c3e50")
-				},
-				new ChartEntry(248)
-				{
-					Label = "Android",
-					ValueLabel = "648",
-					Color = SKColor.Parse("#77d065")
-				},
-				new ChartEntry(128)
-				{
-					Label = "iOS",
-					ValueLabel = "428",
-					Color = SKColor.Parse("#b455b6")
-				},
-				new ChartEntry(514)
-				{
-					Label = ".NET MAUI",
-					ValueLabel = "214",
+					Label = rawData[0][0][i].ToString(),  // time
+					ValueLabel = rawData[0][1][i].ToString(), // spin angle
 					Color = SKColor.Parse("#3498db")
-				}
-			};
+				};
+			}
+			for (int i = 0; i < sensorEntrySize; i++)
+			{
+				sensorEntry[i] = new ChartEntry((float)rawData[1][1][i])
+				{
+					Label = rawData[1][0][i].ToString(),  // time
+					ValueLabel = rawData[1][1][i].ToString(),  // measurement (ft)
+					Color = SKColor.Parse("#77d065")
+				};
+			}
+			for (int i = 0; i < controlSystemEntrySize; i++)
+			{
+				controlSystemEntry[i] = new ChartEntry((float)rawData[2][1][i])
+				{
+					Label = rawData[2][0][i].ToString(),  // time
+					ValueLabel = rawData[2][1][i].ToString(),  // forward input
+					Color = SKColor.Parse("#b455b6")
+				};
+			}
+			chartView1.Chart = new LineChart { Entries = motorEntry};
+			chartView2.Chart = new LineChart { Entries = sensorEntry};
+			chartView3.Chart = new LineChart { Entries = controlSystemEntry};
 
-			chartView.Chart = new LineChart { Entries = entries };
-
-			chartView.IsVisible = true;
+			chartView1.IsVisible = true;
+			chartView2.IsVisible = true;
+			chartView3.IsVisible = true;
 		} else {
 			DisplayAlert("No Data", "No data in your database.", "OK");
-			chartView.IsVisible = false;
+			chartView1.IsVisible = false;
+			chartView2.IsVisible = false;
+			chartView3.IsVisible = false;
 		}
 	}
 
@@ -209,9 +226,9 @@ public partial class HomePage : ContentPage
 
 	private async void ExportToJpeg(object sender, EventArgs e)
 	{
-		if (chartView.Chart != null)
+		if (chartView1.Chart != null)
 		{
-			var chart = chartView.Chart;
+			var chart = chartView1.Chart;
 			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 			using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
@@ -243,7 +260,7 @@ public partial class HomePage : ContentPage
 
 	private async void ExportToPdf(object sender, EventArgs e)
 	{
-		if (chartView.Chart != null)
+		if (chartView1.Chart != null)
 		{
 			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
 
@@ -252,7 +269,7 @@ public partial class HomePage : ContentPage
 				using (var canvas = new SKCanvas(bitmap))
 				{
 					canvas.Clear(SKColors.White);
-					chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+					chartView1.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
 
 					using (var image = SKImage.FromBitmap(bitmap))
 					using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
@@ -285,12 +302,18 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void RenderLineChart(object sender, EventArgs e){
-		chartView.Chart = new LineChart { Entries = entries};
+		chartView1.Chart = new LineChart { Entries = motorEntry};
+		chartView2.Chart = new LineChart { Entries = sensorEntry};
+		chartView3.Chart = new LineChart { Entries = controlSystemEntry};
 	}
 	private async void RenderPointChart(object sender, EventArgs e){
-		chartView.Chart = new PointChart { Entries = entries};
+		chartView1.Chart = new PointChart { Entries = motorEntry};
+		chartView2.Chart = new PointChart { Entries = sensorEntry};
+		chartView3.Chart = new PointChart { Entries = controlSystemEntry};
 	}
 	private async void RenderRadarChart(object sender, EventArgs e){
-		chartView.Chart = new RadarChart { Entries = entries};
+		chartView1.Chart = new RadarChart { Entries = motorEntry};
+		chartView2.Chart = new RadarChart { Entries = sensorEntry};
+		chartView3.Chart = new RadarChart { Entries = controlSystemEntry};
 	}
 }
