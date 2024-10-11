@@ -16,11 +16,11 @@
                 </StackLayout>
 
                 <!-- Chart View -->
-                <Label Text="{Binding motorEntryTitle}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
-                <Label Text="{Binding sensorEntryTitle}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Text="SensorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView2" IsVisible="False" HeightRequest="200" />
-                <Label Text="{Binding consoleSystemEntryTitle}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label Text="ControlSystemData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView3" IsVisible="False" HeightRequest="200" />
             </StackLayout>
         </Frame>
@@ -30,7 +30,6 @@
             <Button Text="Export Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ExportData" />
             <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
             <Button Text="Load Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LoadData" />
-            <Button Text="Import Fake Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportFakeData" />
             <Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" />
             <Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" />
             <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />

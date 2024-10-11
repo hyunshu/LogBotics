@@ -7,6 +7,7 @@ using PdfSharpCore.Pdf;
 
 
 
+
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
@@ -16,9 +17,7 @@ public partial class HomePage : ContentPage
 	public ChartEntry[] motorEntry;
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
-	public string motorEntryTitle = "MotorData";
-	public string sensorEntryTitle = "SensorData";
-	public string constrolSystemEntryTitle = "ControlSystemData";
+	
 
 	public HomePage(User user)
 	{
@@ -81,15 +80,12 @@ public partial class HomePage : ContentPage
 			chartView1.IsVisible = true;
 			chartView2.IsVisible = true;
 			chartView3.IsVisible = true;
+
 		} else {
 			DisplayAlert("No Data", "No data in your database.", "OK");
 			chartView1.IsVisible = false;
 			chartView2.IsVisible = false;
 			chartView3.IsVisible = false;
-
-			motorEntryTitle = "";
-			sensorEntryTitle = "";
-			constrolSystemEntryTitle = "";
 		}
 	}
 
@@ -109,24 +105,24 @@ public partial class HomePage : ContentPage
 		loadUserData();
 	}
 
-	private async void ImportFakeData(object sender, EventArgs e)
-	{
-		motorEntryTitle = "MotorData";
-		sensorEntryTitle = "SensorData";
-		constrolSystemEntryTitle = "ControlSystemData";
-		// Generate Fake Test FRC Data:
-        dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
-        rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
+	// private async void ImportFakeData(object sender, EventArgs e)
+	// {
+	// 	motorEntryTitle = "MotorData";
+	// 	sensorEntryTitle = "SensorData";
+	// 	constrolSystemEntryTitle = "ControlSystemData";
+	// 	// Generate Fake Test FRC Data:
+    //     dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
+    //     rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
 
-		await UserDatabase.storeData(currentUser,dataStructure,rawData);
+	// 	await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
-		Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-		Console.WriteLine($"{currentUser.dataUnits}");
-		Console.WriteLine($"{currentUser.rawData}");
+	// 	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+	// 	Console.WriteLine($"{currentUser.dataUnits}");
+	// 	Console.WriteLine($"{currentUser.rawData}");
 
-		loadUserData();
-		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
-	}
+	// 	loadUserData();
+	// 	await DisplayAlert("Success", "Fake Data Created", "Continue"); 
+	// }
 
 
 
