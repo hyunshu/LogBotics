@@ -113,6 +113,9 @@ public partial class HomePage : ContentPage
 		await DisplayAlert("Success", "Fake Data Created", "Continue"); 
 	}
 
+
+
+
 	private async void ExportData(object sender, EventArgs e)
 	{
 		if (currentUser.rawData is null) {
@@ -259,47 +262,54 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void ExportToPdf(object sender, EventArgs e)
-	{
-		if (chartView1.Chart != null)
-		{
-			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
+{
+    if (chartView.Chart != null)
+    {
+        string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
 
-			using (var bitmap = new SKBitmap(600, 400))
-			{
-				using (var canvas = new SKCanvas(bitmap))
-				{
-					canvas.Clear(SKColors.White);
-					chartView1.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+        using (var bitmap = new SKBitmap(600, 400))
+        {
+            using (var canvas = new SKCanvas(bitmap))
+            {
+                canvas.Clear(SKColors.White);
+                chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
 
-					using (var image = SKImage.FromBitmap(bitmap))
-					using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-					{
-						var pdfPath = Path.Combine(desktopPath, "chart.pdf");
-						
-						using (var pdf = new PdfDocument())
-						{
-							var pdfPage = pdf.AddPage();
-							var graphics = XGraphics.FromPdfPage(pdfPage);
-							
-							using (var ms = new MemoryStream(data.ToArray()))
-							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
-							{
-								graphics.DrawImage(img, 0, 0, pdfPage.Width, pdfPage.Height);
-							}
-							
-							pdf.Save(pdfPath);
-						}
+                using (var image = SKImage.FromBitmap(bitmap))
+                using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                {
+                    var pdfPath = Path.Combine(desktopPath, "chart.pdf");
 
-						await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
-					}
-				}
-			}
-		}
-		else
-		{
-			await DisplayAlert("No Data", "No chart data available to export.", "OK");
-		}
-	}
+                    using (var pdf = new PdfDocument())
+                    {
+                        var pdfPage = pdf.AddPage();
+                        var graphics = XGraphics.FromPdfPage(pdfPage);
+
+                        using (var ms = new MemoryStream(data.ToArray()))
+                        using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray()))){
+                            // Scaling code to maintain aspect ratio
+                            double scaleFactor = Math.Min(pdfPage.Width / img.PixelWidth, pdfPage.Height / img.PixelHeight);
+                            double newWidth = img.PixelWidth * scaleFactor;
+                            double newHeight = img.PixelHeight * scaleFactor;
+
+                            double xPosition = (pdfPage.Width - newWidth) / 2;
+                            double yPosition = (pdfPage.Height - newHeight) / 2;
+
+                            graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
+                        }
+
+                        pdf.Save(pdfPath);
+                    }
+
+                    await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+                }
+            }
+        }
+    }
+    else
+    {
+        await DisplayAlert("No Data", "No chart data available to export.", "OK");
+    }
+}
 
 	private async void RenderLineChart(object sender, EventArgs e){
 		chartView1.Chart = new LineChart { Entries = motorEntry};
