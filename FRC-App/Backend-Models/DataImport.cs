@@ -93,7 +93,21 @@ public class DataImport
      */
     public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
     {
-        String[] fileNames = Directory.GetFiles(directoryPath);
+        String[] oldFileNames = Directory.GetFiles(directoryPath);
+        String[] fileNames = new String[3];
+
+        List<string> dataTypesFormat = new List<string> { "Motor", "Sensor", "ControlSystem" };
+        for (int i = 0; i < 3; i++) {
+            foreach (string file2 in oldFileNames) {
+                string readFileName2 = file2.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
+                string secondHalf = readFileName2.Split("_",StringSplitOptions.RemoveEmptyEntries).Last();
+                int typeEnd = secondHalf.IndexOf(".csv", StringComparison.Ordinal);
+                string dataType = secondHalf.Substring(0, typeEnd);
+                if (dataTypesFormat[i].Equals(dataType)) {
+                    fileNames[i] = file2;
+                }
+            }
+        }
 
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};

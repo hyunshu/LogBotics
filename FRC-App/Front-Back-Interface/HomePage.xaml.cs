@@ -16,6 +16,9 @@ public partial class HomePage : ContentPage
 	public ChartEntry[] motorEntry;
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
+	public string motorEntryTitle = "MotorData";
+	public string sensorEntryTitle = "SensorData";
+	public string constrolSystemEntryTitle = "ControlSystemData";
 
 	public HomePage(User user)
 	{
@@ -49,7 +52,7 @@ public partial class HomePage : ContentPage
 				motorEntry[i] = new ChartEntry((float)rawData[0][1][i])
 				{
 					Label = rawData[0][0][i].ToString(),  // time
-					ValueLabel = rawData[0][1][i].ToString(), // spin angle
+					ValueLabel = rawData[0][1][i].ToString().Substring(0,5), // spin angle
 					Color = SKColor.Parse("#3498db")
 				};
 			}
@@ -58,7 +61,7 @@ public partial class HomePage : ContentPage
 				sensorEntry[i] = new ChartEntry((float)rawData[1][1][i])
 				{
 					Label = rawData[1][0][i].ToString(),  // time
-					ValueLabel = rawData[1][1][i].ToString(),  // measurement (ft)
+					ValueLabel = rawData[1][1][i].ToString().Substring(0,5),  // measurement (ft)
 					Color = SKColor.Parse("#77d065")
 				};
 			}
@@ -83,6 +86,10 @@ public partial class HomePage : ContentPage
 			chartView1.IsVisible = false;
 			chartView2.IsVisible = false;
 			chartView3.IsVisible = false;
+
+			motorEntryTitle = "";
+			sensorEntryTitle = "";
+			constrolSystemEntryTitle = "";
 		}
 	}
 
@@ -97,8 +104,16 @@ public partial class HomePage : ContentPage
 		 
 	}
 
+	private async void LoadData(object sender, EventArgs e)
+	{
+		loadUserData();
+	}
+
 	private async void ImportFakeData(object sender, EventArgs e)
 	{
+		motorEntryTitle = "MotorData";
+		sensorEntryTitle = "SensorData";
+		constrolSystemEntryTitle = "ControlSystemData";
 		// Generate Fake Test FRC Data:
         dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
         rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
@@ -263,7 +278,7 @@ public partial class HomePage : ContentPage
 
 	private async void ExportToPdf(object sender, EventArgs e)
 {
-    if (chartView.Chart != null)
+    if (chartView1.Chart != null)
     {
         string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
 
@@ -272,7 +287,7 @@ public partial class HomePage : ContentPage
             using (var canvas = new SKCanvas(bitmap))
             {
                 canvas.Clear(SKColors.White);
-                chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+                chartView1.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
 
                 using (var image = SKImage.FromBitmap(bitmap))
                 using (var data = image.Encode(SKEncodedImageFormat.Png, 100))

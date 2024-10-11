@@ -21,8 +21,10 @@ public partial class ImportData : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
+        /*
         try
         {
+        */
             var result = await FilePicker.Default.PickAsync(new PickOptions
             {
                 PickerTitle = "Please select a file to import"
@@ -45,11 +47,11 @@ public partial class ImportData : ContentPage
                     string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
                     string fileFamilyName = fileName.Split('_').First();
                     List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileFamilyName);
-                    dataStructure.StoreRawData(rawData, currentUser);
+                    await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
                     Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-		            Console.WriteLine($"{currentUser.dataUnits}");
-		            Console.WriteLine($"{currentUser.rawData}");
+                    Console.WriteLine($"{currentUser.dataUnits}");
+                    Console.WriteLine($"{currentUser.rawData}");
                 //}
             }
             else
@@ -57,11 +59,15 @@ public partial class ImportData : ContentPage
                 // User canceled the file picking
                 SelectedFileLabel.Text = "No file selected";
             }
-        }
+
+            
+        //}
+        /*
         catch (Exception ex)
         {
             // Handle any exceptions that occur
             await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
         }
+        */
     }
 }
