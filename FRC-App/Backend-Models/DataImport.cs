@@ -101,12 +101,12 @@ public class DataImport
 
         foreach (string file in fileNames)
         {
-            int nameEnd = file.IndexOf("_", StringComparison.Ordinal);
-            string readFilename = file.Substring(0,nameEnd);
-            if (readFilename.Equals(directoryPath + fileName)) {
+            string readFileName = file.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
+            int nameEnd = readFileName.IndexOf("_", StringComparison.Ordinal);
+            if (fileName.Equals(readFileName.Split("_",StringSplitOptions.RemoveEmptyEntries).First())) {
                 
-                int typeEnd = file.IndexOf(".csv", StringComparison.Ordinal);
-                string dataType = file.Substring(nameEnd + 1, typeEnd - nameEnd - 1);
+                int typeEnd = readFileName.IndexOf(".csv", StringComparison.Ordinal);
+                string dataType = readFileName.Substring(nameEnd + 1, typeEnd - nameEnd - 1);
                 dataTypes.Add(dataType);
 
                 using (StreamReader reader = new StreamReader(file)) 

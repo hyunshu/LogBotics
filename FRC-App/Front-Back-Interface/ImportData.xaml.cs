@@ -42,10 +42,14 @@ public partial class ImportData : ContentPage
                 //{
                     // Read the file
                     DataImport dataStructure = new DataImport();
-                    fileName = result.FullPath.Split('/').Last();
                     string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
-                    List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileName.Split('_').First());
+                    string fileFamilyName = fileName.Split('_').First();
+                    List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileFamilyName);
                     dataStructure.StoreRawData(rawData, currentUser);
+
+                    Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+		            Console.WriteLine($"{currentUser.dataUnits}");
+		            Console.WriteLine($"{currentUser.rawData}");
                 //}
             }
             else
