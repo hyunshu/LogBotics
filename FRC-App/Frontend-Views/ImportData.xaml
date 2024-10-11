@@ -4,7 +4,7 @@
              x:Class="FRC_App.ImportData"
              Title="Import Data">
     <StackLayout Padding="20">
-        <Label Text="Click the button below to select a file to import" 
+        <Label Text="Click the button below to select a file from the file family you want to import" 
                FontSize="Medium" 
                HorizontalOptions="Center" />
 

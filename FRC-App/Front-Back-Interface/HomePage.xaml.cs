@@ -323,18 +323,32 @@ public partial class HomePage : ContentPage
 }
 
 	private async void RenderLineChart(object sender, EventArgs e){
-		chartView1.Chart = new LineChart { Entries = motorEntry};
-		chartView2.Chart = new LineChart { Entries = sensorEntry};
-		chartView3.Chart = new LineChart { Entries = controlSystemEntry};
+		if (currentUser.rawData is null) {
+			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
+		} else {
+			chartView1.Chart = new LineChart { Entries = motorEntry};
+			chartView2.Chart = new LineChart { Entries = sensorEntry};
+			chartView3.Chart = new LineChart { Entries = controlSystemEntry};
+		}
+
+		
 	}
 	private async void RenderPointChart(object sender, EventArgs e){
-		chartView1.Chart = new PointChart { Entries = motorEntry};
-		chartView2.Chart = new PointChart { Entries = sensorEntry};
-		chartView3.Chart = new PointChart { Entries = controlSystemEntry};
+		if (currentUser.rawData is null) {
+			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
+		} else {
+			chartView1.Chart = new PointChart { Entries = motorEntry};
+			chartView2.Chart = new PointChart { Entries = sensorEntry};
+			chartView3.Chart = new PointChart { Entries = controlSystemEntry};
+		}
 	}
 	private async void RenderRadarChart(object sender, EventArgs e){
-		chartView1.Chart = new RadarChart { Entries = motorEntry};
-		chartView2.Chart = new RadarChart { Entries = sensorEntry};
-		chartView3.Chart = new RadarChart { Entries = controlSystemEntry};
+		if (currentUser.rawData is null) {
+			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
+		} else {
+			chartView1.Chart = new RadarChart { Entries = motorEntry};
+			chartView2.Chart = new RadarChart { Entries = sensorEntry};
+			chartView3.Chart = new RadarChart { Entries = controlSystemEntry};
+		}
 	}
 }

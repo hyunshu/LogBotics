@@ -2,17 +2,10 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.CreateAccountPage"
-             BackgroundColor="#e3e8f4"
              Title="Create Account">
 
     <VerticalStackLayout Padding="30" Spacing="25">
         <!-- Title and Log in Link -->
-        <VerticalStackLayout>
-            <Label Text="Create an Account"
-                    FontSize="28"
-                    FontAttributes="Bold"
-                    HorizontalOptions="Start" />
-        </VerticalStackLayout>
 
         <!-- Team Name and Team Number Fields -->
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
@@ -69,7 +62,7 @@
 
         <!-- Create Account Button -->
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Button Text="! Creat Account !"
+            <Button Text="! Create Account !"
                     BackgroundColor="#4a4a4a"
                     TextColor="White"
                     FontSize="18"
