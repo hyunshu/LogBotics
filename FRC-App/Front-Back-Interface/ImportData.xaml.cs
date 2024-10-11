@@ -27,23 +27,26 @@ public partial class ImportData : ContentPage
             {
                 PickerTitle = "Please select a file to import"
             });
-
+            
 
             if (result != null)
             {
+                await DisplayAlert("Success", "Data Imported", "Continue");
                 // Get the file name
                 var fileName = result.FileName;
                 // Display the selected file name
                 SelectedFileLabel.Text = $"Selected file: {fileName}";
 
                 // Read the file stream
-                using (var stream = await result.OpenReadAsync())
-                {
+                //using (var stream = await result.OpenReadAsync())
+                //{
                     // Read the file
                     DataImport dataStructure = new DataImport();
-                    List<List<List<double>>> rawData = dataStructure.FromCSV(result.FullPath, fileName);
+                    fileName = result.FullPath.Split('/').Last();
+                    string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
+                    List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileName.Split('_').First());
                     dataStructure.StoreRawData(rawData, currentUser);
-                }
+                //}
             }
             else
             {
