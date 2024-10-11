@@ -14,7 +14,7 @@ namespace FRC_App.Services
             }
 
             string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
-
+            //Console.WriteLine(databasePath);
             db = new SQLiteAsyncConnection(databasePath);
 
             await db.CreateTableAsync<User>();

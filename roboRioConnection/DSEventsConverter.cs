@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FRC_App
 {
@@ -31,41 +32,20 @@ namespace FRC_App
 
                 foreach (var line in lines)
                 {
-                    if (line.Contains("<TagVersion>"))
-                    {
-                        tagVersion = ExtractValue(line, "<TagVersion>", " ");
-                    }
-                    if (line.Contains("<time>"))
-                    {
-                        time = ExtractValue(line, "<time>", " ");
-                    }
-                    if (line.Contains("<count>"))
-                    {
-                        count = ExtractValue(line, "<count>", " ");
-                    }
-                    if (line.Contains("<flags>"))
-                    {
-                        flags = ExtractValue(line, "<flags>", " ");
-                    }
-                    if (line.Contains("<Code>"))
-                    {
-                        code = ExtractValue(line, "<Code>", " ");
-                    }
-                    if (line.Contains("<details>"))
-                    {
-                        details = ExtractValue(line, "<details>", "<location>");
-                    }
-                    if (line.Contains("<location>"))
-                    {
-                        location = ExtractValue(line, "<location>", "<stack>");
-                    }
-                    if (line.Contains("<message>"))
-                    {
-                        message = ExtractValue(line, "<message>", " ");
-                    }
+                    // Use regular expressions to extract values between tags
+                    tagVersion = ExtractValue(line, "<TagVersion>", " ");
+                    time = ExtractValue(line, "<time>", " ");
+                    count = ExtractValue(line, "<count>", " ");
+                    flags = ExtractValue(line, "<flags>", " ");
+                    code = ExtractValue(line, "<Code>", " ");
+                    details = ExtractValue(line, "<details>", "<");
+                    location = ExtractValue(line, "<location>", "<");
+                    message = ExtractValue(line, "<message>", " ");
 
-                    // Add row when all fields are populated
-                    if (!string.IsNullOrEmpty(tagVersion) && !string.IsNullOrEmpty(time) && !string.IsNullOrEmpty(count))
+                    // Add row when at least one field is populated
+                    if (!string.IsNullOrEmpty(tagVersion) || !string.IsNullOrEmpty(time) || !string.IsNullOrEmpty(count) ||
+                        !string.IsNullOrEmpty(flags) || !string.IsNullOrEmpty(code) || !string.IsNullOrEmpty(details) ||
+                        !string.IsNullOrEmpty(location) || !string.IsNullOrEmpty(message))
                     {
                         rows.Add(new string[] { tagVersion, time, count, flags, code, details, location, message });
 
@@ -95,8 +75,11 @@ namespace FRC_App
         public static string ExtractValue(string line, string startTag, string endTag)
         {
             int startIndex = line.IndexOf(startTag) + startTag.Length;
+            if (startIndex < startTag.Length) return ""; // Tag not found
+
             int endIndex = line.IndexOf(endTag, startIndex);
             if (endIndex == -1) endIndex = line.Length;
+
             return line.Substring(startIndex, endIndex - startIndex).Trim();
         }
 
