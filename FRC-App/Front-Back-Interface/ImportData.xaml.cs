@@ -21,10 +21,8 @@ public partial class ImportData : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
-        /*
         try
         {
-        */
             var result = await FilePicker.Default.PickAsync(new PickOptions
             {
                 PickerTitle = "Please select a file to import"
@@ -61,13 +59,11 @@ public partial class ImportData : ContentPage
             }
 
             
-        //}
-        /*
+        }
         catch (Exception ex)
         {
             // Handle any exceptions that occur
             await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
         }
-        */
     }
 }

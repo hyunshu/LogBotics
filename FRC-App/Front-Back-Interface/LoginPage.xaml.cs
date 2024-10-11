@@ -37,6 +37,7 @@ public partial class LoginPage : ContentPage
 		}
 	}
 
+
 	private async void RedirectToCreateAccountPage(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new CreateAccountPage());
