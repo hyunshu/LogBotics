@@ -60,15 +60,7 @@ public partial class HomePage : ContentPage
 				}
 			};
 
-			chartView.Chart = new LineChart
-			{
-				Entries = entries,
-				LabelTextSize = 30,
-				LineMode = LineMode.Straight,
-				LineSize = 8,
-				PointMode = PointMode.Circle,
-				PointSize = 18
-			};
+			chartView.Chart = new LineChart { Entries = entries };
 
 			chartView.IsVisible = true;
 		} else {
@@ -211,8 +203,7 @@ public partial class HomePage : ContentPage
 		if (answer)
 		{
 			((App)Application.Current).LoadTheme("Dark Theme");
-			Application.Current.MainPage = new NavigationPage(new LoginPage());
-			
+			Application.Current.MainPage = new NavigationPage(new LoginPage());	
 		}
 	}
 
@@ -221,7 +212,7 @@ public partial class HomePage : ContentPage
 		if (chartView.Chart != null)
 		{
 			var chart = chartView.Chart;
-			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);	// may not work for mac
+			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
 			using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
 			{
@@ -291,5 +282,15 @@ public partial class HomePage : ContentPage
 		{
 			await DisplayAlert("No Data", "No chart data available to export.", "OK");
 		}
+	}
+
+	private async void RenderLineChart(object sender, EventArgs e){
+		chartView.Chart = new LineChart { Entries = entries};
+	}
+	private async void RenderPointChart(object sender, EventArgs e){
+		chartView.Chart = new PointChart { Entries = entries};
+	}
+	private async void RenderRadarChart(object sender, EventArgs e){
+		chartView.Chart = new RadarChart { Entries = entries};
 	}
 }

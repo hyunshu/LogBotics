@@ -93,7 +93,6 @@ public class DataImport
      */
     public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
     {
-
         String[] fileNames = Directory.GetFiles(directoryPath);
 
         List<string> dataTypes = new List<string> {};

@@ -5,6 +5,7 @@
              x:Class="FRC_App.HomePage"
              Title="HomePage + Data Visualization">
     <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
+
         <!-- Main visualized data area -->
           <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
             <StackLayout Spacing="10">
@@ -48,6 +49,11 @@
                     <Label Text="Team Name:" FontSize="Small" />
                     <Label Text="{Binding TeamName}" FontSize="20" HorizontalOptions="Center" />
                 </StackLayout>
+
+                <!--- 3 Graphical Data Display -->
+                <Button Text="Line Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderLineChart" />
+                <Button Text="Point Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderPointChart" />
+                <Button Text="Radar Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderRadarChart" />
             </StackLayout>
         </StackLayout>
 
