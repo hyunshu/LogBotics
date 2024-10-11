@@ -24,7 +24,6 @@
 
             <!-- Right-side button menu -->
             <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
-                <Button Text="Real-Time" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" />
                 <Button Text="Export Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ExportData" />
                 <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
                 <Button Text="Import Fake Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportFakeData" />
