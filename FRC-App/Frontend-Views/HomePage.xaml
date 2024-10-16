@@ -1,26 +1,67 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FRC_App.HomePage"
-             Title="HomePage">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-        <Button
-                x:Name="DataImport"
-                BackgroundColor="#4169E1"
-                Text="Import Data" 
-                SemanticProperties.Hint="Imports FRC the Data"
-                Clicked="ImportData"
-                HorizontalOptions="Fill" />
-        <Button
-                x:Name="DataExport"
-                BackgroundColor="#4169E1"
-                Text="Export Data" 
-                SemanticProperties.Hint="Exports FRC the Data to CSV and otherwise"
-                Clicked="ExportData"
-                HorizontalOptions="Fill" />
-    </VerticalStackLayout>
+             Title="HomePage + Data Visualization">
+    <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
+
+        <!-- Main visualized data area -->
+          <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+            <StackLayout Spacing="10">
+                <!-- Export Buttons -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Button Text="Export JPEG" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToJpeg" />
+                    <Button Text="Export PDF" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToPdf" />
+                </StackLayout>
+
+                <!-- Chart View -->
+                <Label Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
+                <Label Text="SensorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <microcharts:ChartView x:Name="chartView2" IsVisible="False" HeightRequest="200" />
+                <Label Text="ControlSystemData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <microcharts:ChartView x:Name="chartView3" IsVisible="False" HeightRequest="200" />
+            </StackLayout>
+        </Frame>
+
+        <!-- Right-side button menu -->
+        <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
+            <Button Text="Export Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ExportData" />
+            <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
+            <Button Text="Load Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LoadData" />
+            <!--<Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
+            <!--<Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
+            <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />
+            <Button Text="Log Out" BackgroundColor="White" TextColor="Black" BorderColor="Black" CornerRadius="10" Clicked="LogOut" />
+        
+            <!-- User Information Section -->
+            <StackLayout Padding="0,20,0,0" Spacing="5">
+                <Label Text="Team Info"
+                    FontSize="Medium"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Center" />
+
+                <!-- Team Number Display -->
+                <StackLayout HorizontalOptions="Center">
+                    <Label Text="Team #:" FontSize="Small" />
+                    <Label Text="{Binding TeamNumber}" FontSize="20" HorizontalOptions="Center" />
+                </StackLayout>
+
+                <!-- Team Name Display -->
+                <StackLayout HorizontalOptions="Center">
+                    <Label Text="Team Name:" FontSize="Small" />
+                    <Label Text="{Binding TeamName}" FontSize="20" HorizontalOptions="Center" />
+                </StackLayout>
+
+                <!--- 3 Graphical Data Display -->
+                <Button Text="Line Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderLineChart" />
+                <Button Text="Point Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderPointChart" />
+                <Button Text="Radar Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderRadarChart" />
+            </StackLayout>
+        </StackLayout>
+
+         <!-- Bottom-right logo -->
+        <Image Source="logbotics.png" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" WidthRequest="50" HeightRequest="50"/>
+    </Grid>
 </ContentPage>

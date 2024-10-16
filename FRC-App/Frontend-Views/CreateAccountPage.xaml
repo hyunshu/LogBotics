@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRC_App.CreateAccountPage"
+             Title="Create Account">
+
+    <VerticalStackLayout Padding="30" Spacing="25">
+        <!-- Title and Log in Link -->
+
+        <!-- Team Name and Team Number Fields -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Team Name"
+                        FontSize="16"
+                        TextColor="Gray" />
+                <Entry x:Name="TeamNameEntry" FontSize="16" WidthRequest="400" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Team Number"
+                        FontSize="16"
+                        TextColor="Gray" />
+                <Entry x:Name="TeamNumberEntry" FontSize="16" WidthRequest="200" Keyboard="Numeric" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+        <!-- Username Field -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Username"
+                        FontSize="16"
+                        TextColor="Gray" />
+                <Entry x:Name="UsernameEntry" FontSize="16" WidthRequest="600" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+        <!-- Password and Confirm Password Fields -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Password"
+                        FontSize="16"
+                        TextColor="Gray" />
+                <Entry x:Name="UserPasswordEntry" IsPassword="True" FontSize="16" WidthRequest="300" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Label Text="Confirm Password"
+                        FontSize="16"
+                        TextColor="Gray" />
+                <Entry x:Name="ConfirmPasswordEntry" IsPassword="True" FontSize="16" WidthRequest="300" />
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+
+        <!-- LogBotics Logo (aligned to the right) -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <Image Source="logbotics.png"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    WidthRequest="150"
+                    HeightRequest="150" />
+        </HorizontalStackLayout>
+
+        <!-- Create Account Button -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <Button Text="! Create Account !"
+                    BackgroundColor="#4a4a4a"
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    WidthRequest="600"
+                    HeightRequest="50"    
+                    HorizontalOptions="Center" 
+                    VerticalOptions="End"
+                    SemanticProperties.Hint="Creates a new user/account"
+                    Clicked="CreateAccount" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+
+</ContentPage>

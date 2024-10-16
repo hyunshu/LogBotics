@@ -24,10 +24,10 @@ public partial class LoginPage : ContentPage
 			if (user != null && user.Password == password) {
 				if (user.IsAdmin) {
 					await DisplayAlert("Success", "Admin login successful!", "Get Started");
-					await Navigation.PushAsync(new HomePage());  // Redirect to admin page
+					Application.Current.MainPage = new NavigationPage(new HomePage(user));  // Redirect to admin page
 				} else {
 					await DisplayAlert("Success", "Login successful!", "Get Started");
-					await Navigation.PushAsync(new HomePage());  // Redirect to regular homepage
+					Application.Current.MainPage = new NavigationPage(new HomePage(user));  // Redirect to regular homepage
 				}
 			} else {
 				await DisplayAlert("Error", "Invalid username or password.", "OK");
@@ -37,27 +37,10 @@ public partial class LoginPage : ContentPage
 		}
 	}
 
-	private async void CreateAccount(object sender, EventArgs e)
+
+	private async void RedirectToCreateAccountPage(object sender, EventArgs e)
 	{
-		string username = UsernameEntry.Text;
-		string password = UserPasswordEntry.Text;
-
-		if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)) {
-			try
-            {
-                await UserDatabase.AddUser(username, password);
-                await DisplayAlert("Success", "Account created successfully!", "Log in");
-				await Navigation.PushAsync(new HomePage());
-            }
-            catch (Exception ex)
-            {
-                // Handle case where user already exists or any other error
-                await DisplayAlert("Error", ex.Message, "OK");
-            }
-
-		} else {
-			await DisplayAlert("Error", "Missing info.", "OK");
-		}
+		await Navigation.PushAsync(new CreateAccountPage());
 	}
 }
 

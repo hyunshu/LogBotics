@@ -36,7 +36,7 @@ public class DataExport
             // Loop through each dataType creating a new CSV file each time:
 
             // Create and label a new CSV file:
-            using (StreamWriter writer = new StreamWriter($"../FRCData/{fileName}_{dataType}.csv"))
+            using (StreamWriter writer = new StreamWriter($"../FRCDataOut/{fileName}_{dataType}.csv"))
             {
                 // Write the data labels/units as the first row for the ith CSV:
                 var dataFileUnits = dataUnits[i];
