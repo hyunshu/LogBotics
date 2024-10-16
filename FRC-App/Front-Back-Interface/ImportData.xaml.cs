@@ -50,6 +50,10 @@ public partial class ImportData : ContentPage
                     Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
                     Console.WriteLine($"{currentUser.dataUnits}");
                     Console.WriteLine($"{currentUser.rawData}");
+
+                    //Testing 10/16/2024 Begin:
+                    DataContainer dataContainer = new DataContainer(currentUser);
+                    //Testing 10/16/2024 End:
                 //}
             }
             else
