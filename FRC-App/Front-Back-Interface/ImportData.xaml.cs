@@ -37,24 +37,35 @@ public partial class ImportData : ContentPage
                 // Display the selected file name
                 SelectedFileLabel.Text = $"Selected file: {fileName}";
 
-                // Read the file stream
-                //using (var stream = await result.OpenReadAsync())
-                //{
-                    // Read the file
-                    DataImport dataStructure = new DataImport();
-                    string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
-                    string fileFamilyName = fileName.Split('_').First();
-                    List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileFamilyName);
-                    await UserDatabase.storeData(currentUser,dataStructure,rawData);
+                DataImport dataStructure = new DataImport();
+                string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
+                string fileFamilyName = fileName.Split('_').First();
+                List<List<List<double>>> rawData = dataStructure.FromCSV(directoryPath, fileFamilyName);
+                await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
-                    Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-                    Console.WriteLine($"{currentUser.dataUnits}");
-                    Console.WriteLine($"{currentUser.rawData}");
+                Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+                Console.WriteLine($"{currentUser.dataUnits}");
+                Console.WriteLine($"{currentUser.rawData}");
 
-                    //Testing 10/16/2024 Begin:
-                    DataContainer dataContainer = new DataContainer(currentUser);
-                    //Testing 10/16/2024 End:
-                //}
+
+
+                ////Testing 10/16/2024 Begin (also a demo for front-end devs):
+                DataContainer dataContainer = new DataContainer(currentUser);
+
+                //Determine the dataType:
+                List<string> dataTypeNames = dataContainer.getDataTypeNames();  // Display these in first set of buttons
+                string typeSelection = dataTypeNames[0];  // This would be from the first set of buttons
+                DataType targetType = dataContainer.getDataType(typeSelection);
+
+                //Determine the dataColumn:
+                List<string> columnLabels = targetType.getColumnLabels();  // Display these in second set of buttons
+                string columnSelection = columnLabels[0];  // This would be from the second set of buttons
+                Column targetColumn = targetType.getColumn(columnSelection);  //ie. x or y
+
+                //Axis Label and Data ready for ploting:
+                string axisLabel = targetColumn.Label; // Or the columnSelection string
+                List<double> axisData = targetColumn.Data;
+                ////Testing 10/16/2024 End:
             }
             else
             {
