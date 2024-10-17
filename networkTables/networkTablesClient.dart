@@ -1,10 +1,12 @@
 //STILL NEED TO INSTALL DART/FLUTTER
 
+import 'dart:io';
+
 import 'package:nt4/nt4.dart';
 import 'dart:async';
 
 void main() {
-  final NT4Client nt4Client = NT4Client(serverAddr: '10.xx.yy.2'); // Replace with your robot IP
+  final NT4Client nt4Client = NT4Client(serverAddr: '172.22.11.2'); //robot IP over USB
   StreamSubscription? subscription;
 
   void connectToNetworkTables() {

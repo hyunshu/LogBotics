@@ -1,0 +1,8 @@
+name: networkTablesClient
+description: A Dart project to interface with NetworkTables
+version: 1.0.0
+environment:
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies:
+  nt4: ^1.3.3
