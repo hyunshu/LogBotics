@@ -54,6 +54,9 @@
                     <Label Text="{Binding TeamName}" FontSize="20" HorizontalOptions="Center" />
                 </StackLayout>
 
+                <!-- Add Plot Button -->
+                <Button Text="Add Plot" BackgroundColor="White" TextColor="Black" CornerRadius="10" Clicked="AddPlot" />
+
                 <!--- 3 Graphical Data Display -->
                 <Button Text="Line Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderLineChart" />
                 <Button Text="Point Chart" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RenderPointChart" />
