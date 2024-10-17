@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:nt4/nt4.dart';
 
 void main() async {
-  // Connect to NT4 server at your robot's IP address from usb which should be constant
+  // Connect to NT4 server at your robot's IP address from usb
   String addr = '172.22.11.2';
   NT4Client client = NT4Client(
     serverBaseAddress: addr,
@@ -24,10 +24,10 @@ void main() async {
   NT4Subscription motorOutputSub = client.subscribePeriodic('/robot/MotorOutput');
 
   // Subscribe to encoder values topic
-  NT4Subscription encoderValuesSub = client.subscribePeriodic('/robot/EncoderValues');
+  NT4Subscription encoderValuesSub = client.subscribePeriodic('/robot/EncoderOutput');
 
   // Subscribe to IMU position topic
-  NT4Subscription pigeonPositionSub = client.subscribePeriodic('/robot/PigeonPosition');
+  NT4Subscription pigeonPositionSub = client.subscribePeriodic('/robot/PigeonOutput');
 
   // Receive motor output data
   motorOutputSub.listen((data) => print('Motor Output: $data'));
