@@ -1,40 +1,52 @@
-//STILL NEED TO INSTALL DART/FLUTTER
-
+//robot IP over usb: 172.22.11.2
+//for this to work, user will have to make network table calls in their code using "robot" as the name
+//of the NT
 import 'dart:io';
 
 import 'package:nt4/nt4.dart';
 import 'dart:async';
+import 'package:nt4/nt4.dart';
 
-void main() {
-  final NT4Client nt4Client = NT4Client(serverAddr: '172.22.11.2'); //robot IP over USB
-  StreamSubscription? subscription;
+void main() async {
+  // Connect to NT4 server at your robot's IP address from usb which should be constant
+  String addr = '172.22.11.2';
+  NT4Client client = NT4Client(
+    serverBaseAddress: addr,
+    onConnect: () {
+      print('NT4 Client Connected');
+    },
+    onDisconnect: () {
+      print('NT4 Client Disconnected');
+    },
+  );
 
-  void connectToNetworkTables() {
-    // Connect to the NetworkTables server
-    nt4Client.connect();
+  // Subscribe to motor output topic
+  NT4Subscription motorOutputSub = client.subscribePeriodic('/robot/MotorOutput');
 
-    // Delay a bit to ensure connection is established before listing keys
-    Future.delayed(Duration(seconds: 2), () {
-      listKeys(nt4Client);
-    });
+  // Subscribe to encoder values topic
+  NT4Subscription encoderValuesSub = client.subscribePeriodic('/robot/EncoderValues');
+
+  // Subscribe to IMU position topic
+  NT4Subscription pigeonPositionSub = client.subscribePeriodic('/robot/PigeonPosition');
+
+  // Receive motor output data
+  motorOutputSub.listen((data) => print('Motor Output: $data'));
+
+  // Receive encoder values data
+  encoderValuesSub.listen((data) => print('Encoder Values: $data'));
+
+  // Receive IMU position data
+  pigeonPositionSub.listen((data) => print('Pigeon Position: $data'));
+
+  await for (Object? data in motorOutputSub.stream()) {
+    print('Motor Output (from stream): $data');
   }
 
-  void listKeys(NT4Client nt4Client) {
-    nt4Client.getKeys().then((keys) {
-      for (String key in keys) {
-        print('Available key: $key');
-      }
-    });
+  await for (Object? data in encoderValuesSub.stream()) {
+    print('Encoder Values (from stream): $data');
   }
 
-  // Connect to NetworkTables
-  connectToNetworkTables();
-
-  // Disconnect on exit
-  ProcessSignal.sigint.watch().listen((_) {
-    subscription?.cancel();
-    nt4Client.disconnect();
-    print('Disconnected from NetworkTables');
-    exit(0);
-  });
+  await for (Object? data in pigeonPositionSub.stream()) {
+    print('Pigeon Position (from stream): $data');
+  }
 }
