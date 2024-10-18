@@ -6,6 +6,19 @@ public partial class CreateAccountPage : ContentPage
     public CreateAccountPage()
     {
         InitializeComponent();
+        DropDown.ItemsSource = new List<string> { "What is your team name?", 
+                                                "What is the name of your mentor?", 
+                                                "What high school is your team from?", 
+                                                "What is the name of your robot?" };
+    }
+
+     private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (DropDown.SelectedIndex != -1) // Ensure an item is selected
+        {
+            string selectedOption = DropDown.Items[DropDown.SelectedIndex];
+            DisplayAlert("Selected Item", $"You selected: {selectedOption}", "OK");
+        }
     }
 
     private async void CreateAccount(object sender, EventArgs e)
@@ -15,6 +28,8 @@ public partial class CreateAccountPage : ContentPage
 		string username = UsernameEntry.Text;
 		string password = UserPasswordEntry.Text;
         string confirmPassword = ConfirmPasswordEntry.Text;
+        string selectedQuestion = DropDown.SelectedItem?.ToString();
+        string securityAnswer = SecurityAnswerEntry.Text;
 
 		if (!string.IsNullOrEmpty(teamName) && !string.IsNullOrEmpty(teamNumber)
                 && !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)
@@ -41,9 +56,15 @@ public partial class CreateAccountPage : ContentPage
                 await DisplayAlert("Error", "Passwords do not match.", "OK");
                 return;
             }
+
+            if (string.IsNullOrEmpty(selectedQuestion) || string.IsNullOrEmpty(securityAnswer)) {
+                await DisplayAlert("Error", "Missing security question or answer.", "OK");
+                return;
+            }
             
 			try
             {
+                // Need to add new fields to user for question and answer
                 await UserDatabase.AddUser(teamName, teamNumber, username, password, false);
                 await DisplayAlert("Success", "Account created successfully!", "Go Back to Login");
 				await Navigation.PopAsync();
