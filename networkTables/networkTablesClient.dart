@@ -21,13 +21,16 @@ void main() async {
   );
 
   // Subscribe to motor output topic
-  NT4Subscription motorOutputSub = client.subscribePeriodic('/robot/MotorOutput');
+  NT4Subscription motorOutputSub =
+      client.subscribePeriodic('/robot/MotorOutput');
 
   // Subscribe to encoder values topic
-  NT4Subscription encoderValuesSub = client.subscribePeriodic('/robot/EncoderOutput');
+  NT4Subscription encoderValuesSub =
+      client.subscribePeriodic('/robot/EncoderOutput');
 
   // Subscribe to IMU position topic
-  NT4Subscription pigeonPositionSub = client.subscribePeriodic('/robot/PigeonOutput');
+  NT4Subscription pigeonPositionSub =
+      client.subscribePeriodic('/robot/PigeonOutput');
 
   // Receive motor output data
   motorOutputSub.listen((data) => print('Motor Output: $data'));
