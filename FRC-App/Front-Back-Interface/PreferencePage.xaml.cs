@@ -62,7 +62,7 @@ public partial class PreferencePage : ContentPage
         /* Skeleton code for navigating to account settings page
         await Navigation.PushAsync(new AccountSettingsPage(currentUser));
         */
-        DisplayAlert("YOU NEED TO IMLEMENT THIS FUNCTIONALITY LOL", "This feature is not yet implemented.", "OK");
+        await Navigation.PushAsync(new EditAccountInfoPage(currentUser));
     }
 
     private async void OnLogOutClicked(object sender, EventArgs e)
