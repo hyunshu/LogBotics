@@ -12,15 +12,6 @@ public partial class CreateAccountPage : ContentPage
                                                 "What is the name of your robot?" };
     }
 
-     private void OnPickerSelectedIndexChanged(object sender, EventArgs e)
-    {
-        if (DropDown.SelectedIndex != -1) // Ensure an item is selected
-        {
-            string selectedOption = DropDown.Items[DropDown.SelectedIndex];
-            DisplayAlert("Selected Item", $"You selected: {selectedOption}", "OK");
-        }
-    }
-
     private async void CreateAccount(object sender, EventArgs e)
 	{
         string teamName = TeamNameEntry.Text;
