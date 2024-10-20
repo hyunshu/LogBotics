@@ -26,9 +26,9 @@ public partial class ForgotPasswordPage : ContentPage
 		}
 
 		SecurityQuestionLabel.Text = user.SecurityQuestion;
-		SecurityQuestionLabel.IsVisible = true;
-		SecurityAnswerEntry.IsVisible = true;
-		CheckAnswer.IsVisible = true;
+		SecurityQuestionStack.IsVisible = true;
+		SecurityAnswerStack.IsVisible = true;
+		CheckAnswerButton.IsVisible = true;
 	} 
 
 	private async void CheckSecurityAnswer(object sender, EventArgs e) {
@@ -40,9 +40,37 @@ public partial class ForgotPasswordPage : ContentPage
 
 		if (securityAnswer != realAnswer) {
 			await DisplayAlert("Error", "Incorrect Answer.", "OK");
-		} else {
-			await DisplayAlert("Success", "Correct Answer.", "OK");
+			return;
+		} 
+
+		ChangePasswordStack.IsVisible = true;
+		SubmitPasswordStack.IsVisible = true;
+	}
+
+	private async void SaveNewPassword(object sender, EventArgs e) {
+		string password = UserPasswordEntry.Text;
+        string confirmPassword = ConfirmPasswordEntry.Text;
+
+		if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword)) {
+			await DisplayAlert("Error", "Password field(s) are empty.", "OK");
+			return;
 		}
 
+		if (password.Length < 4) {
+			await DisplayAlert("Error", "Password must be at least 4 characters long.", "OK");
+			return;
+		}
+
+		if (password != confirmPassword) {
+			await DisplayAlert("Error", "Passwords do not match.", "OK");
+			return;
+		}
+
+		string username = UsernameEntry.Text;
+		var user = await UserDatabase.GetUser(username);
+		user.Password = password;
+		await UserDatabase.updateUser(user);
+
+		await DisplayAlert("Success", "Changed Password", "OK");
 	}
 }
