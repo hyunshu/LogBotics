@@ -14,6 +14,11 @@ namespace FRC_App.Services
             }
 
             string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
+            // HyunShu Desktop Path
+            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            //string databasePath = Path.Combine(desktopPath, "LogBoticsDatabase.db");  // Database will be stored on the desktop
+
+            
             //Console.WriteLine(databasePath);
             db = new SQLiteAsyncConnection(databasePath);
 

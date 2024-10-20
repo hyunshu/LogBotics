@@ -23,7 +23,7 @@ namespace FRC_App.Models
             get => _teamNumber;
             set
             {
-                if (!int.TryParse(value, out int teamNum) || teamNum < 1 || teamNum > 99)
+                if ((!int.TryParse(value, out int teamNum) || teamNum < 1 || teamNum > 99) && value != "0")
                 {
                     throw new ArgumentException("Team Number must be a valid number between 1 and 99.");
                 }
