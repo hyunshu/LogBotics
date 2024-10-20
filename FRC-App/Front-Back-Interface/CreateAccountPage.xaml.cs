@@ -16,6 +16,8 @@ public partial class CreateAccountPage : ContentPage
 		string password = UserPasswordEntry.Text;
         string confirmPassword = ConfirmPasswordEntry.Text;
 
+
+
         // Validate Empty Inputs
         if (string.IsNullOrEmpty(teamName) || string.IsNullOrEmpty(teamNumber)
             || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)
@@ -42,5 +44,6 @@ public partial class CreateAccountPage : ContentPage
             // Handle case where user already exists or any other error
             await DisplayAlert("Error", ex.Message, "OK");
         }
+
 	}
 }

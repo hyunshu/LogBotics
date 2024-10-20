@@ -2,6 +2,8 @@ using SQLite;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using FRC_App.Services;
+
 namespace FRC_App.Models
 {
     public class User
@@ -15,7 +17,9 @@ namespace FRC_App.Models
         public string TeamName
         {
             get => _teamName;
-            set => _teamName = value;
+            set {
+                _teamName = value;
+            }
         }
 
         public string TeamNumber
@@ -34,7 +38,9 @@ namespace FRC_App.Models
         public string Username
         {
             get => _username;
-            set => _username = value;
+            set {
+                _username = value;
+            }
         }
 
         public string Password

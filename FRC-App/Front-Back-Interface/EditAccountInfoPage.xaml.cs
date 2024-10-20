@@ -8,7 +8,7 @@ namespace FRC_App
 {
     public partial class EditAccountInfoPage : ContentPage
     {
-        public User currentUser  {get; private set; }
+        public User currentUser  { get; private set; }
 
         public EditAccountInfoPage(User user)
         {
@@ -17,23 +17,16 @@ namespace FRC_App
         }
 
         // Event handler for saving Team Name
-        private void OnSaveTeamNameClicked(object sender, EventArgs e)
+        private async void OnSaveTeamNameClicked(object sender, EventArgs e)
         {
             string teamName = teamNameEntry.Text;
             string confirmTeamName = confirmTeamNameEntry.Text;
-
-            if (string.IsNullOrEmpty(teamName) || string.IsNullOrEmpty(confirmTeamName))
-            {
-                DisplayAlert("Error", "Please enter and confirm your team name.", "OK");
-                return;
-            }
 
             if (teamName == confirmTeamName)
             {
                 // Add logic to save team name
                 try {
-                    currentUser.TeamName = teamName;
-                    UserDatabase.UpdateTeamName(currentUser, teamName);
+                    await UserDatabase.UpdateTeamName(currentUser, teamName);
                 } catch (ArgumentException ex) {
                     DisplayAlert("Error", ex.Message, "OK");
                     return;
@@ -63,7 +56,6 @@ namespace FRC_App
                 // Add logic to save team number
                 try
                 {
-                    currentUser.TeamNumber = teamNumber;
                     await UserDatabase.UpdateTeamNumber(currentUser, teamNumber);
                 }
                 catch (ArgumentException ex)
@@ -80,7 +72,7 @@ namespace FRC_App
         }
 
         // Event handler for saving Username
-        private void OnSaveUsernameClicked(object sender, EventArgs e)
+        private async void OnSaveUsernameClicked(object sender, EventArgs e)
         {
             string username = usernameEntry.Text;
             string confirmUsername = confirmUsernameEntry.Text;
@@ -95,8 +87,7 @@ namespace FRC_App
             {
                 // Add logic to save username
                 try {
-                    currentUser.Username = username;
-                    UserDatabase.UpdateUsername(currentUser, username);
+                    await UserDatabase.UpdateUsername(currentUser, username);
                 } catch (ArgumentException ex) {
                     DisplayAlert("Error", ex.Message, "OK");
                     return;
@@ -110,7 +101,7 @@ namespace FRC_App
         }
 
         // Event handler for saving Password
-        private void OnSavePasswordClicked(object sender, EventArgs e)
+        private async void OnSavePasswordClicked(object sender, EventArgs e)
         {
             string password = passwordEntry.Text;
             string confirmPassword = confirmPasswordEntry.Text;
@@ -125,8 +116,7 @@ namespace FRC_App
             {
                 // Add logic to save password
                 try {
-                    currentUser.Password = password;
-                    UserDatabase.UpdatePassword(currentUser, password);
+                    await UserDatabase.UpdatePassword(currentUser, password);
                 } catch (ArgumentException ex) {
                     DisplayAlert("Error", ex.Message, "OK");
                     return;

@@ -12,13 +12,11 @@ public partial class App : Application
 
 	protected override async void OnStart()
 	{
-		// Manually create an admin account when the app starts
-		// You might want to check if the admin user already exists to avoid duplicates
-		var adminUser = await UserDatabase.GetUser("admin");
-		if (adminUser == null)
-		{
-			await UserDatabase.AddUser("admin", "0", "admin", "qwer", true);
-		}
+		// Manually create an admin account to the data base when the app starts
+        // This is for testing purposes only
+        // This should be removed when the app is deployed
+        
+        // Deleted admin account due to bugs
 	}
 
 	// Apply theme
