@@ -6,29 +6,37 @@
 
     <ScrollView>
         <StackLayout Padding="20" Spacing="15">
-            
+
+            <!-- Team Name Field -->
+            <Label Text="Team Name" FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your team name" x:Name="teamNameEntry" />
+            <Label Text="Confirm Team Name" FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your team name" x:Name="confirmTeamNameEntry" />
+            <Button Text="Save Team Name" Clicked="OnSaveTeamNameClicked" />
+
+            <!-- Team Number Field -->
+            <Label Text="Team Number" FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your team number" x:Name="teamNumberEntry" />
+            <Label Text="Confirm Team Number" FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your team number" x:Name="confirmTeamNumberEntry" />
+            <Button Text="Save Team Number" Clicked="OnSaveTeamNumberClicked" />
+
             <!-- Username Field -->
             <Label Text="Username" FontAttributes="Bold"/>
             <Entry Placeholder="Enter your username" x:Name="usernameEntry" />
-
-            <!-- Email Field -->
-            <Label Text="Email" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your email" x:Name="emailEntry" Keyboard="Email"/>
+            <Label Text="Confirm Username" FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your username" x:Name="confirmUsernameEntry" />
+            <Button Text="Save Username" Clicked="OnSaveUsernameClicked" />
 
             <!-- Password Field -->
             <Label Text="Password" FontAttributes="Bold"/>
             <Entry Placeholder="Enter your password" x:Name="passwordEntry" IsPassword="True"/>
-
-            <!-- Confirm Password Field -->
             <Label Text="Confirm Password" FontAttributes="Bold"/>
             <Entry Placeholder="Confirm your password" x:Name="confirmPasswordEntry" IsPassword="True"/>
+            <Button Text="Save Password" Clicked="OnSavePasswordClicked" />
 
-            <!-- Save and Cancel Buttons -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="10">
-                <Button Text="Save" Clicked="OnSaveButtonClicked" />
-                <Button Text="Cancel" Clicked="OnCancelButtonClicked" />
-            </StackLayout>
-
+            <!-- Cancel Button -->
+            <Button Text="Cancel" Clicked="OnCancelButtonClicked" HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

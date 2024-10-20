@@ -75,6 +75,36 @@ namespace FRC_App.Services
             var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
             return existingUser != null;
         }
+
+
+        // update team name
+        public static async Task UpdateTeamName(User user, string teamName)
+        {
+            await Init();
+            user.TeamName = teamName;
+            await db.UpdateAsync(user);
+        }
+        // update team number
+        public static async Task UpdateTeamNumber(User user, string teamNumber)
+        {
+            await Init();
+            user.TeamNumber = teamNumber;
+            await db.UpdateAsync(user);
+        }
+        // update username
+        public static async Task UpdateUsername(User user, string username)
+        {
+            await Init();
+            user.Username = username;
+            await db.UpdateAsync(user);
+        }
+        // update password
+        public static async Task UpdatePassword(User user, string password)
+        {
+            await Init();
+            user.Password = password;
+            await db.UpdateAsync(user);
+        }
     }
 
 }

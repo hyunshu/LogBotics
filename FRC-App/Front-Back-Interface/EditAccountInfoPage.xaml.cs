@@ -1,6 +1,7 @@
 using System;
 using Microsoft.Maui.Controls;
 
+using FRC_App.Services;
 using FRC_App.Models;
 
 namespace FRC_App
@@ -15,36 +16,134 @@ namespace FRC_App
             currentUser = user;
         }
 
-        // Save button clicked event handler
-        private async void OnSaveButtonClicked(object sender, EventArgs e)
+        // Event handler for saving Team Name
+        private void OnSaveTeamNameClicked(object sender, EventArgs e)
+        {
+            string teamName = teamNameEntry.Text;
+            string confirmTeamName = confirmTeamNameEntry.Text;
+
+            if (string.IsNullOrEmpty(teamName) || string.IsNullOrEmpty(confirmTeamName))
+            {
+                DisplayAlert("Error", "Please enter and confirm your team name.", "OK");
+                return;
+            }
+
+            if (teamName == confirmTeamName)
+            {
+                // Add logic to save team name
+                try {
+                    currentUser.TeamName = teamName;
+                    UserDatabase.UpdateTeamName(currentUser, teamName);
+                } catch (ArgumentException ex) {
+                    DisplayAlert("Error", ex.Message, "OK");
+                    return;
+                }
+                DisplayAlert("Success", "Team name saved successfully!", "OK");
+            }
+            else
+            {
+                DisplayAlert("Error", "Team names do not match.", "OK");
+            }
+        }
+
+        // Event handler for saving Team Number
+        private async void OnSaveTeamNumberClicked(object sender, EventArgs e)
+        {
+            string teamNumber = teamNumberEntry.Text;
+            string confirmTeamNumber = confirmTeamNumberEntry.Text;
+
+            if (string.IsNullOrEmpty(teamNumber) || string.IsNullOrEmpty(confirmTeamNumber))
+            {
+                DisplayAlert("Error", "Please enter and confirm your team number.", "OK");
+                return;
+            }
+
+            if (teamNumber == confirmTeamNumber)
+            {
+                // Add logic to save team number
+                try
+                {
+                    currentUser.TeamNumber = teamNumber;
+                    await UserDatabase.UpdateTeamNumber(currentUser, teamNumber);
+                }
+                catch (ArgumentException ex)
+                {
+                    DisplayAlert("Error", ex.Message, "OK");
+                    return;
+                }
+                DisplayAlert("Success", "Team number saved successfully!", "OK");
+            }
+            else
+            {
+                DisplayAlert("Error", "Team numbers do not match.", "OK");
+            }
+        }
+
+        // Event handler for saving Username
+        private void OnSaveUsernameClicked(object sender, EventArgs e)
         {
             string username = usernameEntry.Text;
-            string email = emailEntry.Text;
+            string confirmUsername = confirmUsernameEntry.Text;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(confirmUsername))
+            {
+                DisplayAlert("Error", "Please enter and confirm your username.", "OK");
+                return;
+            }
+
+            if (username == confirmUsername)
+            {
+                // Add logic to save username
+                try {
+                    currentUser.Username = username;
+                    UserDatabase.UpdateUsername(currentUser, username);
+                } catch (ArgumentException ex) {
+                    DisplayAlert("Error", ex.Message, "OK");
+                    return;
+                }
+                DisplayAlert("Success", "Username saved successfully!", "OK");
+            }
+            else
+            {
+                DisplayAlert("Error", "Usernames do not match.", "OK");
+            }
+        }
+
+        // Event handler for saving Password
+        private void OnSavePasswordClicked(object sender, EventArgs e)
+        {
             string password = passwordEntry.Text;
             string confirmPassword = confirmPasswordEntry.Text;
 
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
+            if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
             {
-                await DisplayAlert("Error", "All fields must be filled out.", "OK");
+                DisplayAlert("Error", "Please enter and confirm your password.", "OK");
                 return;
             }
 
-            if (password != confirmPassword)
+            if (password == confirmPassword)
             {
-                await DisplayAlert("Error", "Passwords do not match.", "OK");
-                return;
+                // Add logic to save password
+                try {
+                    currentUser.Password = password;
+                    UserDatabase.UpdatePassword(currentUser, password);
+                } catch (ArgumentException ex) {
+                    DisplayAlert("Error", ex.Message, "OK");
+                    return;
+                }
+                DisplayAlert("Success", "Password saved successfully!", "OK");
             }
-
-            // Logic to update account information (e.g., database or API call)
-
-            await DisplayAlert("Success", "Account information updated.", "OK");
-            await Navigation.PopAsync(); // Go back to the previous page
+            else
+            {
+                DisplayAlert("Error", "Passwords do not match.", "OK");
+            }
         }
 
-        // Cancel button clicked event handler
-        private async void OnCancelButtonClicked(object sender, EventArgs e)
+        // Event handler for Cancel button
+        private void OnCancelButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PopAsync(); // Go back to the previous page
+            // Add logic to handle cancel action, such as navigating back
+            Navigation.PopAsync();
         }
     }
 }
