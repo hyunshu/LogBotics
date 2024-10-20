@@ -16,11 +16,11 @@
                 </StackLayout>
 
                 <!-- Chart View -->
-                <Label Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label x:Name="MotorDataLabel1" IsVisible = "False" Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
-                <Label Text="SensorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label x:Name="SensorDataLabel1" IsVisible = "False" Text="SensorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView2" IsVisible="False" HeightRequest="200" />
-                <Label Text="ControlSystemData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
+                <Label x:Name="ControlSystemDataLabel1" IsVisible = "False" Text="ControlSystemData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView3" IsVisible="False" HeightRequest="200" />
             </StackLayout>
         </Frame>
