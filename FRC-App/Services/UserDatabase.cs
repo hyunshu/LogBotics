@@ -62,6 +62,10 @@ namespace FRC_App.Services
             var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
             return existingUser != null;
         }
+
+        public static async Task updateUser(User user) {
+            await db.UpdateAsync(user);
+        }
     }
 
 }
