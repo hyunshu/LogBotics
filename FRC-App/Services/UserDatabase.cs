@@ -28,11 +28,21 @@ namespace FRC_App.Services
                 TeamName = teamName,
                 TeamNumber = teamNumber,
                 Username = name,
-                Password = password,
-                IsAdmin = isAdmin  // Store the admin status
+                Password = password, // You may want to hash the password before storing it
+                IsAdmin = isAdmin // Store the admin status
             };
 
-            var id = await db.InsertAsync(user);
+            try
+            {
+                // Insert the user into the database
+                var id = await db.InsertAsync(user);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors during the insertion process
+                Console.WriteLine($"Error inserting user: {ex.Message}");
+                throw; // Re-throwing to make sure the caller is aware of the failure
+            }
         }
 
 
