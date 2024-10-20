@@ -21,8 +21,8 @@ public partial class ImportData : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
-        try
-        {
+        //try
+        //{
             var result = await FilePicker.Default.PickAsync(new PickOptions
             {
                 PickerTitle = "Please select a file to import"
@@ -59,12 +59,16 @@ public partial class ImportData : ContentPage
 
                 //Determine the dataColumn:
                 List<string> columnLabels = targetType.getColumnLabels();  // Display these in second set of buttons
-                string columnSelection = columnLabels[0];  // This would be from the second set of buttons
-                Column targetColumn = targetType.getColumn(columnSelection);  //ie. x or y
+                string columnSelectionx = columnLabels[0];  // This would be from the second set of buttons
+                string columnSelectiony = columnLabels[1];  // This would be from the second set of buttons
+                Column targetColumnX = targetType.getColumn(columnSelectionx);  //ie. x
+                Column targetColumnY = targetType.getColumn(columnSelectiony);  //ie. y
 
                 //Axis Label and Data ready for ploting:
-                string axisLabel = targetColumn.Label; // Or the columnSelection string
-                List<double> axisData = targetColumn.Data;
+                string axisLabel = targetColumnX.Label; // Or the columnSelection string
+                List<double> axisData = targetColumnX.Data;
+
+                Plot testPlot = new Plot(targetColumnX, targetColumnY);
                 ////Testing 10/16/2024 End:
             }
             else
@@ -74,11 +78,11 @@ public partial class ImportData : ContentPage
             }
 
             
-        }
-        catch (Exception ex)
-        {
+        //}
+        //catch (Exception ex)
+        //{
             // Handle any exceptions that occur
-            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-        }
+            //await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+        //}
     }
 }
