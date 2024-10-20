@@ -56,6 +56,7 @@
             <VerticalStackLayout HorizontalOptions="FillAndExpand">
                 <Picker x:Name="DropDown" Title="Choose a Security Question" 
                         FontSize="16" 
+                        TextColor="Gray"
                         WidthRequest="300" />
             </VerticalStackLayout>
 

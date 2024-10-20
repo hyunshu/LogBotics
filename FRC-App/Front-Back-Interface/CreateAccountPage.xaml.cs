@@ -19,7 +19,7 @@ public partial class CreateAccountPage : ContentPage
 		string username = UsernameEntry.Text;
 		string password = UserPasswordEntry.Text;
         string confirmPassword = ConfirmPasswordEntry.Text;
-        string selectedQuestion = DropDown.SelectedItem?.ToString();
+        string securityQuestion = DropDown.SelectedItem?.ToString();
         string securityAnswer = SecurityAnswerEntry.Text;
 
 		if (!string.IsNullOrEmpty(teamName) && !string.IsNullOrEmpty(teamNumber)
@@ -48,7 +48,7 @@ public partial class CreateAccountPage : ContentPage
                 return;
             }
 
-            if (string.IsNullOrEmpty(selectedQuestion) || string.IsNullOrEmpty(securityAnswer)) {
+            if (string.IsNullOrEmpty(securityQuestion) || string.IsNullOrEmpty(securityAnswer)) {
                 await DisplayAlert("Error", "Missing security question or answer.", "OK");
                 return;
             }
@@ -56,7 +56,7 @@ public partial class CreateAccountPage : ContentPage
 			try
             {
                 // Need to add new fields to user for question and answer
-                await UserDatabase.AddUser(teamName, teamNumber, username, password, false);
+                await UserDatabase.AddUser(teamName, teamNumber, username, password, securityQuestion, securityAnswer, false);
                 await DisplayAlert("Success", "Account created successfully!", "Go Back to Login");
 				await Navigation.PopAsync();
             }
