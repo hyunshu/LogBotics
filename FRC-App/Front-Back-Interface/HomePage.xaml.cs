@@ -359,23 +359,43 @@ public partial class HomePage : ContentPage
 		{
 			await Task.Run(() =>
 			{
+				Console.WriteLine("Attempting to launch NetworkTables client...");
 				var processInfo = new ProcessStartInfo
 				{
 					FileName = "dart",
-					Arguments = "run ./networkTablesClient.dart",
+					Arguments = "run networkTablesClient.dart",
 					WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
 					RedirectStandardOutput = true,
+					RedirectStandardError = true,
 					UseShellExecute = false,
 					CreateNoWindow = true
 				};
 
 				var process = Process.Start(processInfo);
+				if (process == null)
+				{
+					Console.WriteLine("Failed to start the Dart process.");
+					return;
+				}
+
 				using (var reader = process.StandardOutput)
 				{
 					string result = reader.ReadToEnd();
 					Console.WriteLine(result);
 				}
+
+				using (var errorReader = process.StandardError)
+				{
+					string error = errorReader.ReadToEnd();
+					if (!string.IsNullOrEmpty(error))
+					{
+						Console.WriteLine("Error output from Dart process:");
+						Console.WriteLine(error);
+					}
+				}
+
 				process.WaitForExit();
+				Console.WriteLine("NetworkTables client process finished.");
 			});
 		}
 		catch (Exception ex)
@@ -383,5 +403,6 @@ public partial class HomePage : ContentPage
 			await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
 		}
 	}
+
 
 }
