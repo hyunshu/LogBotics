@@ -4,6 +4,7 @@ using Microcharts;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using System.Diagnostics;
 
 
 
@@ -351,4 +352,36 @@ public partial class HomePage : ContentPage
 			chartView3.Chart = new RadarChart { Entries = controlSystemEntry};
 		}
 	}
+
+	private async void LaunchNetworkTablesClient(object sender, EventArgs e)
+	{
+		try
+		{
+			await Task.Run(() =>
+			{
+				var processInfo = new ProcessStartInfo
+				{
+					FileName = "dart",
+					Arguments = "run ./networkTablesClient.dart",
+					WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
+					RedirectStandardOutput = true,
+					UseShellExecute = false,
+					CreateNoWindow = true
+				};
+
+				var process = Process.Start(processInfo);
+				using (var reader = process.StandardOutput)
+				{
+					string result = reader.ReadToEnd();
+					Console.WriteLine(result);
+				}
+				process.WaitForExit();
+			});
+		}
+		catch (Exception ex)
+		{
+			await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
+		}
+	}
+
 }

@@ -32,6 +32,7 @@
             <Button Text="Load Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LoadData" />
             <!--<Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
             <!--<Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
+            <Button Text="Launch NetworkTables Client" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LaunchNetworkTablesClient" />
             <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />
             <Button Text="Log Out" BackgroundColor="White" TextColor="Black" BorderColor="Black" CornerRadius="10" Clicked="LogOut" />
         
