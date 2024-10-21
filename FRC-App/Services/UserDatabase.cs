@@ -14,6 +14,10 @@ namespace FRC_App.Services
             }
 
             string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
+            // HyunShu Desktop Path
+            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            //string databasePath = Path.Combine(desktopPath, "LogBoticsDatabase.db");  // Database will be stored on the desktop
+
             //Console.WriteLine(databasePath);
             db = new SQLiteAsyncConnection(databasePath);
 
@@ -23,16 +27,40 @@ namespace FRC_App.Services
         public static async Task AddUser(string teamName, string teamNumber, string name, string password, bool isAdmin = false)
         {
             await Init();
+            // cannot create a user with an existing team name, team number, or username
+            if (await CheckTeamNameExistsAsync(teamName))
+            {
+                throw new ArgumentException("Team name already exists.");
+            }
+            if (await CheckTeamNumberExistsAsync(teamNumber))
+            {
+                throw new ArgumentException("Team number already exists.");
+            }
+            if (await CheckUserNameExistsAsync(name))
+            {
+                throw new ArgumentException("Username already exists.");
+            }
+
             var user = new User
             {
                 TeamName = teamName,
                 TeamNumber = teamNumber,
                 Username = name,
-                Password = password,
-                IsAdmin = isAdmin  // Store the admin status
+                Password = password, // You may want to hash the password before storing it
+                IsAdmin = isAdmin // Store the admin status
             };
 
-            var id = await db.InsertAsync(user);
+            try
+            {
+                // Insert the user into the database
+                var id = await db.InsertAsync(user);
+            }
+            catch (Exception ex)
+            {
+                // Handle any errors during the insertion process
+                Console.WriteLine($"Error inserting user: {ex.Message}");
+                throw; // Re-throwing to make sure the caller is aware of the failure
+            }
         }
 
 
@@ -60,6 +88,72 @@ namespace FRC_App.Services
             var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
             return existingUser != null;
         }
-    }
 
+
+        // update team name
+        public static async Task UpdateTeamName(User user, string teamName)
+        {
+            await Init();
+            //cannot create a user with an existing team name
+            if (user.TeamName != teamName && await CheckTeamNameExistsAsync(teamName))
+            {
+                throw new ArgumentException("Team name already exists.");
+            }
+            user.TeamName = teamName;
+            await db.UpdateAsync(user);
+        }
+        // update team number
+        public static async Task UpdateTeamNumber(User user, string teamNumber)
+        {
+            await Init();
+            //cannot create a user with an existing team number
+            if (user.TeamNumber != teamNumber && await CheckTeamNumberExistsAsync(teamNumber))
+            {
+                throw new ArgumentException("Team number already exists.");
+            }
+            user.TeamNumber = teamNumber;
+            await db.UpdateAsync(user);
+        }
+        // update username
+        public static async Task UpdateUsername(User user, string username)
+        {
+            await Init();
+            //cannot create a user with an existing username
+            if (user.Username != username && await CheckUserNameExistsAsync(username))
+            {
+                throw new ArgumentException("Username already exists.");
+            }
+            user.Username = username;
+            await db.UpdateAsync(user);
+        }
+        // update password
+        public static async Task UpdatePassword(User user, string password)
+        {
+            await Init();
+            user.Password = password;
+            await db.UpdateAsync(user);
+        }
+
+        // check if team name exists
+        public static async Task<bool> CheckTeamNameExistsAsync(string teamName)
+        {
+            await Init();
+            var existingTeamName = await db.Table<User>().Where(u => u.TeamName == teamName).FirstOrDefaultAsync();
+            return existingTeamName != null;
+        }
+        // check if team number exists
+        public static async Task<bool> CheckTeamNumberExistsAsync(string teamNumber)
+        {
+            await Init();
+            var existingTeamNumber = await db.Table<User>().Where(u => u.TeamNumber == teamNumber).FirstOrDefaultAsync();
+            return existingTeamNumber != null;
+        }
+        // check if username exists
+        public static async Task<bool> CheckUserNameExistsAsync(string username)
+        {
+            await Init();
+            var existingUsername = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            return existingUsername != null;
+        }
+    }
 }
