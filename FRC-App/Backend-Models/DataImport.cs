@@ -10,7 +10,7 @@ public class DataImport
     public List<List<string>> dataUnits;
 
     /**
-     * --- DataImport #1 ---
+     * --- DataImport() #1 ---
      * Constructs DataImport Object with its list of data types and
      * the data labels for each type.
      * @param dataTypes
