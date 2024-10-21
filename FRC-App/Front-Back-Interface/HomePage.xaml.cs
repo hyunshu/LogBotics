@@ -354,55 +354,56 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void LaunchNetworkTablesClient(object sender, EventArgs e)
-	{
-		try
-		{
-			await Task.Run(() =>
-			{
-				Console.WriteLine("Attempting to launch NetworkTables client...");
-				var processInfo = new ProcessStartInfo
-				{
-					FileName = "dart",
-					Arguments = "run networkTablesClient.dart",
-					WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
-					RedirectStandardOutput = true,
-					RedirectStandardError = true,
-					UseShellExecute = false,
-					CreateNoWindow = true
-				};
+{
+    try
+    {
+        await Task.Run(() =>
+        {
+            Console.WriteLine("Attempting to launch NetworkTables client...");
+            
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\Path\To\dart.exe", // Update this with the full path to Dart
+                Arguments = "run ./networkTablesClient.dart",
+                WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
 
-				var process = Process.Start(processInfo);
-				if (process == null)
-				{
-					Console.WriteLine("Failed to start the Dart process.");
-					return;
-				}
+            var process = Process.Start(processInfo);
+            if (process != null)
+            {
+                using (var outputReader = process.StandardOutput)
+                {
+                    string result = outputReader.ReadToEnd();
+                    Console.WriteLine(result);
+                }
 
-				using (var reader = process.StandardOutput)
-				{
-					string result = reader.ReadToEnd();
-					Console.WriteLine(result);
-				}
+                using (var errorReader = process.StandardError)
+                {
+                    string errorResult = errorReader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(errorResult))
+                    {
+                        Console.WriteLine($"Error: {errorResult}");
+                    }
+                }
 
-				using (var errorReader = process.StandardError)
-				{
-					string error = errorReader.ReadToEnd();
-					if (!string.IsNullOrEmpty(error))
-					{
-						Console.WriteLine("Error output from Dart process:");
-						Console.WriteLine(error);
-					}
-				}
+                process.WaitForExit();
+            }
+            else
+            {
+                Console.WriteLine("Failed to start the process.");
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
+    }
+}
 
-				process.WaitForExit();
-				Console.WriteLine("NetworkTables client process finished.");
-			});
-		}
-		catch (Exception ex)
-		{
-			await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
-		}
-	}
 
 
 }
