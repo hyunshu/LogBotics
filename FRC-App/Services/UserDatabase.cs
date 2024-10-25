@@ -24,7 +24,7 @@ namespace FRC_App.Services
             await db.CreateTableAsync<User>();
         }
 
-        public static async Task AddUser(string teamName, string teamNumber, string name, string password, bool isAdmin = false)
+        public static async Task AddUser(string teamName, string teamNumber, string name, string password, string securityQuestion, string securityAnswer, bool isAdmin = false)
         {
             await Init();
             // cannot create a user with an existing team name, team number, or username
@@ -46,8 +46,10 @@ namespace FRC_App.Services
                 TeamName = teamName,
                 TeamNumber = teamNumber,
                 Username = name,
-                Password = password, // You may want to hash the password before storing it
-                IsAdmin = isAdmin // Store the admin status
+                Password = password,
+                SecurityQuestion = securityQuestion,
+                SecurityAnswer = securityAnswer,
+                IsAdmin = isAdmin  // Store the admin status
             };
 
             try

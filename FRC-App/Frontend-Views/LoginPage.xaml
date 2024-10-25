@@ -61,5 +61,15 @@
             SemanticProperties.Hint="Redirects to create account page"
             Clicked="RedirectToCreateAccountPage"
             HorizontalOptions="Fill" />
+
+            <Button Text="Forgot Password?"
+            FontSize="12"
+            TextColor="#4169E1"
+            BackgroundColor="Transparent"
+            Padding="0"
+            BorderWidth="0"
+            Clicked ="RedirectToForgotPasswordPage"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
         </VerticalStackLayout>
 </ContentPage>

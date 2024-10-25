@@ -77,12 +77,20 @@ public partial class HomePage : ContentPage
 			chartView2.Chart = new LineChart { Entries = sensorEntry};
 			chartView3.Chart = new LineChart { Entries = controlSystemEntry};
 
+			MotorDataLabel1.IsVisible = true;
+			SensorDataLabel1.IsVisible = true;
+			ControlSystemDataLabel1.IsVisible = true;
+
 			chartView1.IsVisible = true;
 			chartView2.IsVisible = true;
 			chartView3.IsVisible = true;
 
 		} else {
 			DisplayAlert("No Data", "No data in your database.", "OK");
+			MotorDataLabel1.IsVisible = false;
+			SensorDataLabel1.IsVisible = false;
+			ControlSystemDataLabel1.IsVisible = false;
+
 			chartView1.IsVisible = false;
 			chartView2.IsVisible = false;
 			chartView3.IsVisible = false;
