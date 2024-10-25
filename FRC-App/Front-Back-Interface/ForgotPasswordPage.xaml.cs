@@ -68,8 +68,7 @@ public partial class ForgotPasswordPage : ContentPage
 
 		string username = UsernameEntry.Text;
 		var user = await UserDatabase.GetUser(username);
-		user.Password = password;
-		await UserDatabase.updateUser(user);
+		await UserDatabase.UpdatePassword(user, password);
 
 		await DisplayAlert("Success", "Changed Password", "OK");
 	}
