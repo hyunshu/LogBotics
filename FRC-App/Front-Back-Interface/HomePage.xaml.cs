@@ -4,6 +4,7 @@ using Microcharts;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using AudioUnit;
 
 
 
@@ -18,83 +19,28 @@ public partial class HomePage : ContentPage
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
 	public Plot[] plots;
+	public int numPlots;
 	
 
 	public HomePage(User user)
 	{
 		InitializeComponent();
 		currentUser = user;
-
-		Console.WriteLine($"Logged in user: {currentUser.Username}");  // testing if user data was passed from loginPage
-
 		BindingContext = currentUser;
 
+		plots = new Plot[6];
+		numPlots = 0;
+
 		loadUserPreferences();
-		loadUserData();
+		
 	}
 
-	public void loadUserData() {
+	public void AddPlot() {
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
 		if (hasData) {
-			DataImport dataStructure = new DataImport();
-			List<List<List<double>>> rawData = dataStructure.RetrieveRawData(currentUser);
-			int motorEntrySize = rawData[0][0].Count;
-			int sensorEntrySize = rawData[1][0].Count;
-			int controlSystemEntrySize = rawData[2][0].Count;
+			DataContainer data = new DataContainer(currentUser);
 			
-			motorEntry = new ChartEntry[motorEntrySize];
-			sensorEntry = new ChartEntry[sensorEntrySize];
-			controlSystemEntry = new ChartEntry[controlSystemEntrySize];
-
-			for (int i = 0; i < motorEntrySize; i++)
-			{
-				motorEntry[i] = new ChartEntry((float)rawData[0][1][i])
-				{
-					Label = rawData[0][0][i].ToString(),  // time
-					ValueLabel = rawData[0][1][i].ToString().Substring(0,5), // spin angle
-					Color = SKColor.Parse("#3498db")
-				};
-			}
-			for (int i = 0; i < sensorEntrySize; i++)
-			{
-				sensorEntry[i] = new ChartEntry((float)rawData[1][1][i])
-				{
-					Label = rawData[1][0][i].ToString(),  // time
-					ValueLabel = rawData[1][1][i].ToString().Substring(0,5),  // measurement (ft)
-					Color = SKColor.Parse("#77d065")
-				};
-			}
-			for (int i = 0; i < controlSystemEntrySize; i++)
-			{
-				controlSystemEntry[i] = new ChartEntry((float)rawData[2][1][i])
-				{
-					Label = rawData[2][0][i].ToString(),  // time
-					ValueLabel = rawData[2][1][i].ToString(),  // forward input
-					Color = SKColor.Parse("#b455b6")
-				};
-			}
-			chartView1.Chart = new LineChart { Entries = motorEntry};
-			chartView2.Chart = new LineChart { Entries = sensorEntry};
-			chartView3.Chart = new LineChart { Entries = controlSystemEntry};
-
-			MotorDataLabel1.IsVisible = true;
-			SensorDataLabel1.IsVisible = true;
-			ControlSystemDataLabel1.IsVisible = true;
-
-			chartView1.IsVisible = true;
-			chartView2.IsVisible = true;
-			chartView3.IsVisible = true;
-
-		} else {
-			DisplayAlert("No Data", "No data in your database.", "OK");
-			MotorDataLabel1.IsVisible = false;
-			SensorDataLabel1.IsVisible = false;
-			ControlSystemDataLabel1.IsVisible = false;
-
-			chartView1.IsVisible = false;
-			chartView2.IsVisible = false;
-			chartView3.IsVisible = false;
 		}
 	}
 
@@ -111,7 +57,7 @@ public partial class HomePage : ContentPage
 
 	private async void LoadData(object sender, EventArgs e)
 	{
-		loadUserData();
+		AddPlot();
 	}
 
 	// private async void ImportFakeData(object sender, EventArgs e)
