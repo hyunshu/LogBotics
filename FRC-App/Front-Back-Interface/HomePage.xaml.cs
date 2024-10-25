@@ -17,6 +17,7 @@ public partial class HomePage : ContentPage
 	public ChartEntry[] motorEntry;
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
+	public Plot[] plots;
 	
 
 	public HomePage(User user)

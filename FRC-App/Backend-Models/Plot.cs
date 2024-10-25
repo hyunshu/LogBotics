@@ -8,7 +8,7 @@ public class AxesDifferentLengthsException : Exception {
         : base(message) { }
  }
 
-class Plot {
+public class Plot {
     public string Title { get; set; }
     public string XLabel { get; set; }
     public string YLabel { get; set; }

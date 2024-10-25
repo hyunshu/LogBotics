@@ -65,6 +65,8 @@ public partial class CreateAccountPage : ContentPage
                 // Handle case where user already exists or any other error
                 await DisplayAlert("Error", ex.Message, "OK");
             }
+        } else {
+            await DisplayAlert("Error", "Missing info", "OK");
         }
 
 	}
