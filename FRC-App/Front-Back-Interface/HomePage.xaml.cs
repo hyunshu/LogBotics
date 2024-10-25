@@ -4,10 +4,6 @@ using Microcharts;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using AudioUnit;
-
-
-
 
 namespace FRC_App;
 
@@ -35,16 +31,18 @@ public partial class HomePage : ContentPage
 		
 	}
 
-	public void AddPlot() {
+	private async void AddPlot(object sender, EventArgs e) {
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
 		if (hasData) {
 			DataContainer data = new DataContainer(currentUser);
-			
+			await Navigation.PushAsync(new SelectPlotDataPage(data));	// UI for user to select x and y axis 
+		} else {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
 		}
+
+		
 	}
-
-
 
 	DataImport dataStructure;
 	public List<List<List<double>>> rawData;
@@ -57,7 +55,7 @@ public partial class HomePage : ContentPage
 
 	private async void LoadData(object sender, EventArgs e)
 	{
-		AddPlot();
+		await DisplayAlert("Remember", "Changing functionality", "OK");
 	}
 
 	// private async void ImportFakeData(object sender, EventArgs e)
@@ -275,10 +273,6 @@ public partial class HomePage : ContentPage
 		{
 			await DisplayAlert("No Data", "No chart data available to export.", "OK");
 		}
-	}
-
-	private async void AddPlot(object sender, EventArgs e){
-		await DisplayAlert("Add Plot", "Feature not implemented yet.", "OK");
 	}
 
 	private async void RenderLineChart(object sender, EventArgs e){
