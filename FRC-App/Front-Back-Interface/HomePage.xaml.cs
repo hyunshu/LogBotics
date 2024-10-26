@@ -363,7 +363,7 @@ public partial class HomePage : ContentPage
             
             var processInfo = new ProcessStartInfo
             {
-                FileName = @"C:\Path\To\dart.exe", // Update this with the full path to Dart
+                FileName = @"C:\tools\dart-sdk\bin\dart.exe",
                 Arguments = "run ./networkTablesClient.dart",
                 WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
                 RedirectStandardOutput = true,
