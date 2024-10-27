@@ -404,6 +404,46 @@ public partial class HomePage : ContentPage
     }
 }
 
+private async void RunNetworkTablesClient(object sender, EventArgs e)
+{
+    try
+    {
+        // Set paths for Dart executable and script
+        string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe";
+        string scriptPath = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables\networkTablesClientToFile.dart";
+
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = dartExePath,
+            Arguments = scriptPath,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using (Process process = Process.Start(startInfo))
+        {
+            string output = await process.StandardOutput.ReadToEndAsync();
+            string error = await process.StandardError.ReadToEndAsync();
+
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                OutputLabel.Text = !string.IsNullOrEmpty(output) ? $"Output: {output}" : $"Error: {error}";
+            });
+
+            process.WaitForExit();
+        }
+
+        await DisplayAlert("Success", "NetworkTables Client script executed successfully.", "OK");
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+    }
+}
+
+
 
 
 }

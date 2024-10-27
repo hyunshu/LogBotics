@@ -15,6 +15,9 @@
                     <Button Text="Export PDF" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToPdf" />
                 </StackLayout>
 
+                <!-- Output Label -->
+                <Label x:Name="OutputLabel" Text="NetworkTables Client output will appear here." FontSize="Medium" TextColor="Black" HorizontalOptions="Center" />
+
                 <!-- Chart View -->
                 <Label Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
