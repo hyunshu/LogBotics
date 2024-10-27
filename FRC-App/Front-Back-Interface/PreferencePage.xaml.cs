@@ -1,15 +1,55 @@
+using System.ComponentModel;
+using Microsoft.Maui.Storage; // for Preferences
+
 using FRC_App.Models;
 using FRC_App.Services;
 
 namespace FRC_App;
-public partial class PreferencePage : ContentPage
+public partial class PreferencePage : ContentPage, INotifyPropertyChanged
 {
     public User currentUser  {get; private set; }
 
+    private double _fontSize;
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    public double FontSize
+    {
+        get => _fontSize;
+        set
+        {
+            if (_fontSize != value)
+            {
+                _fontSize = value;
+                OnPropertyChanged(nameof(FontSize));
+                SaveFontSizePreference(); // Save the font size whenever it changes
+            }
+        }
+    }
+    
     public PreferencePage(User user)
     {
         InitializeComponent();
         currentUser = user;
+        BindingContext = this; // Set the BindingContext to the current page
+        LoadFontSizePreference(); // Load the font size preference on page load
+    }
+
+    // Save the font size to Preferences
+    private void SaveFontSizePreference()
+    {
+        Preferences.Set("UserFontSize", _fontSize);
+    }
+
+    // Load the font size from Preferences
+    private void LoadFontSizePreference()
+    {
+        FontSize = Preferences.Get("UserFontSize", 18); // Default to 18 if no preference is saved
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     private void OnThemeChanged(object sender, EventArgs e)
@@ -23,36 +63,6 @@ public partial class PreferencePage : ContentPage
             // Save the user's theme to their preferences
             string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
             Preferences.Set(userKey, selectedTheme);
-        }
-    }
-
-    private void OnFontSizeChanged(object sender, EventArgs e)
-    {
-        if (fontSizePicker.SelectedItem is string selectedFontSize)
-        {
-            // Apply the font size throughout the app
-            ((App)Application.Current).SetAppFontSize(selectedFontSize);
-
-            DisplayAlert("Font Size Changed", $"You have selected {selectedFontSize} font size.", "OK");
-
-            // Save the font size preference to the user 
-            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_fontSize";
-            Preferences.Set(userKey, selectedFontSize);
-        }
-    }
-
-    private void OnLayoutChanged(object sender, EventArgs e)
-    {
-        if (layoutPicker.SelectedItem is string selectedLayout)
-        {
-            // Apply layout changes (e.g., compact or spacious)
-            ((App)Application.Current).SetAppLayoutStyle(selectedLayout);
-
-            DisplayAlert("Layout Changed", $"You have selected the {selectedLayout} layout style.", "OK");
-
-            // Save the layout preference to the user
-            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_layoutStyle";
-            Preferences.Set(userKey, selectedLayout);;
         }
     }
 
