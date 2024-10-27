@@ -6,8 +6,6 @@ using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 
 
-
-
 namespace FRC_App;
 
 public partial class HomePage : ContentPage

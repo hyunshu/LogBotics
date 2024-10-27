@@ -34,16 +34,30 @@ public partial class PreferencePage : ContentPage, INotifyPropertyChanged
     {
         if (colorPicker.SelectedItem is string selectedColor)
         {
-            // Map selected color to Color object
-            Color color = selectedColor switch
+            Color color;
+
+            // Check if "Default" is selected and apply theme-based color
+            if (selectedColor == "Default")
             {
-                "Black" => Colors.Black,
-                "Red" => Colors.Red,
-                "Green" => Colors.Green,
-                "Blue" => Colors.Blue,
-                "Orange" => Colors.Orange,
-                "Purple" => Colors.Purple
-            };
+                // Set color based on current theme
+                var currentTheme = Application.Current.RequestedTheme;
+                color = currentTheme == AppTheme.Dark ? Colors.White : Colors.Black;
+            }
+            else
+            {
+                // Map other selected colors to Color objects
+                color = selectedColor switch
+                {
+                    "Black" => Colors.Black,
+                    "Red" => Colors.Red,
+                    "Green" => Colors.Green,
+                    "Blue" => Colors.Blue,
+                    "Orange" => Colors.Orange,
+                    "Purple" => Colors.Purple,
+                    "White" => Colors.White,
+                    _ => Colors.Black // Fallback
+                };
+            }
 
             // Set the FontColor in GlobalSettings
             App.GlobalSettings.FontColor = color;
