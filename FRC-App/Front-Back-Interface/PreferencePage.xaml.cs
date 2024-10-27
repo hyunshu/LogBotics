@@ -7,49 +7,55 @@ using FRC_App.Services;
 namespace FRC_App;
 public partial class PreferencePage : ContentPage, INotifyPropertyChanged
 {
-    public User currentUser  {get; private set; }
-
-    private double _fontSize;
+    public User currentUser { get; private set; }
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public double FontSize
-    {
-        get => _fontSize;
-        set
-        {
-            if (_fontSize != value)
-            {
-                _fontSize = value;
-                OnPropertyChanged(nameof(FontSize));
-                SaveFontSizePreference(); // Save the font size whenever it changes
-            }
-        }
-    }
-    
     public PreferencePage(User user)
     {
         InitializeComponent();
         currentUser = user;
-        BindingContext = this; // Set the BindingContext to the current page
-        LoadFontSizePreference(); // Load the font size preference on page load
+
+        // Set BindingContext to the global settings view model
+        BindingContext = App.GlobalSettings;
+
+        LoadUserThemePreference();
     }
 
-    // Save the font size to Preferences
-    private void SaveFontSizePreference()
+    // Load the user's saved theme preference if it exists
+    private void LoadUserThemePreference()
     {
-        Preferences.Set("UserFontSize", _fontSize);
+        string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
+        string savedTheme = Preferences.Get(userKey, "Light Theme"); // Default to "Light Theme"
+        ((App)Application.Current).LoadTheme(savedTheme); // Apply the saved theme
     }
 
-    // Load the font size from Preferences
-    private void LoadFontSizePreference()
+    private void OnFontColorChanged(object sender, EventArgs e)
     {
-        FontSize = Preferences.Get("UserFontSize", 18); // Default to 18 if no preference is saved
+        if (colorPicker.SelectedItem is string selectedColor)
+        {
+            // Map selected color to Color object
+            Color color = selectedColor switch
+            {
+                "Black" => Colors.Black,
+                "Red" => Colors.Red,
+                "Green" => Colors.Green,
+                "Blue" => Colors.Blue,
+                "Orange" => Colors.Orange,
+                "Purple" => Colors.Purple
+            };
+
+            // Set the FontColor in GlobalSettings
+            App.GlobalSettings.FontColor = color;
+        }
     }
 
-    protected virtual void OnPropertyChanged(string propertyName)
+    private void OnFontTypeChanged(object sender, EventArgs e)
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        if (fontTypePicker.SelectedItem is string selectedFontType)
+        {
+            App.GlobalSettings.FontType = selectedFontType;
+        }
     }
 
     private void OnThemeChanged(object sender, EventArgs e)

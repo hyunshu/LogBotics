@@ -4,9 +4,14 @@ namespace FRC_App;
 
 public partial class App : Application
 {
+    // Define a static instance of GlobalFontSettingsViewModel
+    public static GlobalFontSettingsViewModel GlobalSettings { get; private set; }
+
 	public App()
 	{
 		InitializeComponent();
+        // Initialize GlobalSettings so it can be accessed throughout the app
+        GlobalSettings = new GlobalFontSettingsViewModel();
 		MainPage = new AppShell();
 	}
 
@@ -30,19 +35,6 @@ public partial class App : Application
         {
             Current.UserAppTheme = AppTheme.Dark;
         }
-    }
-
-    // Apply font size
-    public void SetAppFontSize(string fontSize)
-    {
-        double size = fontSize switch
-        {
-            "Small" => 12,
-            "Medium" => 16,
-            "Large" => 20,
-            _ => 16,
-        };
-        Resources["AppFontSize"] = size;
     }
 
     // Apply layout style

@@ -5,29 +5,72 @@
              Title="Preferences">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Font Size Adjustment -->
             <StackLayout Padding="10">
-                <!-- Font Size Slider -->
                 <Label Text="Adjust Font Size:" 
                        FontSize="{Binding FontSize}" 
+                       TextColor="{Binding FontColor}"
+                       FontFamily="{Binding FontType}"
                        VerticalOptions="Center" />
 
                 <Slider x:Name="FontSizeSlider"
                         Minimum="10" 
                         Maximum="50" 
                         Value="{Binding FontSize, Mode=TwoWay}" />
-
-                <!-- Preview Label -->
-                <Label Text="Sample Text" 
-                       FontSize="{Binding FontSize}" 
-                       VerticalOptions="CenterAndExpand" 
-                       HorizontalOptions="CenterAndExpand" />
             </StackLayout>
-            
+
+            <!-- Font Color Picker -->
+            <Label Text="Select Font Color:" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
+            <Picker x:Name="colorPicker" 
+                    SelectedIndexChanged="OnFontColorChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Black</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Green</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Orange</x:String>
+                        <x:String>Purple</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!-- Font Type Picker -->
+            <Label Text="Select Font Type:" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
+            <Picker x:Name="fontTypePicker"
+                    SelectedIndexChanged="OnFontTypeChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Arial</x:String>
+                        <x:String>Helvetica</x:String>
+                        <x:String>Times New Roman</x:String>
+                        <x:String>Courier New</x:String>
+                        <x:String>Georgia</x:String>
+                        <x:String>Verdana</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
             <!-- Theme Selection -->
-            <Label Text="Appearance" FontAttributes="Bold" FontSize="{Binding FontSize}" />
+            <Label Text="Appearance" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
             <Frame CornerRadius="8" BorderColor="LightGray">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Select Theme:" FontSize="{Binding FontSize}" />
+                    <Label Text="Select Theme:" 
+                           FontSize="{Binding FontSize}" 
+                           TextColor="{Binding FontColor}" 
+                           FontFamily="{Binding FontType}" />
                     <Picker x:Name="themePicker" SelectedIndexChanged="OnThemeChanged">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -40,10 +83,17 @@
             </Frame>
 
             <!-- Notification Settings -->
-            <Label Text="Notifications" FontAttributes="Bold" FontSize="{Binding FontSize}" />
+            <Label Text="Notifications" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
             <Frame CornerRadius="8" BorderColor="LightGray">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Enable Notifications:" FontSize="{Binding FontSize}" />
+                    <Label Text="Enable Notifications:" 
+                           FontSize="{Binding FontSize}"
+                           TextColor="{Binding FontColor}"
+                           FontFamily="{Binding FontType}" />
                     <Switch x:Name="notificationSwitch" />
                 </VerticalStackLayout>
             </Frame>

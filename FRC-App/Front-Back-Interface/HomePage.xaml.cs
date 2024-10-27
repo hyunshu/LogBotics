@@ -223,17 +223,9 @@ public partial class HomePage : ContentPage
 
 	public void loadUserPreferences() {
 		string userThemeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
-		string userFontSizeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_fontSize";
-		string userLayoutKey = $"{currentUser.Username}_{currentUser.TeamNumber}_layoutStyle";
 
 		string userTheme = Preferences.Get(userThemeKey, "Dark Theme");
 		((App)Application.Current).LoadTheme(userTheme);
-
-		string userFontSize = Preferences.Get(userFontSizeKey, "Medium");
-		((App)Application.Current).SetAppFontSize(userFontSize);
-
-		string userLayout = Preferences.Get(userLayoutKey, "Spacious");
-		((App)Application.Current).SetAppLayoutStyle(userLayout);
 	}
 
 	private async void LogOut(object sender, EventArgs e)
