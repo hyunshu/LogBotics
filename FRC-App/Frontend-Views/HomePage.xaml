@@ -18,6 +18,9 @@
                 <!-- Output Label -->
                 <Label x:Name="OutputLabel" Text="NetworkTables Client output will appear here." FontSize="Medium" TextColor="Black" HorizontalOptions="Center" />
 
+                <!-- Activity Indicator -->
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
+
                 <!-- Chart View -->
                 <Label Text="MotorData" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" />
                 <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
@@ -35,7 +38,7 @@
             <Button Text="Load Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LoadData" />
             <!--<Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
             <!--<Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
-            <Button Text="Launch NetworkTables Client" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LaunchNetworkTablesClient" />
+            <Button Text="Launch NetworkTables Client" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="RunNetworkTablesClient" />
             <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />
             <Button Text="Log Out" BackgroundColor="White" TextColor="Black" BorderColor="Black" CornerRadius="10" Clicked="LogOut" />
         

@@ -353,7 +353,7 @@ public partial class HomePage : ContentPage
 		}
 	}
 
-	private async void LaunchNetworkTablesClient(object sender, EventArgs e)
+/*	private async void LaunchNetworkTablesClient(object sender, EventArgs e)
 {
     try
     {
@@ -402,20 +402,20 @@ public partial class HomePage : ContentPage
     {
         await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
     }
-}
+} 
+*/
 
 private async void RunNetworkTablesClient(object sender, EventArgs e)
 {
     try
     {
-        // Set paths for Dart executable and script
-        string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe";
+        string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe"; // Updated Dart executable path
         string scriptPath = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables\networkTablesClientToFile.dart";
 
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
             FileName = dartExePath,
-            Arguments = scriptPath,
+            Arguments = $"\"{scriptPath}\"",
             UseShellExecute = false,
             RedirectStandardOutput = true,
             RedirectStandardError = true,
@@ -427,9 +427,20 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
             string output = await process.StandardOutput.ReadToEndAsync();
             string error = await process.StandardError.ReadToEndAsync();
 
-            Device.BeginInvokeOnMainThread(() =>
+            Dispatcher.Dispatch(() =>
             {
-                OutputLabel.Text = !string.IsNullOrEmpty(output) ? $"Output: {output}" : $"Error: {error}";
+                if (!string.IsNullOrEmpty(output))
+                {
+                    OutputLabel.Text = $"Output: {output}";
+                }
+                else if (!string.IsNullOrEmpty(error))
+                {
+                    OutputLabel.Text = $"Error: {error}";
+                }
+                else
+                {
+                    OutputLabel.Text = "NetworkTables Client executed with no output.";
+                }
             });
 
             process.WaitForExit();
@@ -442,6 +453,7 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
         await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
     }
 }
+
 
 
 
