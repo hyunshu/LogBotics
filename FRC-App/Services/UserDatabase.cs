@@ -156,4 +156,19 @@ namespace FRC_App.Services
             return existingUsername != null;
         }
     }
+
+    // Interface for the UserDatabase
+    public interface IUserDatabase
+    {
+        Task AddUser(string teamName, string teamNumber, string name, string password, bool isAdmin = false);
+        Task UpdateTeamName(User user, string teamName);
+        Task UpdateTeamNumber(User user, string teamNumber);
+        Task UpdateUsername(User user, string username);
+        Task UpdatePassword(User user, string password);
+        Task<User> GetUser(string username);
+        Task<bool> CheckUserExistsAsync(string username);
+        Task<bool> CheckTeamNameExistsAsync(string teamName);
+        Task<bool> CheckTeamNumberExistsAsync(string teamNumber);
+        Task<bool> CheckUserNameExistsAsync(string username);
+    }
 }
