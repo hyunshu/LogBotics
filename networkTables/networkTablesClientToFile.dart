@@ -19,8 +19,12 @@ void main() async {
     },
   );
 
-  // Create a file to write the data
-  File dataFile = File('robot_data.txt');
+  // Create a file to write the data with a timestamp in the user's documents directory
+  String timestamp = DateTime.now().toIso8601String().replaceAll(':', '-');
+  String userHome = Platform.environment['USERPROFILE'] ??
+      Platform.environment['HOME'] ??
+      '.';
+  File dataFile = File('$userHome/Documents/robot_data_$timestamp.txt');
   IOSink fileSink = dataFile.openWrite(mode: FileMode.append);
 
   // Subscribe to motor output topic
