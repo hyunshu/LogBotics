@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SkiaSharp;
 
 using FRC_App.Models;
 using FRC_App.Services;
@@ -91,6 +92,17 @@ public partial class ImportData : ContentPage
                 Column targetColumnYAccel = targetTypeM.getColumn(columnSelectionyAccel);  //ie. y acceleration
 
                 Map testMap = new Map(targetColumnTime,targetColumnXAccel,targetColumnYAccel);
+                SKPoint[] testPath = testMap.GeneratePath();
+                SKBitmap testGrid = testMap.GenerateGrid();
+
+                SKCanvas mapFigure = new SKCanvas(testGrid);
+                var paint1 = new SKPaint {
+                    TextSize = 64.0f,
+                    IsAntialias = true,
+                    Color = new SKColor(255, 0, 0),
+                    Style = SKPaintStyle.Fill
+                };
+                mapFigure.DrawPoints(SKPointMode.Points,testPath,paint1); //Not sure how to set up .xaml to test this
                 ////Testing 10/25/2024 End:
             }
             else
