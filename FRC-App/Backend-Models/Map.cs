@@ -49,7 +49,7 @@ public class Map {
         integral[0] = 0;
         for (int i = 1; i < data.Count(); i++) {
             double avg = (data[i] + data[i-1])/2;
-            integral[i] = avg*dt[i];
+            integral[i] = integral[i-1] + avg*dt[i];
         }
         return integral;
     }
