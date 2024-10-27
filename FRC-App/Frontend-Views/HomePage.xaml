@@ -4,11 +4,11 @@
              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              x:Class="FRC_App.HomePage"
              Title="HomePage + Data Visualization">
-    <Grid Padding="10" RowDefinitions="Auto,*" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
+    <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
 
         <!-- Main visualized data area -->
-          <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
-            <StackLayout Spacing="10">
+        <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+            <StackLayout Spacing="10" VerticalOptions="FillAndExpand">
                 <!-- Export Buttons -->
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
                     <Button Text="Export JPEG" BackgroundColor="#4A4A4A" TextColor="White" Clicked="ExportToJpeg" />
@@ -22,8 +22,33 @@
                 <microcharts:ChartView x:Name="chartView4" IsVisible="False" HeightRequest="200" />
                 <microcharts:ChartView x:Name="chartView5" IsVisible="False" HeightRequest="200" />
                 <microcharts:ChartView x:Name="chartView6" IsVisible="False" HeightRequest="200" />
+
             </StackLayout>
         </Frame>
+
+         <!-- Drop down to choose data types from -->
+        <StackLayout x:Name="TypesStack" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10" IsVisible ="False">
+            <Frame BackgroundColor="#E0E0E0" BorderColor="Black" CornerRadius="5" Padding="5">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    <!-- Picker for data selection -->
+                    <Picker x:Name="TypesDropDown"
+                            Title="Choose which Data to Plot" 
+                            FontSize="16" 
+                            TextColor="Black"
+                            TitleColor="Black"
+                            WidthRequest="250"
+                            BackgroundColor="White" />
+
+                    <!-- "Select" button -->
+                    <Button Text="Select"
+                            BackgroundColor="#4A4A4A" 
+                            TextColor="White" 
+                            CornerRadius="5"
+                            Clicked="SelectData" />
+                </HorizontalStackLayout>
+            </Frame>
+        </StackLayout>
+
 
         <!-- Right-side button menu -->
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">

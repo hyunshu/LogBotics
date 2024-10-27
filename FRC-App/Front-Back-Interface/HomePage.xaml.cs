@@ -34,15 +34,21 @@ public partial class HomePage : ContentPage
 	private async void AddPlot(object sender, EventArgs e) {
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		if (hasData) {
-			DataContainer data = new DataContainer(currentUser);
-			await Navigation.PushAsync(new SelectPlotDataPage(data));	// UI for user to select x and y axis 
-		} else {
+		if (!hasData) {
 			await DisplayAlert("Error", "You have no data to display.", "OK");
-		}
+			return;
+		} 
 
-		
+		DataContainer data = new DataContainer(currentUser);
+		TypesDropDown.ItemsSource = data.getDataTypeNames();
+		TypesStack.IsVisible = true;
 	}
+
+	private async void SelectData(object sender, EventArgs e) {
+		await DisplayAlert("Bro", "Selected data.", "OK");
+	}
+
+
 
 	DataImport dataStructure;
 	public List<List<List<double>>> rawData;
