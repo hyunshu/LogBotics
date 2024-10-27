@@ -32,7 +32,7 @@
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                     <!-- Picker for data selection -->
                     <Picker x:Name="TypesDropDown"
-                            Title="Choose which Data to Plot" 
+                            Title="Choose which data to plot" 
                             FontSize="16" 
                             TextColor="Black"
                             TitleColor="Black"
@@ -44,7 +44,34 @@
                             BackgroundColor="#4A4A4A" 
                             TextColor="White" 
                             CornerRadius="5"
-                            Clicked="SelectData" />
+                            Clicked="SelectDataType" />
+
+                    <Picker x:Name="xDataDropDown"
+                            IsVisible ="False"
+                            Title="Select Data type for the x-axis" 
+                            FontSize="16" 
+                            TextColor="Black"
+                            TitleColor="Black"
+                            WidthRequest="250"
+                            BackgroundColor="White" />
+
+                    <Picker x:Name="yDataDropDown"
+                            IsVisible ="False"
+                            Title="Select Data type for the y-axis" 
+                            FontSize="16" 
+                            TextColor="Black"
+                            TitleColor="Black"
+                            WidthRequest="250"
+                            BackgroundColor="White" />
+
+                        <Button x:Name="SelectXandYDataButton"
+                            IsVisible ="False"
+                            Text="Select"
+                            BackgroundColor="#4A4A4A" 
+                            TextColor="White" 
+                            CornerRadius="5"
+                            Clicked="SelectXandYData" />
+
                 </HorizontalStackLayout>
             </Frame>
         </StackLayout>

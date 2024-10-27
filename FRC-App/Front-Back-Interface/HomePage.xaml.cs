@@ -4,13 +4,14 @@ using Microcharts;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using PdfSharpCore.Pdf.Content.Objects;
 
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
-
+	public DataContainer userData;
 	public ChartEntry[] motorEntry;
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
@@ -39,13 +40,48 @@ public partial class HomePage : ContentPage
 			return;
 		} 
 
-		DataContainer data = new DataContainer(currentUser);
-		TypesDropDown.ItemsSource = data.getDataTypeNames();
+		userData = new DataContainer(currentUser);
+		TypesDropDown.ItemsSource = userData.getDataTypeNames();
 		TypesStack.IsVisible = true;
 	}
 
-	private async void SelectData(object sender, EventArgs e) {
-		await DisplayAlert("Bro", "Selected data.", "OK");
+	private async void SelectDataType(object sender, EventArgs e) {
+		string selectedDataType = TypesDropDown.SelectedItem?.ToString();
+
+		if (string.IsNullOrEmpty(selectedDataType)) {
+			await DisplayAlert("Error", "Must Select a Data Type", "OK");
+			return;
+		}
+
+		DataType dataType = userData.getDataType(selectedDataType);
+
+		xDataDropDown.ItemsSource = dataType.getColumnLabels();
+		yDataDropDown.ItemsSource = dataType.getColumnLabels();
+
+		xDataDropDown.IsVisible = true;
+		yDataDropDown.IsVisible = true;
+		SelectXandYDataButton.IsVisible = true;
+	}
+
+	private async void SelectXandYData(object sender, EventArgs e) {
+		string selectedDataType = TypesDropDown.SelectedItem?.ToString();
+
+		string selectedX = xDataDropDown.SelectedItem?.ToString();
+		string selectedY = yDataDropDown.SelectedItem?.ToString();
+
+		if (string.IsNullOrEmpty(selectedX) || string.IsNullOrEmpty(selectedY) || string.IsNullOrEmpty(selectedDataType)) {
+			await DisplayAlert("Error", "Must Select X and Y data", "OK");
+			return;
+		}
+
+		DataType dataType = userData.getDataType(selectedDataType);
+		Column columnX = dataType.getColumn(selectedX);
+		Column columnY = dataType.getColumn(selectedY);
+		
+		// will need to integrate adding multiple charts
+		Plot newPlot = new Plot(columnX, columnY);
+		chartView1.Chart = new LineChart { Entries = newPlot.chart };
+		chartView1.IsVisible = true;
 	}
 
 
@@ -63,28 +99,6 @@ public partial class HomePage : ContentPage
 	{
 		await DisplayAlert("Remember", "Changing functionality", "OK");
 	}
-
-	// private async void ImportFakeData(object sender, EventArgs e)
-	// {
-	// 	motorEntryTitle = "MotorData";
-	// 	sensorEntryTitle = "SensorData";
-	// 	constrolSystemEntryTitle = "ControlSystemData";
-	// 	// Generate Fake Test FRC Data:
-    //     dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
-    //     rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
-
-	// 	await UserDatabase.storeData(currentUser,dataStructure,rawData);
-
-	// 	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-	// 	Console.WriteLine($"{currentUser.dataUnits}");
-	// 	Console.WriteLine($"{currentUser.rawData}");
-
-	// 	loadUserData();
-	// 	await DisplayAlert("Success", "Fake Data Created", "Continue"); 
-	// }
-
-
-
 
 	private async void ExportData(object sender, EventArgs e)
 	{
