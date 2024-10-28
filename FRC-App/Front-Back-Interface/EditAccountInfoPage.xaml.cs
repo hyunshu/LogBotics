@@ -22,6 +22,12 @@ namespace FRC_App
             string teamName = teamNameEntry.Text;
             string confirmTeamName = confirmTeamNameEntry.Text;
 
+            if (string.IsNullOrEmpty(teamName) || string.IsNullOrEmpty(confirmTeamName))
+            {
+                DisplayAlert("Error", "Please enter and confirm your team name.", "OK");
+                return;
+            }
+
             if (teamName == confirmTeamName)
             {
                 // Add logic to save team name
