@@ -1,15 +1,75 @@
+using System.ComponentModel;
+using Microsoft.Maui.Storage; // for Preferences
+
 using FRC_App.Models;
 using FRC_App.Services;
 
 namespace FRC_App;
-public partial class PreferencePage : ContentPage
+public partial class PreferencePage : ContentPage, INotifyPropertyChanged
 {
-    public User currentUser  {get; private set; }
+    public User currentUser { get; private set; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
 
     public PreferencePage(User user)
     {
         InitializeComponent();
         currentUser = user;
+
+        // Set BindingContext to the global settings view model
+        BindingContext = App.GlobalSettings;
+
+        LoadUserThemePreference();
+    }
+
+    // Load the user's saved theme preference if it exists
+    private void LoadUserThemePreference()
+    {
+        string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
+        string savedTheme = Preferences.Get(userKey, "Light Theme"); // Default to "Light Theme"
+        ((App)Application.Current).LoadTheme(savedTheme); // Apply the saved theme
+    }
+
+    private void OnFontColorChanged(object sender, EventArgs e)
+    {
+        if (colorPicker.SelectedItem is string selectedColor)
+        {
+            Color color;
+
+            // Check if "Default" is selected and apply theme-based color
+            if (selectedColor == "Default")
+            {
+                // Set color based on current theme
+                var currentTheme = Application.Current.RequestedTheme;
+                color = currentTheme == AppTheme.Dark ? Colors.White : Colors.Black;
+            }
+            else
+            {
+                // Map other selected colors to Color objects
+                color = selectedColor switch
+                {
+                    "Black" => Colors.Black,
+                    "Red" => Colors.Red,
+                    "Green" => Colors.Green,
+                    "Blue" => Colors.Blue,
+                    "Orange" => Colors.Orange,
+                    "Purple" => Colors.Purple,
+                    "White" => Colors.White,
+                    _ => Colors.Black // Fallback
+                };
+            }
+
+            // Set the FontColor in GlobalSettings
+            App.GlobalSettings.FontColor = color;
+        }
+    }
+
+    private void OnFontTypeChanged(object sender, EventArgs e)
+    {
+        if (fontTypePicker.SelectedItem is string selectedFontType)
+        {
+            App.GlobalSettings.FontType = selectedFontType;
+        }
     }
 
     private void OnThemeChanged(object sender, EventArgs e)
@@ -23,36 +83,6 @@ public partial class PreferencePage : ContentPage
             // Save the user's theme to their preferences
             string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
             Preferences.Set(userKey, selectedTheme);
-        }
-    }
-
-    private void OnFontSizeChanged(object sender, EventArgs e)
-    {
-        if (fontSizePicker.SelectedItem is string selectedFontSize)
-        {
-            // Apply the font size throughout the app
-            ((App)Application.Current).SetAppFontSize(selectedFontSize);
-
-            DisplayAlert("Font Size Changed", $"You have selected {selectedFontSize} font size.", "OK");
-
-            // Save the font size preference to the user 
-            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_fontSize";
-            Preferences.Set(userKey, selectedFontSize);
-        }
-    }
-
-    private void OnLayoutChanged(object sender, EventArgs e)
-    {
-        if (layoutPicker.SelectedItem is string selectedLayout)
-        {
-            // Apply layout changes (e.g., compact or spacious)
-            ((App)Application.Current).SetAppLayoutStyle(selectedLayout);
-
-            DisplayAlert("Layout Changed", $"You have selected the {selectedLayout} layout style.", "OK");
-
-            // Save the layout preference to the user
-            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_layoutStyle";
-            Preferences.Set(userKey, selectedLayout);;
         }
     }
 
