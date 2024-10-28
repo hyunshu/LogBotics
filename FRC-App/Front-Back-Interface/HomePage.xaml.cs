@@ -1,21 +1,23 @@
 using FRC_App.Models;
 using FRC_App.Services;
 using Microcharts;
+using Microcharts.Maui;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using PdfSharpCore.Pdf.Content.Objects;
+using System.Formats.Asn1;
 
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
-	public DataContainer userData;
+	public DataContainer userData { get; private set; }
 	public ChartEntry[] motorEntry;
 	public ChartEntry[] sensorEntry;
 	public ChartEntry[] controlSystemEntry;
-	public Plot[] plots;
+	public List<ChartView> chartViews { get; set; }
+	public List<Label> chartLabels;
 	public int numPlots;
 	
 
@@ -25,14 +27,37 @@ public partial class HomePage : ContentPage
 		currentUser = user;
 		BindingContext = currentUser;
 
-		plots = new Plot[6];
+		chartViews = new List<ChartView>
+        {
+            chartView1,
+            chartView2,
+            chartView3,
+            chartView4,
+            chartView5,
+            chartView6
+        };
+
+		chartLabels = new List<Label>
+		{
+			chart1label,
+            chart2label,
+            chart3label,
+            chart4label,
+            chart5label,
+            chart6label
+		};
 		numPlots = 0;
 
 		loadUserPreferences();
-		
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
+
+		if (numPlots >= 6) {
+			await DisplayAlert("Error", "Max num of plots is 6!", "OK");
+			return;
+		}
+
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
 		if (!hasData) {
@@ -77,13 +102,78 @@ public partial class HomePage : ContentPage
 		DataType dataType = userData.getDataType(selectedDataType);
 		Column columnX = dataType.getColumn(selectedX);
 		Column columnY = dataType.getColumn(selectedY);
-		
-		// will need to integrate adding multiple charts
-		Plot newPlot = new Plot(columnX, columnY);
-		chartView1.Chart = new LineChart { Entries = newPlot.chart };
-		chartView1.IsVisible = true;
+
+		Plot newPlot;
+		try {
+			newPlot = new Plot(columnX, columnY);
+		} catch (AxesDifferentLengthsException) {
+			await DisplayAlert("Error", "The x-axis must have the same number of elements as the y-axis", "OK");
+			return;
+		}
+
+		renderNewPlot(newPlot);
+
+		TypesStack.IsVisible = false;
+		xDataDropDown.IsVisible = false;
+		yDataDropDown.IsVisible = false;
+		SelectXandYDataButton.IsVisible = false;
 	}
 
+	private void renderNewPlot (Plot newPlot) {
+		for (int i = 0; i < chartViews.Count; i++) {
+			var chartView = chartViews[i];
+			if (chartView.Chart == null) {
+				chartView.Chart = new LineChart { Entries = newPlot.chart };
+				var chartLabel = chartLabels[i];
+				chartLabel.Text = newPlot.Title;
+
+				chartLabel.IsVisible = true;
+				chartView.IsVisible = true;
+				break;
+			}
+		}
+		numPlots++;
+	}
+
+	private async void DeletePlot(object sender, EventArgs e) {
+		if (numPlots <= 0) {
+			await DisplayAlert("Error", "No plots to delete.", "OK");
+			return;
+		}
+
+		List<string> visibleLabels = new List<string>{};
+		foreach (Label chartLabel in chartLabels) {
+			if (chartLabel.IsVisible) {
+				visibleLabels.Add(chartLabel.Text);
+			}
+		}
+		
+		DeleteDropDown.ItemsSource = visibleLabels;
+		DeleteStack.IsVisible = true;
+	}
+
+	private async void DeleteSelectedPlot(object sender, EventArgs e) {
+		string selectedPlot = DeleteDropDown.SelectedItem?.ToString();
+
+		if (string.IsNullOrEmpty(selectedPlot)) {
+			await DisplayAlert("Error", "Must Select a plot to delete", "OK");
+			return;
+		}
+
+		for (int i = 0; i < chartLabels.Count; i++) {
+			var chartLabel = chartLabels[i];
+			if (string.Equals(selectedPlot, chartLabel.Text)) {
+				chartLabel.IsVisible = false;
+				var chartView = chartViews[i];
+				chartView.IsVisible = false;
+				chartView.Chart = null;
+				break;
+			}
+		}
+		numPlots--;
+
+		DeleteStack.IsVisible = false;
+	}
 
 
 	DataImport dataStructure;
