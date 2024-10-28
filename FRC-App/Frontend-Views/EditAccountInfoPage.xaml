@@ -9,30 +9,30 @@
 
             <!-- Team Name Field -->
             <Label Text="Team Name" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your team name" x:Name="teamNameEntry" />
+            <Entry Placeholder="Enter your team name" x:Name="teamNameEntry" x:FieldModifier="internal" />
             <Label Text="Confirm Team Name" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your team name" x:Name="confirmTeamNameEntry" />
+            <Entry Placeholder="Confirm your team name" x:Name="confirmTeamNameEntry" x:FieldModifier="internal" />
             <Button Text="Save Team Name" Clicked="OnSaveTeamNameClicked" />
 
             <!-- Team Number Field -->
             <Label Text="Team Number" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your team number" x:Name="teamNumberEntry" />
+            <Entry Placeholder="Enter your team number" x:Name="teamNumberEntry" x:FieldModifier="internal" />
             <Label Text="Confirm Team Number" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your team number" x:Name="confirmTeamNumberEntry" />
+            <Entry Placeholder="Confirm your team number" x:Name="confirmTeamNumberEntry" x:FieldModifier="internal" />
             <Button Text="Save Team Number" Clicked="OnSaveTeamNumberClicked" />
 
             <!-- Username Field -->
             <Label Text="Username" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your username" x:Name="usernameEntry" />
+            <Entry Placeholder="Enter your username" x:Name="usernameEntry" x:FieldModifier="internal" />
             <Label Text="Confirm Username" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your username" x:Name="confirmUsernameEntry" />
+            <Entry Placeholder="Confirm your username" x:Name="confirmUsernameEntry" x:FieldModifier="internal" />
             <Button Text="Save Username" Clicked="OnSaveUsernameClicked" />
 
             <!-- Password Field -->
             <Label Text="Password" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your password" x:Name="passwordEntry" IsPassword="True"/>
+            <Entry Placeholder="Enter your password" x:Name="passwordEntry" IsPassword="True" x:FieldModifier="internal" />
             <Label Text="Confirm Password" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your password" x:Name="confirmPasswordEntry" IsPassword="True"/>
+            <Entry Placeholder="Confirm your password" x:Name="confirmPasswordEntry" IsPassword="True" x:FieldModifier="internal" />
             <Button Text="Save Password" Clicked="OnSavePasswordClicked" />
 
             <!-- Cancel Button -->
