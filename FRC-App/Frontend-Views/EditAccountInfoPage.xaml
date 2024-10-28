@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.EditAccountInfoPage"
              Title="Edit Account Information">
 
@@ -8,35 +10,109 @@
         <StackLayout Padding="20" Spacing="15">
 
             <!-- Team Name Field -->
-            <Label Text="Team Name" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your team name" x:Name="teamNameEntry" />
-            <Label Text="Confirm Team Name" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your team name" x:Name="confirmTeamNameEntry" />
-            <Button Text="Save Team Name" Clicked="OnSaveTeamNameClicked" />
+            <Label Text="Team Name" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your team name"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="teamNameEntry" />
+            <Label Text="Confirm Team Name" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your team name"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="confirmTeamNameEntry" />
+            <Button Text="Save Team Name" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Clicked="OnSaveTeamNameClicked" />
 
             <!-- Team Number Field -->
-            <Label Text="Team Number" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your team number" x:Name="teamNumberEntry" />
-            <Label Text="Confirm Team Number" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your team number" x:Name="confirmTeamNumberEntry" />
-            <Button Text="Save Team Number" Clicked="OnSaveTeamNumberClicked" />
+            <Label Text="Team Number" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your team number" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="teamNumberEntry" />
+            <Label Text="Confirm Team Number" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your team number" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="confirmTeamNumberEntry" />
+            <Button Text="Save Team Number" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Clicked="OnSaveTeamNumberClicked" />
 
             <!-- Username Field -->
-            <Label Text="Username" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your username" x:Name="usernameEntry" />
-            <Label Text="Confirm Username" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your username" x:Name="confirmUsernameEntry" />
-            <Button Text="Save Username" Clicked="OnSaveUsernameClicked" />
+            <Label Text="Username" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your username" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="usernameEntry" />
+            <Label Text="Confirm Username" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your username" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="confirmUsernameEntry" />
+            <Button Text="Save Username" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Clicked="OnSaveUsernameClicked" />
 
             <!-- Password Field -->
-            <Label Text="Password" FontAttributes="Bold"/>
-            <Entry Placeholder="Enter your password" x:Name="passwordEntry" IsPassword="True"/>
-            <Label Text="Confirm Password" FontAttributes="Bold"/>
-            <Entry Placeholder="Confirm your password" x:Name="confirmPasswordEntry" IsPassword="True"/>
-            <Button Text="Save Password" Clicked="OnSavePasswordClicked" />
+            <Label Text="Password" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Enter your password" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="passwordEntry" 
+                IsPassword="True"/>
+            <Label Text="Confirm Password" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                FontAttributes="Bold"/>
+            <Entry Placeholder="Confirm your password" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                x:Name="confirmPasswordEntry" 
+                IsPassword="True"/>
+            <Button Text="Save Password"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Clicked="OnSavePasswordClicked" />
 
             <!-- Cancel Button -->
-            <Button Text="Cancel" Clicked="OnCancelButtonClicked" HorizontalOptions="Center"/>
+            <Button Text="Cancel" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Clicked="OnCancelButtonClicked" 
+                HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

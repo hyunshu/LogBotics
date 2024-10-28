@@ -17,14 +17,12 @@
                     <Button Text="Export JPEG" 
                             BackgroundColor="#4A4A4A" 
                             FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                             FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                             Clicked="ExportToJpeg" />
 
                     <Button Text="Export PDF" 
                             BackgroundColor="#4A4A4A" 
                             FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                             FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                             Clicked="ExportToPdf" />
                 </StackLayout>
@@ -62,7 +60,6 @@
             <Button Text="Export Data" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="ExportData" />
@@ -70,7 +67,6 @@
             <Button Text="Import Data" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="ImportData" />
@@ -78,7 +74,6 @@
             <Button Text="Load Data" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="LoadData" />
@@ -86,7 +81,6 @@
             <Button Text="Preference" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="Preference" />
@@ -94,7 +88,6 @@
             <Button Text="Log Out" 
                     BackgroundColor="#FF858282" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     BorderColor="Black" 
                     CornerRadius="10" 
@@ -139,7 +132,6 @@
                 <Button Text="Line Chart" 
                         BackgroundColor="#4A4A4A" 
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderLineChart" />
@@ -147,7 +139,6 @@
                 <Button Text="Point Chart" 
                         BackgroundColor="#4A4A4A" 
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderPointChart" />
@@ -155,7 +146,6 @@
                 <Button Text="Radar Chart" 
                         BackgroundColor="#4A4A4A" 
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderRadarChart" />
