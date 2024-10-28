@@ -97,7 +97,7 @@ namespace FRC_App.Services
         {
             await Init();
             //cannot create a user with an existing team name
-            if (user.TeamName != teamName && await CheckTeamNameExistsAsync(teamName))
+            if (await CheckTeamNameExistsAsync(teamName))
             {
                 throw new ArgumentException("Team name already exists.");
             }
@@ -109,7 +109,7 @@ namespace FRC_App.Services
         {
             await Init();
             //cannot create a user with an existing team number
-            if (user.TeamNumber != teamNumber && await CheckTeamNumberExistsAsync(teamNumber))
+            if (await CheckTeamNumberExistsAsync(teamNumber))
             {
                 throw new ArgumentException("Team number already exists.");
             }
@@ -121,7 +121,7 @@ namespace FRC_App.Services
         {
             await Init();
             //cannot create a user with an existing username
-            if (user.Username != username && await CheckUserNameExistsAsync(username))
+            if (await CheckUserNameExistsAsync(username))
             {
                 throw new ArgumentException("Username already exists.");
             }

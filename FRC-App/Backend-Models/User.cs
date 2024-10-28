@@ -13,7 +13,10 @@ namespace FRC_App.Models
         private string _username;
         private string _password;
 
-        [PrimaryKey] // Indicates this is the primary key
+        // New integer primary key
+        [PrimaryKey, AutoIncrement]
+        public int Id { get; set; }
+
         public string TeamName
         {
             get => _teamName;
