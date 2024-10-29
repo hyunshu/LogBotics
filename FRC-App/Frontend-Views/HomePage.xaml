@@ -123,12 +123,6 @@
 
         <!-- Right-side button menu -->
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
-            <Button Text="Export Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ExportData" />
-            <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
-            <!--<Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
-            <!--<Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
-            <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />
-            <Button Text="Log Out" BackgroundColor="White" TextColor="Black" BorderColor="Black" CornerRadius="10" Clicked="LogOut" />
         
             <Button Text="Export Data" 
                     BackgroundColor="#4A4A4A" 
@@ -143,13 +137,6 @@
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="ImportData" />
-
-            <Button Text="Load Data" 
-                    BackgroundColor="#4A4A4A" 
-                    FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                    FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="LoadData" />
 
             <Button Text="Preference" 
                     BackgroundColor="#4A4A4A" 
@@ -202,10 +189,19 @@
                 </StackLayout>
 
                 <!-- Add Plot Button -->
-                <Button Text="Add Plot" BackgroundColor="White" TextColor="Black" CornerRadius="10" Clicked="AddPlot" />
-                <Button Text="Delete Plot" BackgroundColor="White" TextColor="Black" CornerRadius="10" Clicked="DeletePlot" />
+                <Button Text="Add Plot" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10"  
+                        Clicked="AddPlot" />
 
-                <!--- 3 Graphical Data Display -->
+                <Button Text="Delete Plot" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10"  
+                        Clicked="DeletePlot" />
 
                 <!-- Chart Type Buttons -->
                 <Button Text="Line Chart" 
