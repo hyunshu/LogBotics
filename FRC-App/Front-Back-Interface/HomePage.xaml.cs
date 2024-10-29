@@ -55,7 +55,7 @@ public partial class HomePage : ContentPage
 	private async void AddPlot(object sender, EventArgs e) {
 
 		if (numPlots >= 6) {
-			await DisplayAlert("Error", "Max num of plots is 6!", "OK");
+			await DisplayAlert("Error", "Max number of plots is 6!", "OK");
 			return;
 		}
 
