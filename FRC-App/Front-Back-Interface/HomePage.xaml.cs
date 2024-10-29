@@ -306,7 +306,7 @@ public partial class HomePage : ContentPage
 			await DisplayAlert("Error", "There are no plots to export.", "OK");
 			return;
 		}
-		
+
 		int exportCount = 0;
 		foreach (ChartView chartView in chartViews) {
 			if (chartView.Chart != null) {
@@ -339,54 +339,58 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void ExportToPdf(object sender, EventArgs e)
-	{
-		if (chartView1.Chart != null)
-		{
-			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop); // may not work for mac
+{
+    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-			using (var bitmap = new SKBitmap(600, 400))
-			{
-				using (var canvas = new SKCanvas(bitmap))
-				{
-					canvas.Clear(SKColors.White);
-					chartView1.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+    // Create a new PDF document
+    using (var pdf = new PdfDocument())
+    {
+        // Loop over each chart you want to export
+        foreach (var chartView in chartViews)
+        {
+            if (chartView.Chart == null) continue; 
 
-					using (var image = SKImage.FromBitmap(bitmap))
-					using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-					{
-						var pdfPath = Path.Combine(desktopPath, "chart.pdf");
+            // Create a bitmap for each chart
+            using (var bitmap = new SKBitmap(600, 400))
+            {
+                using (var canvas = new SKCanvas(bitmap))
+                {
+                    canvas.Clear(SKColors.White);
+                    chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
 
-						using (var pdf = new PdfDocument())
-						{
-							var pdfPage = pdf.AddPage();
-							var graphics = XGraphics.FromPdfPage(pdfPage);
+                    using (var image = SKImage.FromBitmap(bitmap))
+                    using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+                    {
+                        // Add a new page to the PDF
+                        var pdfPage = pdf.AddPage();
+                        var graphics = XGraphics.FromPdfPage(pdfPage);
 
-							using (var ms = new MemoryStream(data.ToArray()))
-							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray()))){
-								// Scaling code to maintain aspect ratio
-								double scaleFactor = Math.Min(pdfPage.Width / img.PixelWidth, pdfPage.Height / img.PixelHeight);
-								double newWidth = img.PixelWidth * scaleFactor;
-								double newHeight = img.PixelHeight * scaleFactor;
+                        using (var ms = new MemoryStream(data.ToArray()))
+                        using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
+                        {
+                            // Scaling to maintain aspect ratio
+                            double scaleFactor = Math.Min(pdfPage.Width / img.PixelWidth, pdfPage.Height / img.PixelHeight);
+                            double newWidth = img.PixelWidth * scaleFactor;
+                            double newHeight = img.PixelHeight * scaleFactor;
 
-								double xPosition = (pdfPage.Width - newWidth) / 2;
-								double yPosition = (pdfPage.Height - newHeight) / 2;
+                            double xPosition = (pdfPage.Width - newWidth) / 2;
+                            double yPosition = (pdfPage.Height - newHeight) / 2;
 
-								graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
-							}
+                            graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
+                        }
+                    }
+                }
+            }
+        }
 
-							pdf.Save(pdfPath);
-						}
+        // Save the PDF document to the desktop
+        var pdfPath = Path.Combine(desktopPath, "charts.pdf");
+        pdf.Save(pdfPath);
 
-						await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
-					}
-				}
-			}
-		}
-		else
-		{
-			await DisplayAlert("No Data", "No chart data available to export.", "OK");
-		}
-	}
+        await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+    }
+}
+
 
 	private async void RenderLineChart(object sender, EventArgs e){
 		if (currentUser.rawData is null) {
