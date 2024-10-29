@@ -3,7 +3,7 @@ using FRC_App.Models;
 
 //First (highest) level of the FRC data structure:
 //i.e. holds all files in the CSV file family
-class DataContainer {
+public class DataContainer {
     private List<DataType> DataTypes { get; set; }
 
     /**
