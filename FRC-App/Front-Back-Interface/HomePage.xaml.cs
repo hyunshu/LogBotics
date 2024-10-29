@@ -339,7 +339,13 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void ExportToPdf(object sender, EventArgs e)
-{
+	{
+
+	if (numPlots == 0) {
+		await DisplayAlert("Error", "There are no plots to export.", "OK");
+		return;
+	}
+	
     string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
     // Create a new PDF document
