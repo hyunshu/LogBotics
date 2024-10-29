@@ -5,7 +5,7 @@ using Microcharts.Maui;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using System.Formats.Asn1;
+using System.Collections.ObjectModel;
 
 namespace FRC_App;
 
@@ -13,11 +13,10 @@ public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
 	public DataContainer userData { get; private set; }
-	public ChartEntry[] motorEntry;
-	public ChartEntry[] sensorEntry;
-	public ChartEntry[] controlSystemEntry;
-	public List<ChartView> chartViews { get; set; }
-	public List<Label> chartLabels;
+	public ObservableCollection<ChartView> chartViews { get; set; }
+	public ObservableCollection<Label> chartLabels { get; set; }
+	public ObservableCollection<string> VisibleLabels { get; set; } 
+	public Dictionary<string, Plot> plotDict { get; set; }
 	public int numPlots;
 	
 
@@ -27,7 +26,7 @@ public partial class HomePage : ContentPage
 		currentUser = user;
 		BindingContext = currentUser;
 
-		chartViews = new List<ChartView>
+		chartViews = new ObservableCollection<ChartView>
         {
             chartView1,
             chartView2,
@@ -37,7 +36,7 @@ public partial class HomePage : ContentPage
             chartView6
         };
 
-		chartLabels = new List<Label>
+		chartLabels = new ObservableCollection<Label>
 		{
 			chart1label,
             chart2label,
@@ -46,8 +45,10 @@ public partial class HomePage : ContentPage
             chart5label,
             chart6label
 		};
-		numPlots = 0;
 
+		VisibleLabels = new ObservableCollection<string>();
+		plotDict = new Dictionary<string, Plot>{};
+		numPlots = 0;
 		loadUserPreferences();
 	}
 
@@ -111,6 +112,12 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
+		try {
+			plotDict.Add(newPlot.Title, newPlot);
+		} catch (ArgumentException) {
+			newPlot.Title = newPlot.Title + "(" + numPlots.ToString() + ")";
+			plotDict.Add(newPlot.Title, newPlot);
+		}
 		renderNewPlot(newPlot);
 
 		TypesStack.IsVisible = false;
@@ -141,14 +148,14 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
-		List<string> visibleLabels = new List<string>{};
+		VisibleLabels.Clear();
 		foreach (Label chartLabel in chartLabels) {
 			if (chartLabel.IsVisible) {
-				visibleLabels.Add(chartLabel.Text);
+				VisibleLabels.Add(chartLabel.Text);
 			}
 		}
 		
-		DeleteDropDown.ItemsSource = visibleLabels;
+		DeleteDropDown.ItemsSource = VisibleLabels;
 		DeleteStack.IsVisible = true;
 	}
 
@@ -163,10 +170,12 @@ public partial class HomePage : ContentPage
 		for (int i = 0; i < chartLabels.Count; i++) {
 			var chartLabel = chartLabels[i];
 			if (string.Equals(selectedPlot, chartLabel.Text)) {
-				chartLabel.IsVisible = false;
 				var chartView = chartViews[i];
 				chartView.IsVisible = false;
+				chartLabel.IsVisible = false;
 				chartView.Chart = null;
+
+				plotDict.Remove(chartLabel.Text);
 				break;
 			}
 		}
@@ -181,7 +190,6 @@ public partial class HomePage : ContentPage
 	private async void ImportData(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new ImportData(currentUser));
-		 
 	}
 
 	private async void LoadData(object sender, EventArgs e)
@@ -341,90 +349,126 @@ public partial class HomePage : ContentPage
 	private async void ExportToPdf(object sender, EventArgs e)
 	{
 
-	if (numPlots == 0) {
-		await DisplayAlert("Error", "There are no plots to export.", "OK");
-		return;
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to export.", "OK");
+			return;
+		}
+
+		string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+		// Create a new PDF document
+		using (var pdf = new PdfDocument())
+		{
+			// Loop over each chart you want to export
+			foreach (var chartView in chartViews)
+			{
+				if (chartView.Chart == null) continue; 
+
+				// Create a bitmap for each chart
+				using (var bitmap = new SKBitmap(600, 400))
+				{
+					using (var canvas = new SKCanvas(bitmap))
+					{
+						canvas.Clear(SKColors.White);
+						chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
+
+						using (var image = SKImage.FromBitmap(bitmap))
+						using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
+						{
+							// Add a new page to the PDF
+							var pdfPage = pdf.AddPage();
+							var graphics = XGraphics.FromPdfPage(pdfPage);
+
+							using (var ms = new MemoryStream(data.ToArray()))
+							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
+							{
+								// Scaling to maintain aspect ratio
+								double scaleFactor = Math.Min(pdfPage.Width / img.PixelWidth, pdfPage.Height / img.PixelHeight);
+								double newWidth = img.PixelWidth * scaleFactor;
+								double newHeight = img.PixelHeight * scaleFactor;
+
+								double xPosition = (pdfPage.Width - newWidth) / 2;
+								double yPosition = (pdfPage.Height - newHeight) / 2;
+
+								graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
+							}
+						}
+					}
+				}
+			}
+
+			// Save the PDF document to the desktop
+			var pdfPath = Path.Combine(desktopPath, "charts.pdf");
+			pdf.Save(pdfPath);
+
+			await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+		}
 	}
-	
-    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-    // Create a new PDF document
-    using (var pdf = new PdfDocument())
-    {
-        // Loop over each chart you want to export
-        foreach (var chartView in chartViews)
-        {
-            if (chartView.Chart == null) continue; 
-
-            // Create a bitmap for each chart
-            using (var bitmap = new SKBitmap(600, 400))
-            {
-                using (var canvas = new SKCanvas(bitmap))
-                {
-                    canvas.Clear(SKColors.White);
-                    chartView.Chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
-
-                    using (var image = SKImage.FromBitmap(bitmap))
-                    using (var data = image.Encode(SKEncodedImageFormat.Png, 100))
-                    {
-                        // Add a new page to the PDF
-                        var pdfPage = pdf.AddPage();
-                        var graphics = XGraphics.FromPdfPage(pdfPage);
-
-                        using (var ms = new MemoryStream(data.ToArray()))
-                        using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray())))
-                        {
-                            // Scaling to maintain aspect ratio
-                            double scaleFactor = Math.Min(pdfPage.Width / img.PixelWidth, pdfPage.Height / img.PixelHeight);
-                            double newWidth = img.PixelWidth * scaleFactor;
-                            double newHeight = img.PixelHeight * scaleFactor;
-
-                            double xPosition = (pdfPage.Width - newWidth) / 2;
-                            double yPosition = (pdfPage.Height - newHeight) / 2;
-
-                            graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
-                        }
-                    }
-                }
-            }
-        }
-
-        // Save the PDF document to the desktop
-        var pdfPath = Path.Combine(desktopPath, "charts.pdf");
-        pdf.Save(pdfPath);
-
-        await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
-    }
-}
 
 
 	private async void RenderLineChart(object sender, EventArgs e){
-		if (currentUser.rawData is null) {
-			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
-		} else {
-			chartView1.Chart = new LineChart { Entries = motorEntry};
-			chartView2.Chart = new LineChart { Entries = sensorEntry};
-			chartView3.Chart = new LineChart { Entries = controlSystemEntry};
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to visualize.", "OK");
+			return;
 		}
 
-		
-	}
-	private async void RenderPointChart(object sender, EventArgs e){
 		if (currentUser.rawData is null) {
-			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
-		} else {
-			chartView1.Chart = new PointChart { Entries = motorEntry};
-			chartView2.Chart = new PointChart { Entries = sensorEntry};
-			chartView3.Chart = new PointChart { Entries = controlSystemEntry};
+			await DisplayAlert("Error", "No data to visualize. Import data first.", "OK");
+			return;
+		}
+
+		for (int i = 0; i < chartViews.Count; i++) {
+			ChartView chartView = chartViews[i];
+			Label chartLabel = chartLabels[i];
+			if (chartView != null && chartLabel.IsVisible) {
+				string key = chartLabel.Text;
+				Plot plot = plotDict[key];			
+				chartView.Chart = new LineChart {Entries = plot.chart };
+			}
 		}
 	}
-	private async void RenderRadarChart(object sender, EventArgs e){
+
+	private async void RenderPointChart(object sender, EventArgs e){
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to visualize.", "OK");
+			return;
+		}
+
 		if (currentUser.rawData is null) {
-			await DisplayAlert("Error", "No data to Visualize. Import data first.", "OK");
-		} else {
-			chartView1.Chart = new RadarChart { Entries = motorEntry};
-			chartView2.Chart = new RadarChart { Entries = sensorEntry};
-			chartView3.Chart = new RadarChart { Entries = controlSystemEntry};
+			await DisplayAlert("Error", "No data to visualize. Import data first.", "OK");
+			return;
+		}
+
+		for (int i = 0; i < chartViews.Count; i++) {
+			ChartView chartView = chartViews[i];
+			Label chartLabel = chartLabels[i];
+			if (chartView != null && chartLabel.IsVisible) {
+				string key = chartLabel.Text;
+				Plot plot = plotDict[key];			
+				chartView.Chart = new PointChart {Entries = plot.chart };
+			}
+		}
+	}
+
+	private async void RenderRadarChart(object sender, EventArgs e){
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to visualize.", "OK");
+			return;
+		}
+
+		if (currentUser.rawData is null) {
+			await DisplayAlert("Error", "No data to visualize. Import data first.", "OK");
+			return;
+		}
+
+		for (int i = 0; i < chartViews.Count; i++) {
+			ChartView chartView = chartViews[i];
+			Label chartLabel = chartLabels[i];
+			if (chartView != null && chartLabel.IsVisible) {
+				string key = chartLabel.Text;
+				Plot plot = plotDict[key];			
+				chartView.Chart = new RadarChart {Entries = plot.chart };
+			}
 		}
 	}
 	
