@@ -156,7 +156,7 @@ public partial class HomePage : ContentPage
 		string selectedPlot = DeleteDropDown.SelectedItem?.ToString();
 
 		if (string.IsNullOrEmpty(selectedPlot)) {
-			await DisplayAlert("Error", "Must Select a plot to delete", "OK");
+			await DisplayAlert("Error", "Must select a plot to delete", "OK");
 			return;
 		}
 
@@ -171,7 +171,6 @@ public partial class HomePage : ContentPage
 			}
 		}
 		numPlots--;
-
 		DeleteStack.IsVisible = false;
 	}
 
@@ -303,35 +302,39 @@ public partial class HomePage : ContentPage
 
 	private async void ExportToJpeg(object sender, EventArgs e)
 	{
-		if (chartView1.Chart != null)
-		{
-			var chart = chartView1.Chart;
-			string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to export.", "OK");
+			return;
+		}
+		
+		int exportCount = 0;
+		foreach (ChartView chartView in chartViews) {
+			if (chartView.Chart != null) {
+				var chart = chartView.Chart;
+				string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-			using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
-			{
-				using (var canvas = new SKCanvas(bitmap))
+				using (var bitmap = new SKBitmap(600, 400)) // set the width and height as needed
 				{
-					canvas.Clear(SKColors.White);
-					chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
-
-					using (var image = SKImage.FromBitmap(bitmap))
-					using (var data = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+					using (var canvas = new SKCanvas(bitmap))
 					{
-						var filePath = Path.Combine(desktopPath, "chart.jpeg");
-						using (var stream = File.OpenWrite(filePath))
-						{
-							data.SaveTo(stream);
-						}
+						canvas.Clear(SKColors.White);
+						chart.DrawContent(canvas, bitmap.Width, bitmap.Height);
 
-						await DisplayAlert("Export Successful", $"JPEG saved to {filePath}", "OK");
+						using (var image = SKImage.FromBitmap(bitmap))
+						using (var data = image.Encode(SKEncodedImageFormat.Jpeg, 100))
+						{
+							var filePath = Path.Combine(desktopPath, "chart" + exportCount.ToString() + ".jpeg");
+							using (var stream = File.OpenWrite(filePath))
+							{
+								data.SaveTo(stream);
+							}
+
+							await DisplayAlert("Export Successful", $"JPEG saved to {filePath}", "OK");
+						}
 					}
 				}
+				exportCount++;
 			}
-		}
-		else
-		{
-			await DisplayAlert("No Data", "No chart data available to export.", "OK");
 		}
 	}
 
