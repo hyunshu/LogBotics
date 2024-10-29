@@ -84,6 +84,27 @@
                 </VerticalStackLayout>
             </Frame>
 
+             <!-- Chart Color Picker -->
+            <Label Text="Select Plot Color:" 
+                FontAttributes="Bold" 
+                FontSize="{Binding FontSize}"
+                TextColor="{Binding FontColor}"
+                FontFamily="{Binding FontType}" />
+            <Picker x:Name="plotColorPicker" 
+                    SelectedIndexChanged="OnPlotColorChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Default</x:String>
+                        <x:String>Black</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Green</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Orange</x:String>
+                        <x:String>Purple</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
             <!-- Notification Settings -->
             <Label Text="Notifications" 
                    FontAttributes="Bold" 

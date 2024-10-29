@@ -42,7 +42,7 @@ public class Plot {
 
     }
 
- private string getRandomHexColor() {
+ public string getRandomHexColor() {
 
     const string letters = "0123456789ABCDEF";
 

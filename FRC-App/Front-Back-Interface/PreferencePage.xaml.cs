@@ -86,6 +86,16 @@ public partial class PreferencePage : ContentPage, INotifyPropertyChanged
         }
     }
 
+    private void OnPlotColorChanged(object sender, EventArgs e)
+    {
+        if (plotColorPicker.SelectedItem is string selectedColor)
+        {
+            string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_chartcolor";
+            Preferences.Set(userKey, selectedColor);
+            DisplayAlert("Theme Changed", $"You have selected the {selectedColor} color.", "OK"); 
+        }
+    }
+
     private async void OnEditAccountClicked(object sender, EventArgs e)
     {
         // Navigate to the account settings page or open an editor for user account details

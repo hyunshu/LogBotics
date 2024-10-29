@@ -6,6 +6,7 @@ using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace FRC_App;
 
@@ -50,6 +51,12 @@ public partial class HomePage : ContentPage
 		plotDict = new Dictionary<string, Plot>{};
 		numPlots = 0;
 		loadUserPreferences();
+	}
+
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		UpdateChartColors();
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -127,6 +134,8 @@ public partial class HomePage : ContentPage
 	}
 
 	private void renderNewPlot (Plot newPlot) {
+		SetChartColors(newPlot);
+
 		for (int i = 0; i < chartViews.Count; i++) {
 			var chartView = chartViews[i];
 			if (chartView.Chart == null) {
@@ -283,6 +292,78 @@ public partial class HomePage : ContentPage
 
 		string userTheme = Preferences.Get(userThemeKey, "Dark Theme");
 		((App)Application.Current).LoadTheme(userTheme);
+
+		UpdateChartColors();
+	}
+
+	public void UpdateChartColors() {
+		string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_chartcolor";
+		string chartColor =  Preferences.Get(userKey, "Default");
+
+		string color = chartColor switch
+		{
+			"Black" => "#FF000000",
+			"Red" => "#FFFF0000",
+			"Green" => "#FF008000",
+			"Blue" => "#FF0000FF",
+			"Orange" => "#FFFFA500",
+			"Purple" => "#FF800080",
+			_ => "#FF000000" // Fallback
+		};
+
+		for (int i = 0; i < chartViews.Count; i++) {
+			ChartView chartView = chartViews[i];
+			Label chartLabel = chartLabels[i];
+			if (chartView != null && chartLabel.IsVisible) {
+				string key = chartLabel.Text;
+				Plot plot = plotDict[key];			
+				
+				// update the color
+				foreach (var entry in plot.chart) {
+					if (string.Equals(chartColor, "Default")) {
+						entry.Color = SKColor.Parse(plot.getRandomHexColor());
+					} else {
+						Console.WriteLine(chartColor);
+						entry.Color = SKColor.Parse(color);
+					}
+				}
+				
+				// Re-render the charts
+				if (chartView.Chart is LineChart) {
+					chartView.Chart = new LineChart {Entries = plot.chart };
+				} else if (chartView.Chart is PointChart) {
+					chartView.Chart = new PointChart {Entries = plot.chart };
+				} else if (chartView.Chart is RadarChart) {
+					chartView.Chart = new RadarChart {Entries = plot.chart };
+				}
+			}
+		}
+	}
+
+	public void SetChartColors(Plot newPlot) {
+		string userKey = $"{currentUser.Username}_{currentUser.TeamNumber}_chartcolor";
+		string chartColor =  Preferences.Get(userKey, "Default");
+
+		if (string.Equals(chartColor, "Default")) {
+			return;
+		}
+
+		string color = chartColor switch
+		{
+			"Black" => "#FF000000",
+			"Red" => "#FFFF0000",
+			"Green" => "#FF008000",
+			"Blue" => "#FF0000FF",
+			"Orange" => "#FFFFA500",
+			"Purple" => "#FF800080",
+			_ => "#FF000000" // Fallback
+		};
+
+		// update the color
+		foreach (var entry in newPlot.chart) {
+			Console.WriteLine(chartColor);
+			entry.Color = SKColor.Parse(color);
+		}
 	}
 
 	private async void LogOut(object sender, EventArgs e)
