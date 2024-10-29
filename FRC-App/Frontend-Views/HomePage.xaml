@@ -115,7 +115,6 @@
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
             <Button Text="Export Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ExportData" />
             <Button Text="Import Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="ImportData" />
-            <Button Text="Load Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="LoadData" />
             <!--<Button Text="Raw Data" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
             <!--<Button Text="Data History" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" /> -->
             <Button Text="Preference" BackgroundColor="#4A4A4A" TextColor="White" CornerRadius="10" Clicked="Preference" />

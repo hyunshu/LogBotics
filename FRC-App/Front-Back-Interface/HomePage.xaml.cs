@@ -192,11 +192,6 @@ public partial class HomePage : ContentPage
 		await Navigation.PushAsync(new ImportData(currentUser));
 	}
 
-	private async void LoadData(object sender, EventArgs e)
-	{
-		await DisplayAlert("Remember", "Changing functionality", "OK");
-	}
-
 	private async void ExportData(object sender, EventArgs e)
 	{
 		if (currentUser.rawData is null) {
