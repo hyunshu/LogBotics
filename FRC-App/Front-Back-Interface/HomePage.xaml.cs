@@ -361,7 +361,6 @@ public partial class HomePage : ContentPage
 
 		// update the color
 		foreach (var entry in newPlot.chart) {
-			Console.WriteLine(chartColor);
 			entry.Color = SKColor.Parse(color);
 		}
 	}
