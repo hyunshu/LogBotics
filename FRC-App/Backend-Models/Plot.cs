@@ -34,7 +34,7 @@ public class Plot {
 				chart[i] = new ChartEntry((float) y.Data[i])
 				{
 					Label = x.Data[i].ToString(),  // i.e time (x domain)
-					ValueLabel = y.Data[i].ToString().Substring(0,5), // i.e. spin angle (y domain)
+					ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
 					Color = SKColor.Parse(getRandomHexColor())
 				};
 			}
