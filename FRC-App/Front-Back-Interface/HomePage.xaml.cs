@@ -90,10 +90,6 @@ public partial class HomePage : ContentPage
 
 		xDataDropDown.ItemsSource = dataType.getColumnLabels();
 		yDataDropDown.ItemsSource = dataType.getColumnLabels();
-
-		xDataDropDown.IsVisible = true;
-		yDataDropDown.IsVisible = true;
-		SelectXandYDataButton.IsVisible = true;
 	}
 
 	private async void SelectXandYData(object sender, EventArgs e) {
@@ -128,9 +124,6 @@ public partial class HomePage : ContentPage
 		renderNewPlot(newPlot);
 
 		TypesStack.IsVisible = false;
-		xDataDropDown.IsVisible = false;
-		yDataDropDown.IsVisible = false;
-		SelectXandYDataButton.IsVisible = false;
 	}
 
 	private void renderNewPlot (Plot newPlot) {
