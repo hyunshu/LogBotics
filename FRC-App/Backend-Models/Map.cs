@@ -4,6 +4,14 @@ public class Map {
     private List<double> xPos { get; set; }
     private List<double> yPos { get; set; }
 
+    /**
+    * --- Map() ---
+    * Constructs a map object from the accelorometer data by computing the discrete 
+    * integral (via the trapazoidal method) to determine the position over time.
+    * @param time
+    * @param xAccel
+    * @param yAccel
+    */
     public Map(Column time, Column xAccel, Column yAccel) {
         int timeSize = time.Data.Count;
         int xSize = xAccel.Data.Count;
@@ -20,14 +28,28 @@ public class Map {
         this.yPos = cumtrapz(time.Data,yVel);
     }
 
+    /**
+    * --- GenerateGrid() ---
+    * Generates the SKBitmap for this map object used as a parameter to
+    * construct the SKCanvas object to display the map on the front-end.
+    * @returns SKBitmap
+    */
     public SKBitmap GenerateGrid() {
         return new SKBitmap(this.xPos.Count,this.yPos.Count,false);
     }
 
+    /**
+    * --- GeneratePath() ---
+    * Generates the SKPoint[] for this map object used as a parameter to
+    * for the SKCanvas.DrawPoints() method to display the path on the map
+    * in the front-end. This includes all the coordinates (x & y) of the 
+    * position to draw the path of the robot on the virtual map.
+    * @returns SKPoint[]
+    */
     public SKPoint[] GeneratePath() {
-        SKPoint[] path = new SKPoint[xPos.Count];
+        SKPoint[] path = new SKPoint[this.xPos.Count];
         for (int i = 0; i < path.Count(); i ++) {
-            path[i] = new SKPoint((float) xPos[i], (float) yPos[i]);
+            path[i] = new SKPoint((float) this.xPos[i], (float) this.yPos[i]);
         }
 
         return path;
