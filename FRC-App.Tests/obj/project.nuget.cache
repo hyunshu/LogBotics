@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "vKI7n9KhQZg=",
-  "success": false,
+  "dgSpecHash": "Y3R8ST60RxQ=",
+  "success": true,
   "projectFilePath": "C:\\Users\\Jenna\\Documents\\GitHub\\LogBotics\\FRC-App.Tests\\FRC-App.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Jenna\\.nuget\\packages\\microcharts.maui\\1.0.0\\microcharts.maui.1.0.0.nupkg.sha512",
@@ -24,6 +24,7 @@
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.maui.essentials\\8.0.82\\microsoft.maui.essentials.8.0.82.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.maui.graphics\\8.0.82\\microsoft.maui.graphics.8.0.82.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.maui.resizetizer\\8.0.82\\microsoft.maui.resizetizer.8.0.82.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.8\\microsoft.net.illink.tasks.8.0.8.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.net.test.sdk\\17.4.1\\microsoft.net.test.sdk.17.4.1.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.testplatform.objectmodel\\17.4.1\\microsoft.testplatform.objectmodel.17.4.1.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\microsoft.testplatform.testhost\\17.4.1\\microsoft.testplatform.testhost.17.4.1.nupkg.sha512",
@@ -36,8 +37,9 @@
     "C:\\Users\\Jenna\\.nuget\\packages\\sixlabors.fonts\\1.0.0-beta17\\sixlabors.fonts.1.0.0-beta17.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\sixlabors.imagesharp\\1.0.4\\sixlabors.imagesharp.1.0.4.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp\\2.88.8\\skiasharp.2.88.8.nupkg.sha512",
-    "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.nativeassets.macos\\2.88.8\\skiasharp.nativeassets.macos.2.88.8.nupkg.sha512",
-    "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.nativeassets.win32\\2.88.8\\skiasharp.nativeassets.win32.2.88.8.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.nativeassets.ios\\2.88.8\\skiasharp.nativeassets.ios.2.88.8.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.nativeassets.maccatalyst\\2.88.8\\skiasharp.nativeassets.maccatalyst.2.88.8.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.views\\2.88.8\\skiasharp.views.2.88.8.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.views.maui.controls\\2.88.8\\skiasharp.views.maui.controls.2.88.8.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\skiasharp.views.maui.core\\2.88.8\\skiasharp.views.maui.core.2.88.8.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\sqlite-net-pcl\\1.9.172\\sqlite-net-pcl.1.9.172.nupkg.sha512",
@@ -45,18 +47,10 @@
     "C:\\Users\\Jenna\\.nuget\\packages\\sqlitepclraw.core\\2.1.2\\sqlitepclraw.core.2.1.2.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.2\\sqlitepclraw.lib.e_sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.1.2\\sqlitepclraw.provider.e_sqlite3.2.1.2.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\sqlitepclraw.provider.sqlite3\\2.1.2\\sqlitepclraw.provider.sqlite3.2.1.2.nupkg.sha512",
     "C:\\Users\\Jenna\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
-    "C:\\Users\\Jenna\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512"
+    "C:\\Users\\Jenna\\.nuget\\packages\\system.reflection.metadata\\1.6.0\\system.reflection.metadata.1.6.0.nupkg.sha512",
+    "C:\\Users\\Jenna\\.nuget\\packages\\system.runtime.interopservices.nfloat.internal\\6.0.1\\system.runtime.interopservices.nfloat.internal.6.0.1.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microcharts.Maui 1.0.0 is not compatible with net8.0 (.NETCoreApp,Version=v8.0). Package Microcharts.Maui 1.0.0 supports:\r\n  - net6.0-android31.0 (.NETCoreApp,Version=v6.0)\r\n  - net6.0-ios16.1 (.NETCoreApp,Version=v6.0)\r\n  - net6.0-maccatalyst16.1 (.NETCoreApp,Version=v6.0)\r\n  - net6.0-windows10.0.19041 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microcharts.Maui",
-      "targetGraphs": [
-        "net8.0"
-      ]
-    }
-  ]
+  "logs": []
 }
