@@ -29,13 +29,14 @@ public class Plot {
         this.numPoints = xSize;
 
         chart = new ChartEntry[this.numPoints];
+        string plotColor = getRandomHexColor();
         for (int i = 0; i < this.numPoints; i++)
 			{
 				chart[i] = new ChartEntry((float) y.Data[i])
 				{
 					Label = x.Data[i].ToString(),  // i.e time (x domain)
 					ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
-					Color = SKColor.Parse(getRandomHexColor())
+					Color = SKColor.Parse(plotColor)
 				};
 			}
 
