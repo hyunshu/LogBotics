@@ -115,6 +115,10 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
+		if (newPlot.SameAxisCheck()) {
+			await DisplayAlert("Warning", "You have selected the x-axis to be the same as the y-axis. This is an unusual request.", "OK");
+		}
+
 		try {
 			plotDict.Add(newPlot.Title, newPlot);
 		} catch (ArgumentException) {
@@ -204,6 +208,7 @@ public partial class HomePage : ContentPage
 
 
 			//Run Data Storage Test cases:
+			/*
 			if (dataStructure == null)
 			{
 				// Generate Fake Test FRC Data to compare with retrieved stored data if no new data is imported this session:
@@ -266,6 +271,7 @@ public partial class HomePage : ContentPage
 					Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Passed.");
 				i++;
 			}
+			*/
 
 
 			DataExport export = new DataExport(dataStructure);

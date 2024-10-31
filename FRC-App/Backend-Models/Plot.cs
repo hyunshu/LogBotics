@@ -14,6 +14,8 @@ public class Plot {
     public string YLabel { get; set; }
     public int numPoints { get; set; }
     public ChartEntry[] chart { get; set; }
+    private Column x;
+    private Column y;
 
     public Plot(Column x, Column y) {
         this.Title = y.Label + " vs " + x.Label;
@@ -28,6 +30,9 @@ public class Plot {
         }
         this.numPoints = xSize;
 
+        this.x = x;
+        this.y = y;
+
         chart = new ChartEntry[this.numPoints];
         string plotColor = getRandomHexColor();
         for (int i = 0; i < this.numPoints; i++)
@@ -40,7 +45,10 @@ public class Plot {
 				};
 			}
 
+    }
 
+    public bool SameAxisCheck() {
+        return this.x.Equals(this.y);
     }
 
  public string getRandomHexColor() {

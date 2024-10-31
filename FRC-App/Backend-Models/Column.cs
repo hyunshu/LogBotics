@@ -5,6 +5,23 @@ public class Column {
     public string Label { get; set; }
     public List<double> Data { get; set; }
 
+    public bool Equals(Column target)
+    {
+        if (this.Label != target.Label) {
+            return false;
+        }
+        int size = this.Data.Count;
+        if (size != target.Data.Count) {
+            return false;
+        }
+        for (int i = 0; i < size; i++) {
+            if (this.Data[i] != target.Data[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public Column Copy() {
         Column copy = new Column();
         copy.Label = this.Label;
