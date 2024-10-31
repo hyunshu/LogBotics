@@ -1,2 +1,5 @@
 LogBotics Sprint #2: Story #4 - Plotting Test Cases:
-https://docs.google.com/document/d/1pSQLOSDfet7PWrtQ2O7RjywAsx2o6naG7ZoWx6BJueg/edit?tab=t.0
+https://docs.google.com/document/d/1pSQLOSDfet7PWrtQ2O7RjywAsx2o6naG7ZoWx6BJueg/edit?usp=sharing
+
+LogBotics Sprint #2: Story #7 - Preferences Test Cases
+https://docs.google.com/document/d/12CesvAxbQ6OX2it_Y9oFeEoQ8ZS9FQzZTMFaMjPc8AQ/edit?usp=sharing
