@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.LoginPage">
 
-
+    <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
             <Image
                 Source="logbotics.png"
@@ -72,4 +72,5 @@
             HorizontalOptions="Center"
             VerticalOptions="Center" />
         </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
