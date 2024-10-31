@@ -5,6 +5,10 @@ using Microcharts.Maui;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
+using System.Diagnostics;
+
+
+
 using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 
@@ -540,5 +544,106 @@ public partial class HomePage : ContentPage
 			}
 		}
 	}
+
+/*	private async void LaunchNetworkTablesClient(object sender, EventArgs e)
+{
+    try
+    {
+        await Task.Run(() =>
+        {
+            Console.WriteLine("Attempting to launch NetworkTables client...");
+            
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\tools\dart-sdk\bin\dart.exe",
+                Arguments = "run ./networkTablesClient.dart",
+                WorkingDirectory = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables",
+                RedirectStandardOutput = true,
+                RedirectStandardError = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            var process = Process.Start(processInfo);
+            if (process != null)
+            {
+                using (var outputReader = process.StandardOutput)
+                {
+                    string result = outputReader.ReadToEnd();
+                    Console.WriteLine(result);
+                }
+
+                using (var errorReader = process.StandardError)
+                {
+                    string errorResult = errorReader.ReadToEnd();
+                    if (!string.IsNullOrEmpty(errorResult))
+                    {
+                        Console.WriteLine($"Error: {errorResult}");
+                    }
+                }
+
+                process.WaitForExit();
+            }
+            else
+            {
+                Console.WriteLine("Failed to start the process.");
+            }
+        });
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Error", $"Failed to launch NetworkTables client: {ex.Message}", "OK");
+    }
+} 
+*/
+
+private async void RunNetworkTablesClient(object sender, EventArgs e)
+{
+    try
+    {
+        string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe"; // Updated Dart executable path
+        string scriptPath = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables\networkTablesClientToFile.dart";
+
+        ProcessStartInfo startInfo = new ProcessStartInfo
+        {
+            FileName = dartExePath,
+            Arguments = $"\"{scriptPath}\"",
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true
+        };
+
+        using (Process process = Process.Start(startInfo))
+        {
+            string output = await process.StandardOutput.ReadToEndAsync();
+            string error = await process.StandardError.ReadToEndAsync();
+
+            Dispatcher.Dispatch(() =>
+            {
+                if (!string.IsNullOrEmpty(output))
+                {
+                    OutputLabel.Text = $"Output: {output}";
+                }
+                else if (!string.IsNullOrEmpty(error))
+                {
+                    OutputLabel.Text = $"Error: {error}";
+                }
+                else
+                {
+                    OutputLabel.Text = "NetworkTables Client executed with no output.";
+                }
+            });
+
+            process.WaitForExit();
+        }
+
+        await DisplayAlert("Success", "NetworkTables Client script executed successfully.", "OK");
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+    }
+}
 	
 }

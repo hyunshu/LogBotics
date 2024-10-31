@@ -62,7 +62,7 @@ namespace FRC_App
             // Load preferences or set default values
             _fontSize = Preferences.Get("UserFontSize", 18);
             _fontColor = Color.FromArgb(Preferences.Get("UserFontColor", "#000000")); // Default to black
-            _fontType = Preferences.Get("UserFontType", "Arial"); // Default to Arial or any other font family
+            _fontType = Preferences.Get("UserFontType", "OpenSansRegular"); // Default to Arial or any other font family
         }
 
         // Save Preferences
