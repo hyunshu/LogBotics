@@ -318,9 +318,10 @@ public partial class HomePage : ContentPage
 				Plot plot = plotDict[key];			
 				
 				// update the color
+				string plotColor = plot.getRandomHexColor();
 				foreach (var entry in plot.chart) {
 					if (string.Equals(chartColor, "Default")) {
-						entry.Color = SKColor.Parse(plot.getRandomHexColor());
+						entry.Color = SKColor.Parse(plotColor);
 					} else {
 						Console.WriteLine(chartColor);
 						entry.Color = SKColor.Parse(color);
