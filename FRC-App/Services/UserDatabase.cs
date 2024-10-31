@@ -157,5 +157,15 @@ namespace FRC_App.Services
             var existingUsername = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
             return existingUsername != null;
         }
+
+
+        // get user async
+        public static async Task<User> GetUserAsync(string username)
+        {
+            await Init();
+            var user = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+
+            return user;
+        }
     }
 }

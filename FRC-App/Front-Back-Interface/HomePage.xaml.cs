@@ -57,6 +57,8 @@ public partial class HomePage : ContentPage
 	{
 		base.OnAppearing();
 		UpdateChartColors();
+		BindingContext = null;
+		BindingContext = currentUser;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
