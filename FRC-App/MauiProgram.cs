@@ -5,7 +5,7 @@ namespace FRC_App;
 
 public static class MauiProgram
 {
-	public static MauiApp dCreateMauiApp()
+	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
