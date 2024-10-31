@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FRC_App"
+             x:Class="FRC_App.MapPage"
+             Title="Map">
+    <VerticalStackLayout Padding="10">
+        <Label Text="Map Page"
+               VerticalOptions="CenterAndExpand" 
+               HorizontalOptions="CenterAndExpand" />
+        <!-- Add more UI elements like buttons or charts here -->
+    </VerticalStackLayout>
+</ContentPage>
