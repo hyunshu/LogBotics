@@ -6,7 +6,7 @@ namespace FRC_App.Services
 {
     public static class UserDatabase {
 
-        static SQLiteAsyncConnection db;
+        public static SQLiteAsyncConnection db;
         static async Task Init()
         {   
             if (db != null) {
