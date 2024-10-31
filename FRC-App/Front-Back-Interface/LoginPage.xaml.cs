@@ -42,5 +42,10 @@ public partial class LoginPage : ContentPage
 	{
 		await Navigation.PushAsync(new CreateAccountPage());
 	}
+
+	private async void RedirectToForgotPasswordPage(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new ForgotPasswordPage());
+	}
 }
 

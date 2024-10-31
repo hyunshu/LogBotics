@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.ImportData"
              Title="Import Data">
     <StackLayout Padding="20">
-        <Label Text="Click the button below to select a file from the file family you want to import" 
-               FontSize="Medium" 
+
+        <!-- Instruction Label -->
+        <Label Text="Click the button below to select a file from the file family you want to import"
+               FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+               TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+               FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                HorizontalOptions="Center" />
 
+        <!-- Import File Button -->
         <Button Text="Import File" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                 Clicked="OnImportButtonClicked" 
                 HorizontalOptions="Center" 
                 VerticalOptions="CenterAndExpand" />
 
+        <!-- Selected File Label -->
         <Label x:Name="SelectedFileLabel" 
-               Text="No file selected" 
-               FontSize="Small" 
+               Text="No file selected"
+               FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+               TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+               FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                HorizontalOptions="Center" 
                VerticalOptions="EndAndExpand" />
     </StackLayout>

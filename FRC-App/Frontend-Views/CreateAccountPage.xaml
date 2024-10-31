@@ -51,6 +51,26 @@
             </VerticalStackLayout>
         </HorizontalStackLayout>
 
+        <!-- Dropdown options for security questions -->
+        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                <Picker x:Name="DropDown" Title="Choose a Security Question" 
+                        FontSize="16" 
+                        TextColor="Gray"
+                        WidthRequest="300" />
+            </VerticalStackLayout>
+
+            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                 <Label Text="Enter your answer" 
+                    FontSize="16" 
+                    TextColor="Gray" />
+                 <Entry x:Name="SecurityAnswerEntry"  
+                    FontSize="16" 
+                    WidthRequest="300" />
+            </VerticalStackLayout>
+
+        </HorizontalStackLayout>
+
         <!-- LogBotics Logo (aligned to the right) -->
         <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
             <Image Source="logbotics.png"
