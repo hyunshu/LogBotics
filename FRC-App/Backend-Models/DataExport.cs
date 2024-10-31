@@ -49,12 +49,20 @@ public class DataExport
                 // Write the raw data streams for the ith CSV:
                 var rawFileData = rawData[i];
                 int n = rawFileData[0].Count;  // Number of data steps used in this file
+                for (int k = 0; k < rawFileData.Count; k++) {
+                    if (rawFileData[k].Count > n) {
+                        n = rawFileData[k].Count;
+                    }
+                }
 
                 for (int j = 0; j < n; j++)
                 {
                     // Loop over each data step (row):
                     foreach (var y in rawFileData)
                     {
+                        if (j >= y.Count) {
+                            continue;
+                        }
                         // Loop over each label (column):
                         double x = y[j];
                         writer.Write(x + ",");

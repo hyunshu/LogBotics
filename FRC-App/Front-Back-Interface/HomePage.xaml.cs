@@ -274,7 +274,7 @@ public partial class HomePage : ContentPage
 			*/
 
 
-			DataExport export = new DataExport(dataStructure);
+			DataExport export = new DataExport(exportDataStructure);
 			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
 
 			await DisplayAlert("Success", "Data Exported", "Continue"); 
