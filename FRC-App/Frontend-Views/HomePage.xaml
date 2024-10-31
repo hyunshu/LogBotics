@@ -141,7 +141,13 @@
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                     CornerRadius="10" 
                     Clicked="RunNetworkTablesClient" />
-
+                     
+             <Button Text="Map Page" 
+                    BackgroundColor="#4A4A4A" 
+                    FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                    FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                    CornerRadius="10" 
+                    Clicked="OpenMapPage" />
 
             <Button Text="Preferences" 
                     BackgroundColor="#4A4A4A" 
