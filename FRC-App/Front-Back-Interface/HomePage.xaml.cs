@@ -214,7 +214,6 @@ public partial class HomePage : ContentPage
 
 
 			//Run Data Storage Test cases:
-			/*
 			if (dataStructure == null)
 			{
 				// Generate Fake Test FRC Data to compare with retrieved stored data if no new data is imported this session:
@@ -277,8 +276,12 @@ public partial class HomePage : ContentPage
 					Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Passed.");
 				i++;
 			}
-			*/
+			
 
+			//Testing 10/31/2024:
+			exportDataStructure = new DataImport();
+			retrievedRawData = exportDataStructure.GenerateTestData();
+			//Testing 10/31/2024
 
 			DataExport export = new DataExport(exportDataStructure);
 			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)

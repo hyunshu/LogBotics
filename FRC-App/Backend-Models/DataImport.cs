@@ -32,13 +32,14 @@ public class DataImport
     public DataImport()
     {
         // Populate sample data types and labels:
-        List<string> dataTypes = new List<string> { "Motor", "Sensor", "ControlSystem" };
+        List<string> dataTypes = new List<string> { "Motor", "Sensor", "ControlSystem", "Accelerometer" };
         List<string> motorLabels = new List<string> { "Time (s)", "Spin Angle (rad)", "Angular Velocity (rad/s)" };
         List<string> sensorLabels = new List<string> { "Time (s)", "Measurement #1 (ft)", "Measurement #2 (rad)" };
         List<string> controlSystemLabels = new List<string> { "Time (s)", "Forward Input (bool)", "Backward Input (bool)" };
+        List<string> accelerometerLabels = new List<string> { "Time (s)", "X-Acceleration (ft/s^2)", "Y-Acceleration (ft/s^2)", "Z-Acceleration (ft/s^2)" };
 
         // Construct and return DataImport object:
-        List<List<string>> dataUnits = new List<List<string>> { motorLabels, sensorLabels, controlSystemLabels };
+        List<List<string>> dataUnits = new List<List<string>> { motorLabels, sensorLabels, controlSystemLabels, accelerometerLabels };
         
         this.dataTypes = dataTypes;
         this.dataUnits = dataUnits;
@@ -54,12 +55,16 @@ public class DataImport
     {
         // Data to be populated for both the Motor and Sensor:
         List<double> time = new List<double>();
+        List<double> timeMotor = new List<double>();
         List<double> SAData = new List<double>();
         List<double> AVData = new List<double>();
         List<double> firstSensorData = new List<double>();
         List<double> secondSensorData = new List<double>();
         List<double> forwardInputData = new List<double>();
         List<double> backwardInputData = new List<double>();
+        List<double> xAccelData = new List<double>();
+        List<double> yAccelData = new List<double>();
+        List<double> zAccelData = new List<double>();
 
         // Populate both the Motor and Sensor data with random values:
         int n = 10;  // Number of data steps used in both files
@@ -67,19 +72,27 @@ public class DataImport
         for (double i = 0; i < n; i++)
         {
             time.Add(i);
+            timeMotor.Add(i);
             SAData.Add(rand.NextDouble());
             AVData.Add(rand.NextDouble());
             firstSensorData.Add(rand.NextDouble());
             secondSensorData.Add(rand.NextDouble());
             forwardInputData.Add(Math.Round(rand.NextDouble()));
             backwardInputData.Add(Math.Round(rand.NextDouble()));
+            xAccelData.Add(rand.NextDouble());
+            yAccelData.Add(rand.NextDouble());
+            zAccelData.Add(rand.NextDouble());
         }
+        timeMotor.Add(n);
+        SAData.Add(rand.NextDouble());
+        SAData[0] += 9999;
 
         // Format and return the resulting rawData:
-        List<List<double>> rawMotorData = new List<List<double>> { time, SAData, AVData };
+        List<List<double>> rawMotorData = new List<List<double>> { timeMotor, SAData, AVData };
         List<List<double>> rawSensorData = new List<List<double>> { time, firstSensorData, secondSensorData };
         List<List<double>> rawControlSystemData = new List<List<double>> { time, forwardInputData, backwardInputData };
-        List<List<List<double>>> rawData = new List<List<List<double>>> { rawMotorData, rawSensorData, rawControlSystemData };
+        List<List<double>> accelerometerData = new List<List<double>> { time, xAccelData, yAccelData, zAccelData };
+        List<List<List<double>>> rawData = new List<List<List<double>>> { rawMotorData, rawSensorData, rawControlSystemData, accelerometerData };
         return rawData;
     }
 
@@ -93,11 +106,12 @@ public class DataImport
      */
     public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
     {
-        String[] oldFileNames = Directory.GetFiles(directoryPath);
-        String[] fileNames = new String[3];
+        //Testing Only need this ordering part to run the testcases:
+        String[] oldFileNames = Directory.GetFiles(directoryPath); //Rename to fileNames if not ordering for test cases
+        String[] fileNames = new String[4];
 
-        List<string> dataTypesFormat = new List<string> { "Motor", "Sensor", "ControlSystem" };
-        for (int i = 0; i < 3; i++) {
+        List<string> dataTypesFormat = new List<string> { "Motor", "Sensor", "ControlSystem", "Accelerometer" };
+        for (int i = 0; i < 4; i++) {
             foreach (string file2 in oldFileNames) {
                 string readFileName2 = file2.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
                 string secondHalf = readFileName2.Split("_",StringSplitOptions.RemoveEmptyEntries).Last();
@@ -108,6 +122,7 @@ public class DataImport
                 }
             }
         }
+        //Testing Only need this ordering part to run the testcases
 
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};
