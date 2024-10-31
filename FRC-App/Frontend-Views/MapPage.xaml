@@ -27,11 +27,11 @@
                     Title="Select Data Type" />
 
             <!-- X and Y Axis Data Pickers -->
-            <Label Text="Select Data for Time (x-axis):" FontSize="Medium" FontAttributes="Bold" />
+            <Label Text="Select Data for X-axis:" FontSize="Medium" FontAttributes="Bold" />
             <Picker x:Name="xDataDropDown"
                     Title="Select X Data" />
 
-            <Label Text="Select Data for Y-axis (Acceleration):" FontSize="Medium" FontAttributes="Bold" />
+            <Label Text="Select Data for Y-axis:" FontSize="Medium" FontAttributes="Bold" />
             <Picker x:Name="yDataDropDown"
                     Title="Select Y Data" />
 
