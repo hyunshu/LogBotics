@@ -1,5 +1,10 @@
 using SkiaSharp;
 
+public class SameAxisException : Exception {
+    public SameAxisException(string message)
+        : base(message) { }
+ }
+
 public class Map {
     private List<double> xPos { get; set; }
     private List<double> yPos { get; set; }
@@ -19,6 +24,9 @@ public class Map {
         if (xSize != timeSize || ySize != timeSize)
         {
             throw new AxesDifferentLengthsException("Error! The time, x-axis acceleration, and y-axis acceleration must have the same number of elements as each other for mapping.");
+        }
+        if (time.Equals(xAccel) || time.Equals(yAccel) || xAccel.Equals(yAccel)) {
+            throw new SameAxisException("Error! You cannot select 2 or more of time, xAcceleration, or yAcceleration to be the same as each other.");
         }
 
         List<double> xVel = cumtrapz(time.Data,xAccel.Data);

@@ -51,19 +51,19 @@ public class Plot {
         return this.x.Equals(this.y);
     }
 
- public string getRandomHexColor() {
+    public string getRandomHexColor() {
 
-    const string letters = "0123456789ABCDEF";
+        const string letters = "0123456789ABCDEF";
 
-    string color = "#";
+        string color = "#";
 
-    for (int i = 0; i < 6; i++) {
-        Random rnd = new Random();
-        double index = rnd.Next(0,16);
-        color += letters[(int)index];
+        for (int i = 0; i < 6; i++) {
+            Random rnd = new Random();
+            double index = rnd.Next(0,16);
+            color += letters[(int)index];
+        }
+
+        return color;
     }
-
-    return color;
-}
 
 }
