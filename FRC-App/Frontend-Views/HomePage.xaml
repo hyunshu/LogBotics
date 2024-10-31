@@ -129,7 +129,7 @@
                     CornerRadius="10" 
                     Clicked="ImportData" />
 
-            <Button Text="Preference" 
+            <Button Text="Preferences" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"

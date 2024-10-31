@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using SkiaSharp;
 
 using FRC_App.Models;
 using FRC_App.Services;
@@ -70,6 +71,39 @@ public partial class ImportData : ContentPage
 
                 Plot testPlot = new Plot(targetColumnX, targetColumnY);
                 ////Testing 10/16/2024 End:
+                
+
+
+                ///Testing 10/25/2024 Begin for Mapping (also a demo for front-end devs):
+                DataContainer dataContainerM = new DataContainer(currentUser);
+
+                //Determine the dataType for mapping:
+                List<string> dataTypeNamesM = dataContainerM.getDataTypeNames();  // Display these in first set of buttons
+                string typeSelectionM = dataTypeNamesM[1];  // This would be from the first set of buttons
+                DataType targetTypeM = dataContainer.getDataType(typeSelectionM);
+
+                //Determine the dataColumn:
+                List<string> columnLabelsM = targetTypeM.getColumnLabels();  // Display these in second set of buttons
+                string columnSelectionTime = columnLabelsM[0];  // This would be from the second set of buttons
+                string columnSelectionxAccel = columnLabelsM[1];  // This would be from the second set of buttons
+                string columnSelectionyAccel = columnLabelsM[2];  // This would be from the second set of buttons
+                Column targetColumnTime = targetTypeM.getColumn(columnSelectionTime);  //ie. time
+                Column targetColumnXAccel = targetTypeM.getColumn(columnSelectionxAccel);  //ie. x acceleration
+                Column targetColumnYAccel = targetTypeM.getColumn(columnSelectionyAccel);  //ie. y acceleration
+
+                Map testMap = new Map(targetColumnTime,targetColumnXAccel,targetColumnYAccel);
+                SKPoint[] testPath = testMap.GeneratePath();
+                SKBitmap testGrid = testMap.GenerateGrid();
+
+                SKCanvas mapFigure = new SKCanvas(testGrid);
+                var paint1 = new SKPaint {
+                    TextSize = 64.0f,
+                    IsAntialias = true,
+                    Color = new SKColor(255, 0, 0),
+                    Style = SKPaintStyle.Fill
+                };
+                mapFigure.DrawPoints(SKPointMode.Points,testPath,paint1); //Not sure how to set up .xaml to test this
+                ////Testing 10/25/2024 End:
             }
             else
             {

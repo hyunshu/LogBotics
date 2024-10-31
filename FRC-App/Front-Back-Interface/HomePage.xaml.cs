@@ -57,6 +57,8 @@ public partial class HomePage : ContentPage
 	{
 		base.OnAppearing();
 		UpdateChartColors();
+		BindingContext = null;
+		BindingContext = currentUser;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -113,6 +115,10 @@ public partial class HomePage : ContentPage
 		} catch (AxesDifferentLengthsException) {
 			await DisplayAlert("Error", "The x-axis must have the same number of elements as the y-axis", "OK");
 			return;
+		}
+
+		if (newPlot.SameAxisCheck()) {
+			await DisplayAlert("Warning", "You have selected the x-axis to be the same as the y-axis. This is an unusual request.", "OK");
 		}
 
 		try {
@@ -204,6 +210,7 @@ public partial class HomePage : ContentPage
 
 
 			//Run Data Storage Test cases:
+			/*
 			if (dataStructure == null)
 			{
 				// Generate Fake Test FRC Data to compare with retrieved stored data if no new data is imported this session:
@@ -266,9 +273,10 @@ public partial class HomePage : ContentPage
 					Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Passed.");
 				i++;
 			}
+			*/
 
 
-			DataExport export = new DataExport(dataStructure);
+			DataExport export = new DataExport(exportDataStructure);
 			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
 
 			await DisplayAlert("Success", "Data Exported", "Continue"); 
@@ -312,9 +320,10 @@ public partial class HomePage : ContentPage
 				Plot plot = plotDict[key];			
 				
 				// update the color
+				string plotColor = plot.getRandomHexColor();
 				foreach (var entry in plot.chart) {
 					if (string.Equals(chartColor, "Default")) {
-						entry.Color = SKColor.Parse(plot.getRandomHexColor());
+						entry.Color = SKColor.Parse(plotColor);
 					} else {
 						Console.WriteLine(chartColor);
 						entry.Color = SKColor.Parse(color);
