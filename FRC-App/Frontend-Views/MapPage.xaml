@@ -16,12 +16,6 @@
 
         <!-- Right-side button menu -->
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
-        <!-- Accelerometer Data Button -->
-                <Button x:Name="AccelerometerDataButton"
-                        Text="Add Accelerometer Data"
-                        BackgroundColor="#FF1A1818"
-                        TextColor="White"
-                        Clicked="AddAccelerometerDataToMap" />
 
                 <!-- Data Type Picker -->
                 <Label Text="Choose the accelerometer data:" FontSize="Medium" FontAttributes="Bold" />

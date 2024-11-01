@@ -3,14 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              xmlns:local="clr-namespace:FRC_App"
-             xmlns:skia="clr-namespace:SkiaSharp.Views.Maui.Controls;assembly=SkiaSharp.Views.Maui.Controls"
              x:Class="FRC_App.HomePage"
              Title="HomePage + Data Visualization">
 
     <ScrollView>
     <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
         <!-- temp -->
-                <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="400" />
         <!-- temp -->
 
         <!-- Main visualized data area -->
@@ -30,9 +28,6 @@
                             FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                             Clicked="ExportToPdf" />
                 </StackLayout>
-
-                <!-- Output Label -->
-                <Label x:Name="OutputLabel" Text="NetworkTables Client output will appear here." FontSize="Medium" TextColor="Black" HorizontalOptions="Center" />
 
                 <!-- Activity Indicator -->
                 <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
