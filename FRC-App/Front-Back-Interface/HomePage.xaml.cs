@@ -10,8 +10,6 @@ using System.Diagnostics;
 using SkiaSharp.Views.Maui.Controls;
 using SkiaSharp.Views.Maui;
 
-
-
 using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 
@@ -231,6 +229,11 @@ public partial class HomePage : ContentPage
 	private async void Preference(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new PreferencePage(currentUser));
+	}
+
+	private async void Instruction(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new InstructionPage(currentUser));
 	}
 
 	public void loadUserPreferences() {

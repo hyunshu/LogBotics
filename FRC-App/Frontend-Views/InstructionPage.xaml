@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FRC_App"
+             x:Class="FRC_App.InstructionPage"
+             Title="NetworkTables Configuration Instructions">
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <!-- Header -->
+            <Label Text="Steps to Configure NetworkTables Output" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10" />
+
+            <!-- Add NetworkTable Calls -->
+            <Label Text="Add NetworkTable Calls to Robot Code:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="Place network table write calls in the relevant places in your robot code, such as within swerve module classes or PID loops, to capture the desired motor and sensor data."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Identify Key Data Points -->
+            <Label Text="Identify Key Data Points:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="Motor Output Data: Add write calls where the motor speed or position is updated."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="Sensor Data (e.g., Encoder, IMU, etc.): Add write calls in the methods where sensor data is being read or calculated." 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Set Up NetworkTable Keys -->
+            <Label Text="Set Up NetworkTable Keys:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="Use unique keys for each data point you want to send:"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="For motor output, use a key like 'Motor/AngularVelocity'."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="For encoder or sensor data, use keys like 'Encoder/Value' or 'Position/Angle'."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Format Data Consistently -->
+            <Label Text="Format Data Consistently:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="Make sure each network table entry uses a consistent format, e.g.:"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="NetworkTableInstance.getDefault().getTable('robot').getEntry('Motor/AngularVelocity').setNumber(currentAngularVelocity);" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+            <Label Text="Ensure the output has a label such as 'Motor:' followed by the data type and value."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Connect Client to NetworkTables -->
+            <Label Text="Connect Client to NetworkTables:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="Run your Dart client (networkTablesClient.dart) and ensure it connects successfully to the robot's IP address." 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="Make sure the output follows this structure:" FontSize="Medium" Margin="0,5" />
+            <Label Text="NT4 Client Connected\nMotor: Angular Velocity (rmp): &lt;value&gt;\nMotor (from stream): &lt;value&gt;" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <!-- Update Dart Client -->
+            <Label Text="Update the Dart client to subscribe to the topics you've created in the robot code and print them to match the expected output." 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Sample Code for Robot NetworkTable Calls -->
+            <Label Text="Sample Code for Robot NetworkTable Calls" FontSize="Medium" FontAttributes="Bold" Margin="0,10,0,5" />
+            <Label Text="// Motor output" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="NetworkTableInstance inst = NetworkTableInstance.getDefault();" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="NetworkTable table = inst.getTable('robot');" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="NetworkTableEntry motorEntry = table.getEntry('Motor/AngularVelocity');" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="motorEntry.setDouble(currentMotorOutput);" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="" FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}" />
+
+            <Label Text="// Sensor data" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="NetworkTableEntry positionEntry = table.getEntry('Position/Angle');" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+            <Label Text="positionEntry.setDouble(currentPositionAngle);" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+
+
+            <!-- Expected Output Format -->
+            <Label Text="Expected Output Format" FontSize="Medium" FontAttributes="Bold" Margin="0,10,0,5" />
+            <Label Text="Ensure the output looks like this:"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="NT4 Client Connected\nMotor: Angular Velocity (rmp): &lt;value&gt;\nMotor (from stream): &lt;value&gt;\n..."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                TextColor="Gray" Margin="0,5" />
+            <Label Text="Replace &lt;value&gt; with the corresponding motor or sensor data." 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+            <Label Text="Make sure every key has both a descriptive label and the value being published."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+
+            <!-- Final Note -->
+            <Label Text="By adding these specific calls to your robot code and configuring your client to properly subscribe to and print these entries, you can ensure that the output matches the expected format exactly."
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                Margin="0,5" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
