@@ -54,11 +54,13 @@ public class Map {
     * position to draw the path of the robot on the virtual map.
     * @returns SKPoint[]
     */
-    public SKPoint[] GeneratePath() {
-        SKPoint[] path = new SKPoint[this.xPos.Count];
-        for (int i = 0; i < path.Count(); i ++) {
-            path[i] = new SKPoint((float) this.xPos[i], (float) this.yPos[i]);
+    public SKPath GeneratePath() {
+        SKPath path = new SKPath();
+        path.MoveTo((float) this.xPos[0], (float) this.yPos[0]);
+        for (int i = 1; i < this.xPos.Count(); i ++) {
+            path.LineTo((float) this.xPos[i], (float) this.yPos[i]);
         }
+        path.Close();
 
         return path;
     }
