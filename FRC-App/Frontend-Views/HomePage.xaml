@@ -28,7 +28,7 @@
                 </StackLayout>
 
                 <!-- Output Label -->
-                <Label x:Name="OutputLabel" Text="NetworkTables Client output will appear here." FontSize="Medium" TextColor="Black" HorizontalOptions="Center" />
+                <Label x:Name="OutputLabel" Text=" " FontSize="Medium" TextColor="White" HorizontalOptions="Center" />
 
                 <!-- Activity Indicator -->
                 <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
@@ -135,7 +135,7 @@
                     CornerRadius="10" 
                     Clicked="ImportData" />
 
-             <Button Text="Run Network Client" 
+             <Button Text="Run NetworkTable Client" 
                     BackgroundColor="#4A4A4A" 
                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
