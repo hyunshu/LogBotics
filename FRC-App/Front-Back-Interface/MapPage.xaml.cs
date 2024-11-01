@@ -114,6 +114,8 @@ public partial class MapPage : ContentPage
                     path.LineTo(testPath[i]);
                 }
 
+                path.Close();
+
                 e.Surface.Canvas.DrawPath(path, pathPaint);
 
                 canvasView.IsVisible = true;
