@@ -66,7 +66,7 @@ public class Map {
         for (int i = 1; i < this.xPos.Count(); i ++) {
             path.LineTo(centerX + (float) this.xPos[i]*scaleX, centerY + (float) this.yPos[i]*scaleY);
         }
-        path.Close();
+        //path.Close();
 
         return path;
     }

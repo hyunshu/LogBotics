@@ -153,7 +153,7 @@ public partial class ImportData : ContentPage
                 Column targetColumnYAccel = targetTypeM.getColumn(columnSelectionyAccel);  //ie. y acceleration
 
                 Map testMap = new Map(targetColumnTime,targetColumnXAccel,targetColumnYAccel);
-                SKPath testPath = testMap.GeneratePath();
+                //SKPath testPath = testMap.GeneratePath();
                 SKBitmap testGrid = testMap.GenerateGrid();
 
                 SKCanvas mapFigure = new SKCanvas(testGrid);

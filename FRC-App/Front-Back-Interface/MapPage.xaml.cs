@@ -72,6 +72,7 @@ public partial class MapPage : ContentPage
        
         isRenderMap = true;
         canvasView.IsVisible = true;
+        canvasView.InvalidateSurface();
     }
 
 
@@ -94,11 +95,13 @@ public partial class MapPage : ContentPage
                 
                 var canvas = e.Surface.Canvas;
                 SKPath testPath = newMap.GeneratePath(e.Info);
+                canvas.Clear(SKColors.Black);
+
     
                 var paint = new SKPaint
                 {
                     Style = SKPaintStyle.Stroke,
-                    Color = SKColors.Black,
+                    Color = SKColors.Red,
                     StrokeWidth = 5,
                     IsAntialias = true
                 };
@@ -106,18 +109,16 @@ public partial class MapPage : ContentPage
     
                 canvas.DrawPath(testPath, paint);
 
-                // var canvas = e.Surface.Canvas;
-                // var info = e.Info;
-
-                // canvas.Clear(SKColors.White);
 
                 // var paint = new SKPaint
                 // {
                 //     Style = SKPaintStyle.Stroke,
-                //     Color = SKColors.Black,
+                //     Color = SKColors.White,
                 //     StrokeWidth = 5,
                 //     IsAntialias = true
                 // };
+
+                // var info = e.Info;
 
                 // float centerX = info.Width / 2;
                 // float centerY = info.Height / 2;
