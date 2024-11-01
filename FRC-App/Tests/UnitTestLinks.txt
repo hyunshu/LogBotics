@@ -9,3 +9,6 @@ https://docs.google.com/document/d/1GYPP__Hc3-Tz2yliaHUN8QSt9aK7hB0EaxkoehLg_ks/
 
 LogBotics Sprint #2: Story #2 - Account Recovery Test Cases
 https://docs.google.com/document/d/1iS9viXQOXOIAuu944BLx7TvMe89SmHkDSIiFgUDFvug/edit?usp=sharing
+
+LogBotics Sprint #2: Story #5 - Adding More Plots Test Cases
+https://docs.google.com/document/d/1K-6wSU7yX0qvTv-OHwS87nug-TiuqZtnqIl3uwYwx3Y/edit?usp=sharing
