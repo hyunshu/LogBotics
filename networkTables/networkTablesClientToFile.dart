@@ -24,7 +24,8 @@ void main() async {
   String userHome = Platform.environment['USERPROFILE'] ??
       Platform.environment['HOME'] ??
       '.';
-  File dataFile = File('$userHome/Documents/robot_data_$timestamp.txt');
+  File dataFile = File(
+      'C:/Users/Jenna/Documents/GitHub/LogBotics/FRC-App/robot_data_$timestamp.txt');
   IOSink fileSink = dataFile.openWrite(mode: FileMode.append);
 
   // Subscribe to motor output topic
