@@ -279,8 +279,8 @@ public partial class HomePage : ContentPage
 			
 
 			//Testing 10/31/2024:
-			exportDataStructure = new DataImport();
-			retrievedRawData = exportDataStructure.GenerateTestData();
+			//exportDataStructure = new DataImport();
+			//retrievedRawData = exportDataStructure.GenerateTestData();
 			//Testing 10/31/2024
 
 			DataExport export = new DataExport(exportDataStructure);
@@ -602,10 +602,23 @@ public partial class HomePage : ContentPage
 
 private async void RunNetworkTablesClient(object sender, EventArgs e)
 {
+	DataImport dataStructure = new DataImport();
+	string directoryPath = "../FRCData/";
+	string fileName = "RealRobotData.txt";
+	List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
+	await UserDatabase.storeData(currentUser,dataStructure,rawData);
+
+	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+	Console.WriteLine($"{currentUser.dataUnits}");
+	Console.WriteLine($"{currentUser.rawData}");
+
+	await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
+
+	/* Doesn't work on every machine as of 10/31/2024 - James Gilliam
     try
     {
         string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe"; // Updated Dart executable path
-        string scriptPath = @"C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables\networkTablesClientToFile.dart";
+        string scriptPath = @"..\networkTables\networkTablesClientToFile.dart";
 
         ProcessStartInfo startInfo = new ProcessStartInfo
         {
@@ -647,6 +660,7 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
     {
         await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
     }
+	*/
 }
 
 private async void OpenMapPage(object sender, EventArgs e)

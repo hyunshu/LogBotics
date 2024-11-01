@@ -96,6 +96,67 @@ public class DataImport
         return rawData;
     }
 
+
+    public List<List<List<double>>> FromRobot(string directoryPath, string fileName) {
+        List<string> dataTypes = new List<string> {};
+        List<List<string>> dataUnits = new List<List<string>> {};
+        List<List<List<double>>> rawData = new List<List<List<double>>> {};
+
+        var filestream = new FileStream(directoryPath + fileName,
+                                          FileMode.Open,
+                                          FileAccess.Read,
+                                          FileShare.ReadWrite);
+        var file = new StreamReader(filestream, System.Text.Encoding.UTF8, true, 128);
+
+        string lineOfText = "";
+        while ((lineOfText = file.ReadLine()) != null)
+        {
+            if (lineOfText == "NT4 Client Connected" || lineOfText == "NT4 Client Disconnected") {
+                continue;
+            }
+            if (lineOfText.Contains("(from stream):")) {
+                continue;
+            }
+            if (lineOfText == "\n" || lineOfText == "") {
+                break;
+            }
+
+            string dataType = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).First();
+            if (!dataType.Any() || !dataTypes.Contains(dataType)) {
+                dataTypes.Add(dataType);
+            }
+
+            int typeIndex = dataTypes.IndexOf(dataType);
+
+            string dataUnit = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries)[1];
+            if (dataUnits.Count - 1 < typeIndex) {
+                dataUnits.Add(new List<string>{});
+            }
+            if (!dataUnits[typeIndex].Any() || !dataUnits[typeIndex].Contains(dataUnit)) {
+                dataUnits[typeIndex].Add(dataUnit);
+            }
+
+            int unitIndex = dataUnits[typeIndex].IndexOf(dataUnit);
+
+            string data = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).Last();
+            data = data.Substring(1); //remove the space
+            double x = double.Parse(data);
+
+            if (rawData.Count - 1 < typeIndex) {
+                rawData.Add(new List<List<double>>{});
+            }
+            if (rawData[typeIndex].Count - 1 < unitIndex) {
+                rawData[typeIndex].Add(new List<double>{});
+            }
+
+            rawData[typeIndex][unitIndex].Add(x); 
+        }
+
+        this.dataTypes = dataTypes;
+        this.dataUnits = dataUnits;
+        return rawData;
+    }
+
     /**
      * --- FromCSV() ---
      * Reads the inputted raw data from the disk in a CSV under "fileName".
