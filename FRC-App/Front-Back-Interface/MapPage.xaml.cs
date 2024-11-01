@@ -92,9 +92,9 @@ public partial class MapPage : ContentPage
 
                 Map newMap = new Map(columnTime, columnX, columnY);
                 
-                SKPoint[] testPath = newMap.GeneratePath();
-                SKBitmap testGrid = newMap.GenerateGrid();
-
+                var canvas = e.Surface.Canvas;
+                SKPath testPath = newMap.GeneratePath();
+    
                 var paint = new SKPaint
                 {
                     Style = SKPaintStyle.Stroke,
@@ -103,9 +103,8 @@ public partial class MapPage : ContentPage
                     IsAntialias = true
                 };
 
-                SKCanvas.DrawPoints(1, testPath, paint);
-
                 canvasView.IsVisible = true;
+                canvas.DrawPath(testPath, paint);
 
             }
             
