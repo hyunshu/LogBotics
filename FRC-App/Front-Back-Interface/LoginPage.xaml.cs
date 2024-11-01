@@ -8,6 +8,11 @@ public partial class LoginPage : ContentPage
 		InitializeComponent();
 	}
 
+	private async void NavigateToUnitTestPage(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new UnitTestPage());
+	}
+
 	private void OnTogglePasswordVisibilityToggled(object sender, ToggledEventArgs e)
 	{
 		UserPasswordEntry.IsPassword = !e.Value;

@@ -71,6 +71,15 @@
             Clicked ="RedirectToForgotPasswordPage"
             HorizontalOptions="Center"
             VerticalOptions="Center" />
+
+            <Button
+                Text="Go to Unit Test Page"
+                FontSize="14"
+                BackgroundColor="#32CD32"
+                TextColor="White"
+                Padding="10"
+                Clicked="NavigateToUnitTestPage"
+                HorizontalOptions="Fill" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

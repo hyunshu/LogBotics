@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRC_App.UnitTestPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20,0" Spacing="15">
+            <Label Text="Unit Test Page"
+                   FontSize="24"
+                   HorizontalOptions="Center" />
+
+            <!-- 16 buttons labeled "Empty Test" -->
+            <Button Text="UpdateTeamName" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnUpdateTeamName" />
+            <Button Text="UpdateTeamNumber" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnUpdateTeamNumber" />
+            <Button Text="UpdateUsername" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnUpdateUsername" />
+            <Button Text="UpdatePassword" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnUpdatePassword" />
+            <Button Text="Empty Test 5" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 6" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 7" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 8" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 9" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 10" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 11" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 12" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 13" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 14" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 15" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+            <Button Text="Empty Test 16" BackgroundColor="#4169E1" TextColor="White" HorizontalOptions="Fill" Clicked="OnEmptyTestClicked" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
