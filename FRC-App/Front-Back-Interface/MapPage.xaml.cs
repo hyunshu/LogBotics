@@ -1,5 +1,7 @@
 using Microsoft.Maui.Controls;
 using FRC_App.Models;
+using SkiaSharp;
+using SkiaSharp.Views.Maui;
 
 namespace FRC_App;
 
@@ -7,6 +9,7 @@ public partial class MapPage : ContentPage
 {
     private DataContainer dataContainer;
     private User currentUser;
+    public bool isRenderMap = false;
 
     public MapPage(User user)
     {
@@ -66,12 +69,116 @@ public partial class MapPage : ContentPage
             await DisplayAlert("Error", "The x-axis and y-axis must have the same number of elements for mapping.", "OK");
             return;
         }
-        RenderMap(columnX, columnY);
+       
+        isRenderMap = true;
+        canvasView.IsVisible = true;
+        canvasView.InvalidateSurface();
     }
 
-    private void RenderMap(Column xData, Column yData)
-    {
-        // Placeholder code to render the map
-        MapImage.IsVisible = true;
-    }
+
+    private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+
+            if (isRenderMap) {
+
+                string selectedDataType = TypesDropDown.SelectedItem?.ToString();
+                string selectedTime = timeDataDropDown.SelectedItem?.ToString();
+                string selectedX = xDataDropDown.SelectedItem?.ToString();
+                string selectedY = yDataDropDown.SelectedItem?.ToString();
+                
+                DataType dataType = dataContainer.getDataType(selectedDataType);
+                Column columnTime = dataType.getColumn(selectedTime);
+                Column columnX = dataType.getColumn(selectedX);
+                Column columnY = dataType.getColumn(selectedY);
+
+                Map newMap = new Map(columnTime, columnX, columnY);
+                
+                var canvas = e.Surface.Canvas;
+                SKPath testPath = newMap.GeneratePath(e.Info);
+                canvas.Clear(SKColors.Black);
+
+    
+                var paint = new SKPaint
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = SKColors.Red,
+                    StrokeWidth = 5,
+                    IsAntialias = true
+                };
+
+    
+                canvas.DrawPath(testPath, paint);
+
+
+                // var paint = new SKPaint
+                // {
+                //     Style = SKPaintStyle.Stroke,
+                //     Color = SKColors.White,
+                //     StrokeWidth = 5,
+                //     IsAntialias = true
+                // };
+
+                // var info = e.Info;
+
+                // float centerX = info.Width / 2;
+                // float centerY = info.Height / 2;
+                // float radius = Math.Min(info.Width, info.Height) / 3;
+
+                // var path = new SKPath();
+                // for (int i = 0; i < 5; i++)
+                // {
+                //     float angle = i * 144 * (float)Math.PI / 180;
+                //     float x = centerX + radius * (float)Math.Cos(angle);
+                //     float y = centerY - radius * (float)Math.Sin(angle);
+                //     if (i == 0)
+                //     {
+                //         path.MoveTo(x, y);
+                //     }
+                //     else
+                //     {
+                //         path.LineTo(x, y);
+                //     }
+                // }
+                // path.Close();
+
+                // canvas.DrawPath(path, paint);
+
+            }
+            
+			// var canvas = e.Surface.Canvas;
+			// var info = e.Info;
+
+			// canvas.Clear(SKColors.White);
+
+			// var paint = new SKPaint
+			// {
+			// 	Style = SKPaintStyle.Stroke,
+			// 	Color = SKColors.Black,
+			// 	StrokeWidth = 5,
+			// 	IsAntialias = true
+			// };
+
+			// float centerX = info.Width / 2;
+			// float centerY = info.Height / 2;
+			// float radius = Math.Min(info.Width, info.Height) / 3;
+
+			// var path = new SKPath();
+			// for (int i = 0; i < 5; i++)
+			// {
+			// 	float angle = i * 144 * (float)Math.PI / 180;
+			// 	float x = centerX + radius * (float)Math.Cos(angle);
+			// 	float y = centerY - radius * (float)Math.Sin(angle);
+			// 	if (i == 0)
+			// 	{
+			// 		path.MoveTo(x, y);
+			// 	}
+			// 	else
+			// 	{
+			// 		path.LineTo(x, y);
+			// 	}
+			// }
+			// path.Close();
+
+			// canvas.DrawPath(path, paint);
+        }
 }

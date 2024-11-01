@@ -5,8 +5,6 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FRC-App", "FRC-App.csproj", "{D23F04C5-4C81-4F71-A8F4-AD634261F81E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FRC-App.Tests", "..\FRC-App.Tests\FRC-App.Tests.csproj", "{6C567023-FBD1-4BDD-92B5-DED1EA506EEE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

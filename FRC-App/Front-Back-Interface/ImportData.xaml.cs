@@ -153,7 +153,7 @@ public partial class ImportData : ContentPage
                 Column targetColumnYAccel = targetTypeM.getColumn(columnSelectionyAccel);  //ie. y acceleration
 
                 Map testMap = new Map(targetColumnTime,targetColumnXAccel,targetColumnYAccel);
-                SKPath testPath = testMap.GeneratePath();
+                //SKPath testPath = testMap.GeneratePath();
                 SKBitmap testGrid = testMap.GenerateGrid();
 
                 SKCanvas mapFigure = new SKCanvas(testGrid);
@@ -163,7 +163,7 @@ public partial class ImportData : ContentPage
                     Color = new SKColor(255, 0, 0),
                     Style = SKPaintStyle.Fill
                 };
-                //mapFigure.DrawPoints(SKPointMode.Points,testPath,paint1); //Not sure how to set up .xaml to test this
+                // mapFigure.DrawPoints(SKPointMode.Points,testPath,paint1); //Not sure how to set up .xaml to test this
                 ////Testing 10/25/2024 End:
 
                 await DisplayAlert("Success", "Data Imported", "Continue");

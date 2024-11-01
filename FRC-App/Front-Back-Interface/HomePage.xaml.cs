@@ -7,6 +7,9 @@ using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
 using System.Diagnostics;
 
+using SkiaSharp.Views.Maui.Controls;
+using SkiaSharp.Views.Maui;
+
 
 
 using System.Collections.ObjectModel;
@@ -83,6 +86,45 @@ public partial class HomePage : ContentPage
 		TypesDropDown.ItemsSource = userData.getDataTypeNames();
 		TypesStack.IsVisible = true;
 	}
+
+	private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+        {
+			var canvas = e.Surface.Canvas;
+			var info = e.Info;
+
+			canvas.Clear(SKColors.White);
+
+			var paint = new SKPaint
+			{
+				Style = SKPaintStyle.Stroke,
+				Color = SKColors.Black,
+				StrokeWidth = 5,
+				IsAntialias = true
+			};
+
+			float centerX = info.Width / 2;
+			float centerY = info.Height / 2;
+			float radius = Math.Min(info.Width, info.Height) / 3;
+
+			var path = new SKPath();
+			for (int i = 0; i < 5; i++)
+			{
+				float angle = i * 144 * (float)Math.PI / 180;
+				float x = centerX + radius * (float)Math.Cos(angle);
+				float y = centerY - radius * (float)Math.Sin(angle);
+				if (i == 0)
+				{
+					path.MoveTo(x, y);
+				}
+				else
+				{
+					path.LineTo(x, y);
+				}
+			}
+			path.Close();
+
+			canvas.DrawPath(path, paint);
+        }
 
 	private async void SelectDataType(object sender, EventArgs e) {
 		string selectedDataType = TypesDropDown.SelectedItem?.ToString();
