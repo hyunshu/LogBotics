@@ -32,7 +32,6 @@
                         FontAttributes="Bold" />
                 <Picker x:Name="TypesDropDown"
                         SelectedIndexChanged="OnDataTypeSelected"
-                        Title="Select Data Type"
                         ItemsSource="{Binding DataTypeNames}" />
                 
                 <!-- Time Axis Data Picker -->
@@ -42,7 +41,6 @@
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         FontAttributes="Bold" />
                 <Picker x:Name="timeDataDropDown"
-                        Title="Select Time Data"
                         ItemsSource="{Binding ColumnLabels}" />
 
                 <!-- X and Y Axis Data Pickers -->
@@ -52,7 +50,6 @@
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         FontAttributes="Bold" />
                 <Picker x:Name="xDataDropDown"
-                        Title="Select X Data"
                         ItemsSource="{Binding ColumnLabels}" />
 
                 <Label Text="Select Data for Y-axis:"
@@ -61,7 +58,6 @@
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         FontAttributes="Bold" />
                 <Picker x:Name="yDataDropDown"
-                        Title="Select Y Data"
                         ItemsSource="{Binding ColumnLabels}" />
 
                 <!-- Load Map Button -->

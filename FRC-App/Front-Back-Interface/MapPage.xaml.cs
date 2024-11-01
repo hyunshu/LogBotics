@@ -75,12 +75,11 @@ public partial class MapPage : ContentPage
         }
        
         isRenderMap = true;
-        canvasView.IsVisible = true;
         canvasView.InvalidateSurface();
     }
 
 
-    private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
+    private async void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
 
             if (isRenderMap) {
@@ -95,7 +94,15 @@ public partial class MapPage : ContentPage
                 Column columnX = dataType.getColumn(selectedX);
                 Column columnY = dataType.getColumn(selectedY);
 
-                Map newMap = new Map(columnTime, columnX, columnY);
+                Map newMap;
+                try {
+                    newMap = new Map(columnTime, columnX, columnY);
+                } catch (AxesDifferentLengthsException) {
+                    await DisplayAlert("Error", "The x-axis must have the same number of elements as the y-axis", "OK");
+                    isRenderMap = false;
+                    return;
+                }
+
                 
                 var canvas = e.Surface.Canvas;
                 SKPath testPath = newMap.GeneratePath(e.Info);
