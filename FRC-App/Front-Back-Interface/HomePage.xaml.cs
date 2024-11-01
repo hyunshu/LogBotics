@@ -665,7 +665,12 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 
 private async void OpenMapPage(object sender, EventArgs e)
 {
-    await Navigation.PushAsync(new MapPage());
+	if (currentUser.rawData is null) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+	} else {
+    await Navigation.PushAsync(new MapPage(currentUser));
+	}
 }
 	
 }

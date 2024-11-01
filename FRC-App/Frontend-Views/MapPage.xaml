@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.MapPage"
+             xmlns:local="clr-namespace:FRC_App"
              Title="Map">
-    <VerticalStackLayout Padding="10">
-        <Label Text="Map Page"
-               VerticalOptions="CenterAndExpand" 
-               HorizontalOptions="CenterAndExpand" />
-        <!-- Add more UI elements like buttons or charts here -->
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <!-- Accelerometer Data Button -->
+            <Button x:Name="AccelerometerDataButton"
+                    Text="Add Accelerometer Data"
+                    BackgroundColor="#4A4A4A"
+                    TextColor="White"
+                    Clicked="AddAccelerometerDataToMap" />
+
+            <!-- StackLayout to hold dynamically added DataType Buttons -->
+            <Label Text="Data Types" FontSize="Medium" FontAttributes="Bold" />
+            <StackLayout x:Name="DataTypeButtons"
+                         Padding="10"
+                         Spacing="10">
+                <!-- Dynamically added buttons will go here -->
+            </StackLayout>
+
+            <!-- Data Type Picker -->
+            <Label Text="Choose the accelerometer data:" FontSize="Medium" FontAttributes="Bold" />
+            <Picker x:Name="TypesDropDown"
+                    Title="Select Data Type" />
+
+            <!-- X and Y Axis Data Pickers -->
+            <Label Text="Select Data for X-axis:" FontSize="Medium" FontAttributes="Bold" />
+            <Picker x:Name="xDataDropDown"
+                    Title="Select X Data" />
+
+            <Label Text="Select Data for Y-axis:" FontSize="Medium" FontAttributes="Bold" />
+            <Picker x:Name="yDataDropDown"
+                    Title="Select Y Data" />
+
+            <!-- Load Map Button -->
+            <Button x:Name="LoadMapButton"
+                    Text="Load Map"
+                    BackgroundColor="#4169E1"
+                    TextColor="White"
+                    Clicked="OnLoadMapClicked" />
+
+            <!-- Placeholder for displaying map image -->
+            <Image x:Name="MapImage"
+                   IsVisible="False"
+                   HeightRequest="200"
+                   VerticalOptions="Center" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
+
