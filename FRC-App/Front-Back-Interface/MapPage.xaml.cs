@@ -71,12 +71,12 @@ public partial class MapPage : ContentPage
         }
        
         isRenderMap = true;
+        canvasView.IsVisible = true;
     }
 
 
     private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
-            canvasView.IsVisible = false;
 
             if (isRenderMap) {
 
@@ -103,8 +103,44 @@ public partial class MapPage : ContentPage
                     IsAntialias = true
                 };
 
-                canvasView.IsVisible = true;
+    
                 canvas.DrawPath(testPath, paint);
+
+                // var canvas = e.Surface.Canvas;
+                // var info = e.Info;
+
+                // canvas.Clear(SKColors.White);
+
+                // var paint = new SKPaint
+                // {
+                //     Style = SKPaintStyle.Stroke,
+                //     Color = SKColors.Black,
+                //     StrokeWidth = 5,
+                //     IsAntialias = true
+                // };
+
+                // float centerX = info.Width / 2;
+                // float centerY = info.Height / 2;
+                // float radius = Math.Min(info.Width, info.Height) / 3;
+
+                // var path = new SKPath();
+                // for (int i = 0; i < 5; i++)
+                // {
+                //     float angle = i * 144 * (float)Math.PI / 180;
+                //     float x = centerX + radius * (float)Math.Cos(angle);
+                //     float y = centerY - radius * (float)Math.Sin(angle);
+                //     if (i == 0)
+                //     {
+                //         path.MoveTo(x, y);
+                //     }
+                //     else
+                //     {
+                //         path.LineTo(x, y);
+                //     }
+                // }
+                // path.Close();
+
+                // canvas.DrawPath(path, paint);
 
             }
             
