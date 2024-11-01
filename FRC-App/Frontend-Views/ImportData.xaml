@@ -16,7 +16,7 @@
         <!-- Import File Button -->
         <Button Text="Import File" 
                 FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                TextColor="White"
                 FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                 Clicked="OnImportButtonClicked" 
                 HorizontalOptions="Center" 
