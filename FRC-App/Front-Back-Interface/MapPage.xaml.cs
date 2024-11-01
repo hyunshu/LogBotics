@@ -63,16 +63,6 @@ public partial class MapPage : ContentPage
             await DisplayAlert("Error", "Must select X and Y data", "OK");
             return;
         }
-
-        DataType dataType = dataContainer.getDataType(selectedDataType);
-        Column columnX = dataType.getColumn(selectedX);
-        Column columnY = dataType.getColumn(selectedY);
-
-        if (columnX.Data.Count != columnY.Data.Count)
-        {
-            await DisplayAlert("Error", "The x-axis and y-axis must have the same number of elements for mapping.", "OK");
-            return;
-        }
        
         isRenderMap = true;
         canvasView.InvalidateSurface();
@@ -98,7 +88,11 @@ public partial class MapPage : ContentPage
                 try {
                     newMap = new Map(columnTime, columnX, columnY);
                 } catch (AxesDifferentLengthsException) {
-                    await DisplayAlert("Error", "The x-axis must have the same number of elements as the y-axis", "OK");
+                    await DisplayAlert("Error", "The time, x-axis acceleration, and y-axis acceleration must have the same number of elements as each other for mapping.", "OK");
+                    isRenderMap = false;
+                    return;
+                } catch (SameAxisException) {
+                    await DisplayAlert("Error", "You cannot select 2 or more of time, xAcceleration, or yAcceleration to be the same as each other.", "OK");
                     isRenderMap = false;
                     return;
                 }
