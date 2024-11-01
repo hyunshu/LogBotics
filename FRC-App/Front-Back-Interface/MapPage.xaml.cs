@@ -95,30 +95,18 @@ public partial class MapPage : ContentPage
                 SKPoint[] testPath = newMap.GeneratePath();
                 SKBitmap testGrid = newMap.GenerateGrid();
 
-                // Draw the grid
-                e.Surface.Canvas.DrawBitmap(testGrid, new SKRect(0, 0, e.Info.Width, e.Info.Height));
-
-                // Draw the path
-                var pathPaint = new SKPaint
+                var paint = new SKPaint
                 {
                     Style = SKPaintStyle.Stroke,
-                    Color = SKColors.Red,
-                    StrokeWidth = 2,
+                    Color = SKColors.Black,
+                    StrokeWidth = 5,
                     IsAntialias = true
                 };
 
-                var path = new SKPath();
-                path.MoveTo(testPath[0]);
-                for (int i = 1; i < testPath.Length; i++)
-                {
-                    path.LineTo(testPath[i]);
-                }
-
-                path.Close();
-
-                e.Surface.Canvas.DrawPath(path, pathPaint);
+                SKCanvas.DrawPoints(1, testPath, paint);
 
                 canvasView.IsVisible = true;
+
             }
             
 			// var canvas = e.Surface.Canvas;

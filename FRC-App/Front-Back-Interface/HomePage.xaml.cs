@@ -109,9 +109,8 @@ public partial class HomePage : ContentPage
 			var path = new SKPath();
 			for (int i = 0; i < 5; i++)
 			{
-				float angle = i * 144 * (float)Math.PI / 180;
-				float x = centerX + radius * (float)Math.Cos(angle);
-				float y = centerY - radius * (float)Math.Sin(angle);
+				float x = 
+				float y = 
 				if (i == 0)
 				{
 					path.MoveTo(x, y);
