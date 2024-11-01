@@ -29,10 +29,9 @@ public partial class ImportData : ContentPage
                 PickerTitle = "Please select a file to import"
             });
             
-
-            if (result != null)
+            string extension = result.FileName.Split(".",StringSplitOptions.RemoveEmptyEntries).Last();
+            if (result != null && extension.Equals("csv"))
             {
-                await DisplayAlert("Success", "Data Imported", "Continue");
                 // Get the file name
                 var fileName = result.FileName;
                 // Display the selected file name
@@ -166,11 +165,13 @@ public partial class ImportData : ContentPage
                 };
                 mapFigure.DrawPoints(SKPointMode.Points,testPath,paint1); //Not sure how to set up .xaml to test this
                 ////Testing 10/25/2024 End:
+
+                await DisplayAlert("Success", "Data Imported", "Continue");
             }
             else
             {
                 // User canceled the file picking
-                SelectedFileLabel.Text = "No file selected";
+                SelectedFileLabel.Text = "No CSV file selected";
             }
 
             
