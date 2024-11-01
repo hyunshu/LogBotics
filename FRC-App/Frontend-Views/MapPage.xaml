@@ -64,8 +64,8 @@
                 <Button x:Name="LoadMapButton"
                         Text="Load Map"
                         BackgroundColor="#4169E1"
-                        TextColor="White"
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         Clicked="OnLoadMapClicked" />
 
