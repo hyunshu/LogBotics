@@ -1,3 +1,4 @@
+using Microsoft.VisualBasic;
 using SkiaSharp;
 
 public class SameAxisException : Exception {
@@ -54,11 +55,16 @@ public class Map {
     * position to draw the path of the robot on the virtual map.
     * @returns SKPath
     */
-    public SKPath GeneratePath() {
+    public SKPath GeneratePath(SKImageInfo info) {
+        float centerX = info.Width / 2;
+        float centerY = info.Height / 2;
+        float scaleX = centerX / (float) this.xPos.Max(v => Math.Abs(v));
+        float scaleY = centerY / (float) this.yPos.Max(v => Math.Abs(v));
+
         SKPath path = new SKPath();
-        path.MoveTo((float) this.xPos[0], (float) this.yPos[0]);
+        path.MoveTo(centerX + (float) this.xPos[0]*scaleX, centerY + (float) this.yPos[0]*scaleY);
         for (int i = 1; i < this.xPos.Count(); i ++) {
-            path.LineTo((float) this.xPos[i], (float) this.yPos[i]);
+            path.LineTo(centerX + (float) this.xPos[i]*scaleX, centerY + (float) this.yPos[i]*scaleY);
         }
         path.Close();
 

@@ -93,7 +93,7 @@ public partial class MapPage : ContentPage
                 Map newMap = new Map(columnTime, columnX, columnY);
                 
                 var canvas = e.Surface.Canvas;
-                SKPath testPath = newMap.GeneratePath();
+                SKPath testPath = newMap.GeneratePath(e.Info);
     
                 var paint = new SKPaint
                 {
