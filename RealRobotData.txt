@@ -1,0 +1,74 @@
+NT4 Client Connected
+NT4 Client Disconnected
+NT4 Client Connected
+Motor: Angular Velocity (rmp): 1.249175184595872e-38
+Motor (from stream): 1.249175184595872e-38
+Motor: Angular Velocity (rmp): 1.263029962642498e-38
+Motor (from stream): 1.263029962642498e-38
+Motor: Angular Velocity (rmp): 1.2757800971096967e-38
+Motor (from stream): 1.2757800971096967e-38
+Motor: Angular Velocity (rmp): 1.2912413237158245e-38
+Motor (from stream): 1.2912413237158245e-38
+Motor: Angular Velocity (rmp): 0.000034753211366478354
+Motor (from stream): 0.000034753211366478354
+Motor: Angular Velocity (rmp): 0.00003479482984403148
+Motor (from stream): 0.00003479482984403148
+Motor: Angular Velocity (rmp): 0.00003484440821921453
+Motor (from stream): 0.00003484440821921453
+Motor: Angular Velocity (rmp): 0.0000348857902281452
+Motor (from stream): 0.0000348857902281452
+Motor: Angular Velocity (rmp): 0.000034934877476189286
+Motor (from stream): 0.000034934877476189286
+Motor: Angular Velocity (rmp): 0.0000349753609043546
+Motor: Angular Velocity (rmp): 0.00003502313120407052
+Motor (from stream): 0.00003502313120407052
+Motor: Angular Velocity (rmp): 0.00003507186193019152
+Motor (from stream): 0.00003507186193019152
+Motor: Angular Velocity (rmp): 0.000035113258491037413
+Motor (from stream): 0.000036662320781033486
+Motor: Time (s): 0
+Motor (from stream): 0.00003670750083983876
+Motor: Time (s): 1
+Motor (from stream): 0.00003675271000247449
+Motor: Time (s): 2
+Motor (from stream): 0.000036801458918489516
+Motor: Time (s): 3
+Motor (from stream): 0.00003684630064526573
+Motor: Time (s): 4
+Motor (from stream): 0.00003689252844196744
+Motor: Time (s): 5
+Motor (from stream): 0.00003693860344355926
+Motor: Time (s): 6
+Motor (from stream): 0.000036984703911002725
+Motor: Time (s): 7
+Motor (from stream): 0.000037025707570137456
+Motor: Time (s): 8
+Motor (from stream): 0.00003707299038069323
+Motor: Time (s): 9
+Motor (from stream): 0.00003711904719239101
+Motor: Time (s): 10
+Position: Time (s): 1
+Position: Time (s): 2
+Motor: Time (s): 11
+Motor (from stream): 0.00003720669337781146
+Motor: Time (s): 12
+Position: Time (s): 3
+Position: Angle (deg): -0.31650160963181406
+Motor (from stream): 0.0
+Position: Angle (deg): -0.31650160963181406
+Position: Angle (deg): -0.1650197342969477
+
+
+
+
+PS C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables> dart run .\networkTablesClient.dart
+Motor (from stream): null
+NT4 Client Connected
+Motor: Time (s): 0.0
+Encoder Values: 0.0
+Position: -0.000003164950612699613
+Motor: Time (s): 0.0
+Encoder Values: 0.0
+Position: -0.000003164950612699613
+Motor (from stream): 0.0
+PS C:\Users\Jenna\Documents\GitHub\LogBotics\networkTables>

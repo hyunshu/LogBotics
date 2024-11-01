@@ -1,53 +1,68 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FRC_App.MapPage"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
              xmlns:local="clr-namespace:FRC_App"
-             Title="Map">
+             x:Class="FRC_App.MapPage"
+             Title="Map Page">
+
     <ScrollView>
-        <VerticalStackLayout Padding="10">
-            <!-- Accelerometer Data Button -->
-            <Button x:Name="AccelerometerDataButton"
-                    Text="Add Accelerometer Data"
-                    BackgroundColor="#4A4A4A"
-                    TextColor="White"
-                    Clicked="AddAccelerometerDataToMap" />
+    <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#FF363333">
 
-            <!-- StackLayout to hold dynamically added DataType Buttons -->
-            <Label Text="Data Types" FontSize="Medium" FontAttributes="Bold" />
-            <StackLayout x:Name="DataTypeButtons"
-                         Padding="10"
-                         Spacing="10">
-                <!-- Dynamically added buttons will go here -->
-            </StackLayout>
+        <!-- Main visualized data area -->
+        <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+        </Frame>
 
-            <!-- Data Type Picker -->
-            <Label Text="Choose the accelerometer data:" FontSize="Medium" FontAttributes="Bold" />
-            <Picker x:Name="TypesDropDown"
-                    Title="Select Data Type" />
+        <!-- Right-side button menu -->
+        <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
+        <!-- Accelerometer Data Button -->
+                <Button x:Name="AccelerometerDataButton"
+                        Text="Add Accelerometer Data"
+                        BackgroundColor="#FF1A1818"
+                        TextColor="White"
+                        Clicked="AddAccelerometerDataToMap" />
 
-            <!-- X and Y Axis Data Pickers -->
-            <Label Text="Select Data for Time (x-axis):" FontSize="Medium" FontAttributes="Bold" />
-            <Picker x:Name="xDataDropDown"
-                    Title="Select X Data" />
+                <!-- Data Type Picker -->
+                <Label Text="Choose the accelerometer data:" FontSize="Medium" FontAttributes="Bold" />
+                <Picker x:Name="TypesDropDown"
+                        SelectedIndexChanged="OnDataTypeSelected"
+                        Title="Select Data Type"
+                        ItemsSource="{Binding DataTypeNames}" />
+                
+                <!-- Time Axis Data Picker -->
+                <Label Text="Select Data for the Time:" FontSize="Medium" FontAttributes="Bold" />
+                <Picker x:Name="timeDataDropDown"
+                        Title="Select Time Data"
+                        ItemsSource="{Binding ColumnLabels}" />
 
-            <Label Text="Select Data for Y-axis (Acceleration):" FontSize="Medium" FontAttributes="Bold" />
-            <Picker x:Name="yDataDropDown"
-                    Title="Select Y Data" />
+                <!-- X and Y Axis Data Pickers -->
+                <Label Text="Select Data for X-axis:" FontSize="Medium" FontAttributes="Bold" />
+                <Picker x:Name="xDataDropDown"
+                        Title="Select X Data"
+                        ItemsSource="{Binding ColumnLabels}" />
 
-            <!-- Load Map Button -->
-            <Button x:Name="LoadMapButton"
-                    Text="Load Map"
-                    BackgroundColor="#4169E1"
-                    TextColor="White"
-                    Clicked="OnLoadMapClicked" />
+                <Label Text="Select Data for Y-axis:" FontSize="Medium" FontAttributes="Bold" />
+                <Picker x:Name="yDataDropDown"
+                        Title="Select Y Data"
+                        ItemsSource="{Binding ColumnLabels}" />
 
-            <!-- Placeholder for displaying map image -->
-            <Image x:Name="MapImage"
-                   IsVisible="False"
-                   HeightRequest="200"
-                   VerticalOptions="Center" />
-        </VerticalStackLayout>
+                <!-- Load Map Button -->
+                <Button x:Name="LoadMapButton"
+                        Text="Load Map"
+                        BackgroundColor="#4169E1"
+                        TextColor="White"
+                        Clicked="OnLoadMapClicked" />
+
+                <!-- Placeholder for displaying map image -->
+                <Image x:Name="MapImage"
+                       IsVisible="False"
+                       HeightRequest="200"
+                       VerticalOptions="Center" />
+        </StackLayout>
+
+
+            
+        <!-- Bottom-right logo -->
+        <Image Source="logbotics.png" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" WidthRequest="50" HeightRequest="50"/>
+    </Grid>
     </ScrollView>
 </ContentPage>
-
