@@ -9,13 +9,20 @@
     <ScrollView>
     <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#FF363333">
 
+        <!-- Accelerometer Data Button -->
+                <Button x:Name="AccelerometerDataButton"
+                        Text="Add Accelerometer Data"
+                        BackgroundColor="#FF1A1818"
+                        TextColor="White"
+                        Clicked="AddAccelerometerDataToMap" />
+
         <!-- Main visualized data area -->
         <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
                 <skia:SKCanvasView x:Name="canvasView" PaintSurface="OnCanvasViewPaintSurface" HeightRequest="400" />
         </Frame>
 
         <!-- Right-side button menu -->
-        <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
+        <StackLayout x:Name="ButtonStack" IsVisible ="False" Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
 
                 <!-- Data Type Picker -->
                 <Label Text="Choose the accelerometer data:"

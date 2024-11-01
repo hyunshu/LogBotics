@@ -25,6 +25,15 @@ public partial class MapPage : ContentPage
         TypesDropDown.ItemsSource = dataTypeNames;
     }
 
+     private void AddAccelerometerDataToMap(object sender, EventArgs e)
+    {
+        //logic to add the data to the map
+        DisplayAlert("Accelerometer Data", "Accelerometer data added to the map.", "OK");
+        ButtonStack.IsVisible = true;
+    }
+
+    
+
 
     private void OnDataTypeSelected(object sender, EventArgs e)
         {
