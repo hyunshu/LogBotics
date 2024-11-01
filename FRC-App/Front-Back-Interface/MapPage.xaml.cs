@@ -1,60 +1,77 @@
 using Microsoft.Maui.Controls;
-using System.ComponentModel;
 using FRC_App.Models;
-using FRC_App.Services;
 
-namespace FRC_App
+namespace FRC_App;
+
+public partial class MapPage : ContentPage
 {
-    public partial class MapPage : ContentPage
+    private DataContainer dataContainer;
+    private User currentUser;
+
+    public MapPage(User user)
     {
-       private DataContainer dataContainer;
-       public User currentUser { get; private set; }
-        public MapPage(User user)
-        {
-            InitializeComponent();
-            currentUser = user;
-            dataContainer = new DataContainer(currentUser);
-            LoadDataTypes();
-        }
-        
-        private void LoadDataTypes()
-        {
-            List<string> dataTypes = dataContainer.getDataTypeNames();
-            foreach (var dataType in dataTypes)
-        {
-            Button dataTypeButton = new Button
-            {
-                Text = dataType,
-                BackgroundColor = Colors.White,
-                TextColor = Colors.Black,
-                Command = new Command(() => OnDataTypeButtonClicked(dataType))
-            };
-            DataTypeButtons.Children.Add(dataTypeButton);
-        }
+        InitializeComponent();
+        currentUser = user;
+        dataContainer = new DataContainer(currentUser);
+        LoadDataTypes();
     }
 
-    private void OnDataTypeButtonClicked(string dataType)
+    private void LoadDataTypes()
     {
-        DataType selectedDataType = dataContainer.getDataType(dataType);
-        if (selectedDataType != null)
-        {
-            List<string> columnLabels = selectedDataType.getColumnLabels();
-            xDataDropDown.ItemsSource = columnLabels;
-            yDataDropDown.ItemsSource = columnLabels;
-        }
+        List<string> dataTypeNames = dataContainer.getDataTypeNames();
+        TypesDropDown.ItemsSource = dataTypeNames;
     }
+
     private void AddAccelerometerDataToMap(object sender, EventArgs e)
     {
-        //add the accelerometer data to the map
+        //logic to add the data to the map
         DisplayAlert("Accelerometer Data", "Accelerometer data added to the map.", "OK");
     }
+
+    private void OnDataTypeSelected(object sender, EventArgs e)
+        {
+            string selectedDataType = TypesDropDown.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(selectedDataType))
+            {
+                DataType selectedData = dataContainer.getDataType(selectedDataType);
+                if (selectedData != null)
+                {
+                    List<string> columnLabels = selectedData.getColumnLabels();
+                    xDataDropDown.ItemsSource = columnLabels;
+                    yDataDropDown.ItemsSource = columnLabels;
+                    timeDataDropDown.ItemsSource = columnLabels;
+                }
+            }
+        }
+
     private async void OnLoadMapClicked(object sender, EventArgs e)
     {
-     //add the logic for loading the map
-        await DisplayAlert("Map Loading", "Loading map based on the selected data...", "OK");
-        MapImage.IsVisible = true;
+        string selectedDataType = TypesDropDown.SelectedItem?.ToString();
+        string selectedX = xDataDropDown.SelectedItem?.ToString();
+        string selectedY = yDataDropDown.SelectedItem?.ToString();
+
+        if (string.IsNullOrEmpty(selectedX) || string.IsNullOrEmpty(selectedY) || string.IsNullOrEmpty(selectedDataType))
+        {
+            await DisplayAlert("Error", "Must select X and Y data", "OK");
+            return;
+        }
+
+        DataType dataType = dataContainer.getDataType(selectedDataType);
+        Column columnX = dataType.getColumn(selectedX);
+        Column columnY = dataType.getColumn(selectedY);
+
+        if (columnX.Data.Count != columnY.Data.Count)
+        {
+            await DisplayAlert("Error", "The x-axis and y-axis must have the same number of elements for mapping.", "OK");
+            return;
+        }
+        RenderMap(columnX, columnY);
     }
 
-
+    private void RenderMap(Column xData, Column yData)
+    {
+        // Placeholder code to render the map
+        MapImage.IsVisible = true;
     }
 }
