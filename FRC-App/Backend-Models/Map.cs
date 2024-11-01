@@ -48,17 +48,19 @@ public class Map {
 
     /**
     * --- GeneratePath() ---
-    * Generates the SKPoint[] for this map object used as a parameter to
+    * Generates the SKPath for this map object used as a parameter to
     * for the SKCanvas.DrawPoints() method to display the path on the map
     * in the front-end. This includes all the coordinates (x & y) of the 
     * position to draw the path of the robot on the virtual map.
-    * @returns SKPoint[]
+    * @returns SKPath
     */
-    public SKPoint[] GeneratePath() {
-        SKPoint[] path = new SKPoint[this.xPos.Count];
-        for (int i = 0; i < path.Count(); i ++) {
-            path[i] = new SKPoint((float) this.xPos[i], (float) this.yPos[i]);
+    public SKPath GeneratePath() {
+        SKPath path = new SKPath();
+        path.MoveTo((float) this.xPos[0], (float) this.yPos[0]);
+        for (int i = 1; i < this.xPos.Count(); i ++) {
+            path.LineTo((float) this.xPos[i], (float) this.yPos[i]);
         }
+        path.Close();
 
         return path;
     }
