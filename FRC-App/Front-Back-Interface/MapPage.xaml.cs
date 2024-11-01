@@ -28,7 +28,7 @@ public partial class MapPage : ContentPage
      private void AddAccelerometerDataToMap(object sender, EventArgs e)
     {
         //logic to add the data to the map
-        DisplayAlert("Accelerometer Data", "Accelerometer data added to the map.", "OK");
+        DisplayAlert("Accelerometer Data", "Please fill out the right panel with your Accelerometer data.", "OK");
         ButtonStack.IsVisible = true;
     }
 
