@@ -211,73 +211,7 @@ public partial class HomePage : ContentPage
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
 			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser); //Also reconstructs the dataStructure based on the retrieval
-
-
-			//Run Data Storage Test cases:
-			if (dataStructure == null)
-			{
-				// Generate Fake Test FRC Data to compare with retrieved stored data if no new data is imported this session:
-        		dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
-        		rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
-			}
-
-			Console.WriteLine($"Retrieved Data:\nRunning Test Cases . . .");
-			int i = 0;
-			foreach (string type in exportDataStructure.dataTypes)
-			{
-				if (!type.Equals(dataStructure.dataTypes[i]))
-				{
-					Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Types Storage Failure!");
-				} else {
-					Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Types Storage Passed.");
-				}
-				i++;
-			}
-
-			i = 0;
-			foreach (List<string> file in exportDataStructure.dataUnits)
-			{
-				int j = 0;
-				int errors = 0;
-				foreach (string unit in file) 
-				{
-					if (!unit.Equals(dataStructure.dataUnits[i][j]))
-					{
-						Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Units Storage Failure!\nColumn: {j+1}");
-						errors++;
-					}
-					j++;
-				}
-				if (errors == 0)
-					Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Units Storage Passed.");
-				i++;
-			}
-
-			i = 0;
-			foreach (List<List<double>> file in retrievedRawData)
-			{
-				int j = 0;
-				int errors = 0;
-				foreach (List<double> column in file) 
-				{
-					int k = 0;
-					foreach (double x in column) 
-					{
-						if (x != rawData[i][j][k]) 
-						{
-							Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Failure!\nColumn: {j+1}\nEntry: {k+1}");
-							errors++;
-						}
-						k++;
-					}
-					j++;
-				}
-				if (errors == 0)
-					Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Passed.");
-				i++;
-			}
 			
-
 			//Testing 10/31/2024:
 			//exportDataStructure = new DataImport();
 			//retrievedRawData = exportDataStructure.GenerateTestData();
@@ -603,7 +537,7 @@ public partial class HomePage : ContentPage
 private async void RunNetworkTablesClient(object sender, EventArgs e)
 {
 	DataImport dataStructure = new DataImport();
-	string directoryPath = "../FRCData/";
+	string directoryPath = "../";
 	string fileName = "RealRobotData.txt";
 	List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
 	await UserDatabase.storeData(currentUser,dataStructure,rawData);
