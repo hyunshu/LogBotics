@@ -9,6 +9,7 @@ public partial class MapPage : ContentPage
 {
     private DataContainer dataContainer;
     private User currentUser;
+    public bool isRenderMap = false;
 
     public MapPage(User user)
     {
@@ -68,51 +69,90 @@ public partial class MapPage : ContentPage
             await DisplayAlert("Error", "The x-axis and y-axis must have the same number of elements for mapping.", "OK");
             return;
         }
-        RenderMap(columnX, columnY);
+       
+        isRenderMap = true;
     }
 
-    private void RenderMap(Column xData, Column yData)
-    {
-        
-    }
 
     private void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
         {
             canvasView.IsVisible = false;
-			var canvas = e.Surface.Canvas;
-			var info = e.Info;
 
-			canvas.Clear(SKColors.White);
+            if (isRenderMap) {
 
-			var paint = new SKPaint
-			{
-				Style = SKPaintStyle.Stroke,
-				Color = SKColors.Black,
-				StrokeWidth = 5,
-				IsAntialias = true
-			};
+                string selectedDataType = TypesDropDown.SelectedItem?.ToString();
+                string selectedTime = timeDataDropDown.SelectedItem?.ToString();
+                string selectedX = xDataDropDown.SelectedItem?.ToString();
+                string selectedY = yDataDropDown.SelectedItem?.ToString();
+                
+                DataType dataType = dataContainer.getDataType(selectedDataType);
+                Column columnTime = dataType.getColumn(selectedTime);
+                Column columnX = dataType.getColumn(selectedX);
+                Column columnY = dataType.getColumn(selectedY);
 
-			float centerX = info.Width / 2;
-			float centerY = info.Height / 2;
-			float radius = Math.Min(info.Width, info.Height) / 3;
+                Map newMap = new Map(columnTime, columnX, columnY);
+                
+                SKPoint[] testPath = newMap.GeneratePath();
+                SKBitmap testGrid = newMap.GenerateGrid();
 
-			var path = new SKPath();
-			for (int i = 0; i < 5; i++)
-			{
-				float angle = i * 144 * (float)Math.PI / 180;
-				float x = centerX + radius * (float)Math.Cos(angle);
-				float y = centerY - radius * (float)Math.Sin(angle);
-				if (i == 0)
-				{
-					path.MoveTo(x, y);
-				}
-				else
-				{
-					path.LineTo(x, y);
-				}
-			}
-			path.Close();
+                // Draw the grid
+                e.Surface.Canvas.DrawBitmap(testGrid, new SKRect(0, 0, e.Info.Width, e.Info.Height));
 
-			canvas.DrawPath(path, paint);
+                // Draw the path
+                var pathPaint = new SKPaint
+                {
+                    Style = SKPaintStyle.Stroke,
+                    Color = SKColors.Red,
+                    StrokeWidth = 2,
+                    IsAntialias = true
+                };
+
+                var path = new SKPath();
+                path.MoveTo(testPath[0]);
+                for (int i = 1; i < testPath.Length; i++)
+                {
+                    path.LineTo(testPath[i]);
+                }
+
+                e.Surface.Canvas.DrawPath(path, pathPaint);
+
+                canvasView.IsVisible = true;
+            }
+            
+			// var canvas = e.Surface.Canvas;
+			// var info = e.Info;
+
+			// canvas.Clear(SKColors.White);
+
+			// var paint = new SKPaint
+			// {
+			// 	Style = SKPaintStyle.Stroke,
+			// 	Color = SKColors.Black,
+			// 	StrokeWidth = 5,
+			// 	IsAntialias = true
+			// };
+
+			// float centerX = info.Width / 2;
+			// float centerY = info.Height / 2;
+			// float radius = Math.Min(info.Width, info.Height) / 3;
+
+			// var path = new SKPath();
+			// for (int i = 0; i < 5; i++)
+			// {
+			// 	float angle = i * 144 * (float)Math.PI / 180;
+			// 	float x = centerX + radius * (float)Math.Cos(angle);
+			// 	float y = centerY - radius * (float)Math.Sin(angle);
+			// 	if (i == 0)
+			// 	{
+			// 		path.MoveTo(x, y);
+			// 	}
+			// 	else
+			// 	{
+			// 		path.LineTo(x, y);
+			// 	}
+			// }
+			// path.Close();
+
+			// canvas.DrawPath(path, paint);
         }
 }
