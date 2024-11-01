@@ -59,17 +59,17 @@ void main() async {
   });
 
   await for (Object? data in motorOutputSub.stream()) {
-    String logEntry = 'Motor Output (from stream): $data\n';
+    String logEntry = 'Motor: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
   await for (Object? data in encoderValuesSub.stream()) {
-    String logEntry = 'Encoder Values (from stream): $data\n';
+    String logEntry = 'Encoder: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
   await for (Object? data in pigeonPositionSub.stream()) {
-    String logEntry = 'Pigeon Position (from stream): $data\n';
+    String logEntry = 'Pigeon: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
