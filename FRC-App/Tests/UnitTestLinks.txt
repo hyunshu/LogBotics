@@ -1,0 +1,17 @@
+LogBotics Sprint #2: Story #4 - Plotting Test Cases:
+https://docs.google.com/document/d/1pSQLOSDfet7PWrtQ2O7RjywAsx2o6naG7ZoWx6BJueg/edit?usp=sharing
+
+LogBotics Sprint #2: Story #7 - Preferences Test Cases
+https://docs.google.com/document/d/12CesvAxbQ6OX2it_Y9oFeEoQ8ZS9FQzZTMFaMjPc8AQ/edit?usp=sharing
+
+LogBotics Sprint #2: Story #6 - Mapping Test Cases
+https://docs.google.com/document/d/1GYPP__Hc3-Tz2yliaHUN8QSt9aK7hB0EaxkoehLg_ks/edit?usp=sharing
+
+LogBotics Sprint #2: Story #2 - Account Recovery Test Cases
+https://docs.google.com/document/d/1iS9viXQOXOIAuu944BLx7TvMe89SmHkDSIiFgUDFvug/edit?usp=sharing
+
+LogBotics Sprint #2: Story #5 - Adding More Plots Test Cases
+https://docs.google.com/document/d/1K-6wSU7yX0qvTv-OHwS87nug-TiuqZtnqIl3uwYwx3Y/edit?usp=sharing
+
+LogBotics Sprint #2: Story #3 - Importing Robot Data
+https://docs.google.com/document/d/16vD7YagN3c-bh90oFYGAJeUHR1KXphjDu9gZjU30sr4/edit?usp=sharing

@@ -5,11 +5,74 @@
              Title="Preferences">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
+            <!-- Font Size Adjustment -->
+            <StackLayout Padding="10">
+                <Label Text="Adjust Font Size:" 
+                       FontSize="{Binding FontSize}" 
+                       TextColor="{Binding FontColor}"
+                       FontFamily="{Binding FontType}"
+                       VerticalOptions="Center" />
+
+                <Slider x:Name="FontSizeSlider"
+                        Minimum="10" 
+                        Maximum="50" 
+                        Value="{Binding FontSize, Mode=TwoWay}" />
+            </StackLayout>
+
+            <!-- Font Color Picker -->
+            <Label Text="Select Font Color:" 
+                FontAttributes="Bold" 
+                FontSize="{Binding FontSize}"
+                TextColor="{Binding FontColor}"
+                FontFamily="{Binding FontType}" />
+            <Picker x:Name="colorPicker" 
+                    SelectedIndexChanged="OnFontColorChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Default</x:String>
+                        <x:String>Black</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Green</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Orange</x:String>
+                        <x:String>Purple</x:String>
+                        <x:String>White</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <!-- Font Type Picker -->
+            <Label Text="Select Font Type:" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
+            <Picker x:Name="fontTypePicker"
+                    SelectedIndexChanged="OnFontTypeChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Arial</x:String>
+                        <x:String>Helvetica</x:String>
+                        <x:String>Times New Roman</x:String>
+                        <x:String>Courier New</x:String>
+                        <x:String>Georgia</x:String>
+                        <x:String>Verdana</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
             <!-- Theme Selection -->
-            <Label Text="Appearance" FontAttributes="Bold" FontSize="Medium" />
+            <Label Text="Appearance" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
             <Frame CornerRadius="8" BorderColor="LightGray">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Select Theme:" FontSize="Small" />
+                    <Label Text="Select Theme:" 
+                           FontSize="{Binding FontSize}" 
+                           TextColor="{Binding FontColor}" 
+                           FontFamily="{Binding FontType}" />
                     <Picker x:Name="themePicker" SelectedIndexChanged="OnThemeChanged">
                         <Picker.ItemsSource>
                             <x:Array Type="{x:Type x:String}">
@@ -21,55 +84,55 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Font Size Settings -->
-            <Label Text="Text Settings" FontAttributes="Bold" FontSize="Medium" />
-            <Frame CornerRadius="8" BorderColor="LightGray">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Select Font Size:" FontSize="Small" />
-                    <Picker x:Name="fontSizePicker" SelectedIndexChanged="OnFontSizeChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Small</x:String>
-                                <x:String>Medium</x:String>
-                                <x:String>Large</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                </VerticalStackLayout>
-            </Frame>
-
-            <!-- Layout Settings -->
-            <Label Text="Layout Settings" FontAttributes="Bold" FontSize="Medium" />
-            <Frame CornerRadius="8" BorderColor="LightGray">
-                <VerticalStackLayout Spacing="10">
-                    <Label Text="Select Layout Style:" FontSize="Small" />
-                    <Picker x:Name="layoutPicker" SelectedIndexChanged="OnLayoutChanged">
-                        <Picker.ItemsSource>
-                            <x:Array Type="{x:Type x:String}">
-                                <x:String>Compact</x:String>
-                                <x:String>Spacious</x:String>
-                            </x:Array>
-                        </Picker.ItemsSource>
-                    </Picker>
-                </VerticalStackLayout>
-            </Frame>
+             <!-- Chart Color Picker -->
+            <Label Text="Select Plot Color:" 
+                FontAttributes="Bold" 
+                FontSize="{Binding FontSize}"
+                TextColor="{Binding FontColor}"
+                FontFamily="{Binding FontType}" />
+            <Picker x:Name="plotColorPicker" 
+                    SelectedIndexChanged="OnPlotColorChanged">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Default</x:String>
+                        <x:String>Black</x:String>
+                        <x:String>Red</x:String>
+                        <x:String>Green</x:String>
+                        <x:String>Blue</x:String>
+                        <x:String>Orange</x:String>
+                        <x:String>Purple</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
 
             <!-- Notification Settings -->
-            <Label Text="Notifications" FontAttributes="Bold" FontSize="Medium" />
+            <Label Text="Notifications" 
+                   FontAttributes="Bold" 
+                   FontSize="{Binding FontSize}"
+                   TextColor="{Binding FontColor}"
+                   FontFamily="{Binding FontType}" />
             <Frame CornerRadius="8" BorderColor="LightGray">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Enable Notifications:" FontSize="Small" />
+                    <Label Text="Enable Notifications:" 
+                           FontSize="{Binding FontSize}"
+                           TextColor="{Binding FontColor}"
+                           FontFamily="{Binding FontType}" />
                     <Switch x:Name="notificationSwitch" />
                 </VerticalStackLayout>
             </Frame>
 
             <!-- Account Settings -->
-            <Label Text="Account" FontAttributes="Bold" FontSize="Medium" />
+            <Label Text="Account" FontAttributes="Bold" FontSize="{Binding FontSize}" />
             <Frame CornerRadius="8" BorderColor="LightGray">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="Manage your account settings here." FontSize="Small" />
-                    <Button Text="Edit Account Information" Clicked="OnEditAccountClicked" />
-                    <Button Text="Log Out" Clicked="OnLogOutClicked" TextColor="Red" />
+                    <Label Text="Manage your account settings here." FontSize="{Binding FontSize}" />
+                    <Button Text="Edit Account Information" 
+                            FontSize="{Binding FontSize}" 
+                            Clicked="OnEditAccountClicked" />
+                    <Button Text="Log Out" 
+                            FontSize="{Binding FontSize}" 
+                            Clicked="OnLogOutClicked" 
+                            TextColor="Red" />
                 </VerticalStackLayout>
             </Frame>
         </VerticalStackLayout>

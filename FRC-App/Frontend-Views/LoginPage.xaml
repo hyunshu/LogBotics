@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.LoginPage">
 
-
+    <ScrollView>
         <VerticalStackLayout Padding="30,0" Spacing="25">
             <Image
                 Source="logbotics.png"
@@ -61,5 +61,16 @@
             SemanticProperties.Hint="Redirects to create account page"
             Clicked="RedirectToCreateAccountPage"
             HorizontalOptions="Fill" />
+
+            <Button Text="Forgot Password?"
+            FontSize="12"
+            TextColor="#4169E1"
+            BackgroundColor="Transparent"
+            Padding="0"
+            BorderWidth="0"
+            Clicked ="RedirectToForgotPasswordPage"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
         </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
