@@ -236,6 +236,11 @@ public partial class HomePage : ContentPage
 		await Navigation.PushAsync(new InstructionPage(currentUser));
 	}
 
+	private async void DataManipulation(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new DataManipulationPage(currentUser));
+	}
+
 	public void loadUserPreferences() {
 		string userThemeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
 

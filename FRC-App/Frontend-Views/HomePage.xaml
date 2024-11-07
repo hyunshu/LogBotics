@@ -122,140 +122,150 @@
         <!-- Right-side button menu -->
         <StackLayout Grid.Row="1" Grid.Column="1" Padding="10" Spacing="10">
         
-            <Button Text="Export Data" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="ExportData" />
+                <Button Text="Export Data" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="ExportData" />
 
-            <Button Text="Import Data" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="ImportData" />
+                <Button Text="Import Data" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="ImportData" />
 
-             <Button Text="Run Network Client" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="RunNetworkTablesClient" />
+                <Button Text="Run Network Client" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="RunNetworkTablesClient" />
                      
-             <Button Text="Map Position" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="OpenMapPage" />
+                <Button Text="Map Position" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="OpenMapPage" />
 
-            <Button Text="Preferences" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="Preference" />
+                <Button Text="Preferences" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="Preference" />
 
-            <Button Text="Instructions" 
-                    BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    CornerRadius="10" 
-                    Clicked="Instruction" />
+                <Button Text="Instructions" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="Instruction" />
 
-            <Button Text="Log Out" 
-                    BackgroundColor="#FF858282" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                    BorderColor="Black" 
-                    CornerRadius="10" 
-                    Clicked="LogOut" />
+                <Button Text="Data Manipulation" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="DataManipulation" />
 
-            <!-- User Information Section -->
-            <StackLayout Padding="0,20,0,0" Spacing="5">
-                <Label Text="Team Info"
-                       FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                       TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                       FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                       FontAttributes="Bold"
-                       HorizontalOptions="Center" />
+
+
+                <Button Text="Log Out" 
+                        BackgroundColor="#FF858282" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        BorderColor="Black" 
+                        CornerRadius="10" 
+                        Clicked="LogOut" />
+
+                <!-- User Information Section -->
+                <StackLayout Padding="0,20,0,0" Spacing="5">
+                        <Label Text="Team Info"
+                                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                                FontAttributes="Bold"
+                                HorizontalOptions="Center" />
 
                 <!-- Team Number Display -->
                 <StackLayout HorizontalOptions="Center">
-                    <Label Text="Team #:" 
-                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                            FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
-                    <Label Text="{Binding TeamNumber}"
-                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                           HorizontalOptions="Center" />
+                        <Label Text="Team #:" 
+                                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                        <Label Text="{Binding TeamNumber}"
+                                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                                HorizontalOptions="Center" />
                 </StackLayout>
 
                 <!-- Team Name Display -->
                 <StackLayout HorizontalOptions="Center">
-                    <Label Text="Team Name:" 
-                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                            FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
-                    <Label Text="{Binding TeamName}"
-                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                           HorizontalOptions="Center" />
+                        <Label Text="Team Name:" 
+                                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                        <Label Text="{Binding TeamName}"
+                                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                                HorizontalOptions="Center" />
                 </StackLayout>
 
                 <!-- Add Plot Button -->
                 <Button Text="Add Plot" 
                         BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10"  
                         Clicked="AddPlot" />
 
                 <Button Text="Delete Plot" 
                         BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10"  
                         Clicked="DeletePlot" />
 
                 <!-- Chart Type Buttons -->
                 <Button Text="Line Chart" 
                         BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderLineChart" />
 
                 <Button Text="Point Chart" 
                         BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderPointChart" />
 
                 <Button Text="Radar Chart" 
                         BackgroundColor="#4A4A4A" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RenderRadarChart" />
-            </StackLayout>
+                </StackLayout>
         </StackLayout>
 
         <!-- Bottom-right logo -->
