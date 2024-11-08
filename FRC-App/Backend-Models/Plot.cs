@@ -1,16 +1,8 @@
-
-using System.IO.Compression;
 using Microcharts;
 using SkiaSharp;
-using LiveChartsCore;
-using System.Collections.ObjectModel;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.SKCharts;
-using LiveChartsCore.Defaults;
-using LiveChartsCore.Kernel.Sketches;
-using LiveChartsCore.Kernel;
-using LiveChartsCore.SkiaSharpView.Painting;
-using Microsoft.UI.Xaml.Controls;
+
 
 public class AxesDifferentLengthsException : Exception {
     public AxesDifferentLengthsException(string message)
