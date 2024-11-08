@@ -240,7 +240,7 @@ public class DataImport
      * @param rawData
      * @param user
      */
-    public void StoreRawData(List<List<List<double>>> rawData, User user)
+    public void StoreRawData(List<List<List<double>>> rawData, User user, string sessionName)
     {
         string dataTypes = "";
         foreach (string type in this.dataTypes) 
@@ -280,10 +280,10 @@ public class DataImport
         }
         rawDataString = rawDataString.Substring(0, rawDataString.Length - 1);
 
-
-        user.dataTypes = dataTypes;
-        user.dataUnits = dataUnits;
-        user.rawData = rawDataString;
+        user.sessions += "|" + sessionName;
+        user.dataTypes += "|" + dataTypes;
+        user.dataUnits += "|" + dataUnits;
+        user.rawData += "|" + rawDataString;
     }
 
 
