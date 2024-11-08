@@ -2,6 +2,15 @@
 using System.IO.Compression;
 using Microcharts;
 using SkiaSharp;
+using LiveChartsCore;
+using System.Collections.ObjectModel;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.SKCharts;
+using LiveChartsCore.Defaults;
+using LiveChartsCore.Kernel.Sketches;
+using LiveChartsCore.Kernel;
+using LiveChartsCore.SkiaSharpView.Painting;
+using Microsoft.UI.Xaml.Controls;
 
 public class AxesDifferentLengthsException : Exception {
     public AxesDifferentLengthsException(string message)
@@ -14,6 +23,8 @@ public class Plot {
     public string YLabel { get; set; }
     public int numPoints { get; set; }
     public ChartEntry[] chart { get; set; }
+    private int width = 900;
+    private int height = 600;
     private Column x;
     private Column y;
 
@@ -34,17 +45,85 @@ public class Plot {
         this.y = y;
 
         chart = new ChartEntry[this.numPoints];
-        string plotColor = getRandomHexColor();
-        for (int i = 0; i < this.numPoints; i++)
-			{
-				chart[i] = new ChartEntry((float) y.Data[i])
-				{
-					Label = x.Data[i].ToString(),  // i.e time (x domain)
-					ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
-					Color = SKColor.Parse(plotColor)
-				};
-			}
+        string plotColor = getRandomHexColor(); 
 
+        for (int i = 0; i < this.numPoints; i++)
+        {
+            chart[i] = new ChartEntry((float) y.Data[i])
+            {
+                Label = x.Data[i].ToString(),  // i.e time (x domain)
+                ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
+                Color = SKColor.Parse(plotColor)
+            };
+        }
+    }
+
+    public SKCartesianChart GetLineChart() {
+        var chart = new SKCartesianChart
+        {
+            Width = width,
+            Height = height,
+            Series = new[]
+            {
+                new LineSeries<(double X, double Y)>
+                {
+                    Values = getValues(),
+                }
+            },
+            Background = SKColor.Parse(getRandomHexColor()),
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } }
+        };
+
+        return chart;
+    }
+
+    public SKPolarChart GetPolarChart() {
+        var chart = new SKPolarChart
+        {
+            Width = width,
+            Height = height,
+            Series = new[]
+            {
+                new PolarLineSeries<(double X, double Y)>
+                {
+                    Values = getValues(),
+                }
+            },
+            Background = SKColor.Parse(getRandomHexColor()),
+            AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
+            RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } }
+        };
+
+        return chart;
+    }
+
+    public SKCartesianChart GetScatterChart() {
+        var chart = new SKCartesianChart
+        {
+            Width = width,
+            Height = height,
+            Series = new[]
+            {
+                new ScatterSeries<(double X, double Y)>
+                {
+                    Values = getValues(),
+                }
+            },
+            Background = SKColor.Parse(getRandomHexColor()),
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } }
+        };
+
+        return chart;
+    }
+
+    private List<(double X, double Y)> getValues() {
+        var values = new List<(double X, double Y)>{};
+        for (int i = 0; i < this.numPoints; i++) {
+            values.Add((x.Data[i],y.Data[i]));
+        }
+        return values;
     }
 
     public bool SameAxisCheck() {
