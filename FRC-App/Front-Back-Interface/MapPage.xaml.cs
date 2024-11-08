@@ -7,21 +7,21 @@ namespace FRC_App;
 
 public partial class MapPage : ContentPage
 {
-    private DataContainer dataContainer;
+    private Session sessionData;
     private User currentUser;
     public bool isRenderMap = false;
 
-    public MapPage(User user)
+    public MapPage(User user, Session sessionData)
     {
         InitializeComponent();
-        currentUser = user;
-        dataContainer = new DataContainer(currentUser);
+        this.currentUser = user;
+        this.sessionData = sessionData;
         LoadDataTypes();
     }
 
     private void LoadDataTypes()
     {
-        List<string> dataTypeNames = dataContainer.getDataTypeNames();
+        List<string> dataTypeNames = sessionData.getDataTypeNames();
         TypesDropDown.ItemsSource = dataTypeNames;
     }
 
@@ -41,7 +41,7 @@ public partial class MapPage : ContentPage
 
             if (!string.IsNullOrEmpty(selectedDataType))
             {
-                DataType selectedData = dataContainer.getDataType(selectedDataType);
+                DataType selectedData = sessionData.getDataType(selectedDataType);
                 if (selectedData != null)
                 {
                     List<string> columnLabels = selectedData.getColumnLabels();
@@ -79,7 +79,7 @@ public partial class MapPage : ContentPage
                 string selectedX = xDataDropDown.SelectedItem?.ToString();
                 string selectedY = yDataDropDown.SelectedItem?.ToString();
                 
-                DataType dataType = dataContainer.getDataType(selectedDataType);
+                DataType dataType = sessionData.getDataType(selectedDataType);
                 Column columnTime = dataType.getColumn(selectedTime);
                 Column columnX = dataType.getColumn(selectedX);
                 Column columnY = dataType.getColumn(selectedY);

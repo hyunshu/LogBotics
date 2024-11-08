@@ -12,13 +12,14 @@ using SkiaSharp.Views.Maui;
 
 using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
+//using Microsoft.Maui.Controls.Compatibility.Platform.iOS; //Causes and error on windows
 
 namespace FRC_App;
 
 public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
-	public DataContainer userData { get; private set; }
+	public Session sessionData { get; private set; }
 	public ObservableCollection<ChartView> chartViews { get; set; }
 	public ObservableCollection<Label> chartLabels { get; set; }
 	public ObservableCollection<string> VisibleLabels { get; set; } 
@@ -80,9 +81,33 @@ public partial class HomePage : ContentPage
 			return;
 		} 
 
-		userData = new DataContainer(currentUser);
-		TypesDropDown.ItemsSource = userData.getDataTypeNames();
+		bool noSession = this.sessionData == null;
+
+		if (noSession) {
+			await DisplayAlert("Error", "You have no session selected.", "OK");
+			return;
+		}
+
+		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
+	}
+
+
+	//Demo for front-end devs:
+	private async void changeSession(object sender, EventArgs e) {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		//TODO: Needs dropdown implementation
+		DataContainer dataContainer = new DataContainer(currentUser);
+		List<string> sessions = dataContainer.getSessionNames();
+		string sessionSelection = sessions[0]; //Chosen from a dropdown
+
+		this.sessionData = dataContainer.getSession(sessionSelection);
 	}
 
 
@@ -94,7 +119,7 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
-		DataType dataType = userData.getDataType(selectedDataType);
+		DataType dataType = sessionData.getDataType(selectedDataType);
 
 		xDataDropDown.ItemsSource = dataType.getColumnLabels();
 		yDataDropDown.ItemsSource = dataType.getColumnLabels();
@@ -111,7 +136,7 @@ public partial class HomePage : ContentPage
 			return;
 		}
 
-		DataType dataType = userData.getDataType(selectedDataType);
+		DataType dataType = sessionData.getDataType(selectedDataType);
 		Column columnX = dataType.getColumn(selectedX);
 		Column columnY = dataType.getColumn(selectedY);
 
@@ -197,10 +222,6 @@ public partial class HomePage : ContentPage
 		DeleteStack.IsVisible = false;
 	}
 
-
-	DataImport dataStructure;
-	public List<List<List<double>>> rawData;
-
 	private async void ImportData(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new ImportData(currentUser));
@@ -210,9 +231,11 @@ public partial class HomePage : ContentPage
 	{
 		if (currentUser.rawData is null) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
+		} else if (this.sessionData is null) {
+			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
-			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser); //Also reconstructs the dataStructure based on the retrieval
+			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser,sessionData.Name); //Also reconstructs the dataStructure based on the retrieval
 			
 			//Testing 10/31/2024:
 			//exportDataStructure = new DataImport();
@@ -547,7 +570,15 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 	string directoryPath = "../";
 	string fileName = "RealRobotData.txt";
 	List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
-	await UserDatabase.storeData(currentUser,dataStructure,rawData);
+
+
+
+	//TODO: Need popup to name the session of data imported from the Robot
+	string sessionName = "textboxEntry";
+
+
+
+	await UserDatabase.storeData(currentUser,dataStructure,rawData,sessionName);
 
 	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
 	Console.WriteLine($"{currentUser.dataUnits}");
@@ -607,10 +638,13 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 private async void OpenMapPage(object sender, EventArgs e)
 {
 	if (currentUser.rawData is null) {
-			await DisplayAlert("Error", "You have no data to display.", "OK");
-			return;
+		await DisplayAlert("Error", "You have no data to display.", "OK");
+		return;
+	} else if (this.sessionData is null) {
+		await DisplayAlert("Error", "You have no session selected.", "OK");
+		return;
 	} else {
-    await Navigation.PushAsync(new MapPage(currentUser));
+    await Navigation.PushAsync(new MapPage(currentUser,this.sessionData));
 	}
 }
 	
