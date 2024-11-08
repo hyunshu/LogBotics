@@ -2,6 +2,7 @@ using Microcharts;
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.SKCharts;
+using LiveChartsCore.SkiaSharpView.VisualElements;
 
 
 public class AxesDifferentLengthsException : Exception {
@@ -64,7 +65,14 @@ public class Plot {
             },
             Background = SKColor.Parse(getRandomHexColor()),
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
-            YAxes = new[] { new Axis { Labeler = value => this.YLabel } }
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
         };
 
         return chart;
@@ -84,7 +92,14 @@ public class Plot {
             },
             Background = SKColor.Parse(getRandomHexColor()),
             AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
-            RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } }
+            RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
         };
 
         return chart;
@@ -104,7 +119,14 @@ public class Plot {
             },
             Background = SKColor.Parse(getRandomHexColor()),
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
-            YAxes = new[] { new Axis { Labeler = value => this.YLabel } }
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
         };
 
         return chart;
