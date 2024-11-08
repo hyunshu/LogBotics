@@ -5,13 +5,11 @@ using Microcharts.Maui;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using System.Diagnostics;
-
-using SkiaSharp.Views.Maui.Controls;
-using SkiaSharp.Views.Maui;
-
 using System.Collections.ObjectModel;
-using System.Security.Cryptography.X509Certificates;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+
 
 namespace FRC_App;
 
@@ -24,13 +22,13 @@ public partial class HomePage : ContentPage
 	public ObservableCollection<string> VisibleLabels { get; set; } 
 	public Dictionary<string, Plot> plotDict { get; set; }
 	public int numPlots;
-	
+
 
 	public HomePage(User user)
 	{
 		InitializeComponent();
 		currentUser = user;
-		BindingContext = currentUser;
+		// BindingContext = currentUser;
 
 		chartViews = new ObservableCollection<ChartView>
         {
@@ -62,8 +60,8 @@ public partial class HomePage : ContentPage
 	{
 		base.OnAppearing();
 		UpdateChartColors();
-		BindingContext = null;
-		BindingContext = currentUser;
+		//BindingContext = null;
+		//BindingContext = currentUser;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
