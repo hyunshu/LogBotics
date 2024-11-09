@@ -27,7 +27,7 @@ public partial class HomePage : ContentPage
 	{
 		InitializeComponent();
 		currentUser = user;
-		// BindingContext = currentUser;
+		BindingContext = currentUser;
 
 		chartViews = new ObservableCollection<ChartView>
         {
@@ -64,22 +64,23 @@ public partial class HomePage : ContentPage
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
+		await Navigation.PushAsync(new AddPlotPage(currentUser));
 
-		if (numPlots >= 6) {
-			await DisplayAlert("Error", "Max number of plots is 6!", "OK");
-			return;
-		}
+		// if (numPlots >= 6) {
+		// 	await DisplayAlert("Error", "Max number of plots is 6!", "OK");
+		// 	return;
+		// }
 
-		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+		// bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		if (!hasData) {
-			await DisplayAlert("Error", "You have no data to display.", "OK");
-			return;
-		} 
+		// if (!hasData) {
+		// 	await DisplayAlert("Error", "You have no data to display.", "OK");
+		// 	return;
+		// } 
 
-		userData = new DataContainer(currentUser);
-		TypesDropDown.ItemsSource = userData.getDataTypeNames();
-		TypesStack.IsVisible = true;
+		// userData = new DataContainer(currentUser);
+		// TypesDropDown.ItemsSource = userData.getDataTypeNames();
+		// TypesStack.IsVisible = true;
 	}
 
 

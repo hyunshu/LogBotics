@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:microcharts="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             x:Class="FRC_App.AddPlotPage"
+             Title="AddPlotPage">
+    
+    <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
+
+        <!-- Main Frame for the charts and buttons -->
+        <Frame Grid.Row="1" Grid.Column="0" Padding="10" BorderColor="Black" CornerRadius="10">
+            <StackLayout Spacing="10" VerticalOptions="FillAndExpand">
+                
+                <!-- Export Buttons Section -->
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                    <Button Text="Export JPEG" BackgroundColor="#4A4A4A" Clicked="ExportToJpeg" />
+                    <Button Text="Export PDF" BackgroundColor="#4A4A4A" Clicked="ExportToPdf" />
+                </StackLayout>
+
+                <!-- Activity Indicator -->
+                <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
+
+                <!-- Chart Views -->
+                <Label x:Name="chart1label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
+                
+                <Label x:Name="chart2label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView2" IsVisible="False" HeightRequest="200" />
+                
+                <Label x:Name="chart3label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView3" IsVisible="False" HeightRequest="200" />
+                
+                <Label x:Name="chart4label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView4" IsVisible="False" HeightRequest="200" />
+                
+                <Label x:Name="chart5label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView5" IsVisible="False" HeightRequest="200" />
+                
+                <Label x:Name="chart6label" Text="Label" FontSize="16" IsVisible="False" />
+                <microcharts:ChartView x:Name="chartView6" IsVisible="False" HeightRequest="200" />
+                
+            </StackLayout>
+        </Frame>
+
+        <!-- Drop Down to Choose Data Types -->
+        <StackLayout x:Name="TypesStack" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10" IsVisible="False">
+            <Frame BackgroundColor="#E0E0E0" BorderColor="Black" CornerRadius="5" Padding="5">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    
+                    <!-- Data Selection Pickers -->
+                    <Picker x:Name="TypesDropDown" SelectedIndexChanged="SelectDataType" Title="Choose which data to plot" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+                    <Picker x:Name="xDataDropDown" Title="Select Data type for the x-axis" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+                    <Picker x:Name="yDataDropDown" Title="Select Data type for the y-axis" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+                    
+                    <!-- Button to Create Graph -->
+                    <Button x:Name="SelectXandYDataButton" Text="Create Graph" BackgroundColor="#FF1B35CD" TextColor="White" CornerRadius="5" Clicked="SelectXandYData" />
+
+                </HorizontalStackLayout>
+            </Frame>
+        </StackLayout>
+
+        <!-- Delete Plot Section -->
+        <StackLayout x:Name="DeleteStack" Grid.Row="3" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10" IsVisible="False">
+            <Frame BackgroundColor="#E0E0E0" BorderColor="Black" CornerRadius="5" Padding="5">
+                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
+                    
+                    <!-- Delete Plot Picker -->
+                    <Picker x:Name="DeleteDropDown" Title="Select plot to delete" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+                    
+                    <!-- Delete Plot Button -->
+                    <Button x:Name="DeletePlotButton" Text="Delete" BackgroundColor="Red" TextColor="Black" CornerRadius="5" Clicked="DeleteSelectedPlot" />
+                </HorizontalStackLayout>
+            </Frame>
+        </StackLayout>
+
+        <!-- Buttons to Add/Delete Plot positioned to the right -->
+        <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Padding="10">
+            <Button Text="Add Plot" BackgroundColor="#4A4A4A" CornerRadius="10" Clicked="AddPlot" />
+            <Button Text="Delete Plot" BackgroundColor="#4A4A4A" CornerRadius="10" Clicked="DeletePlot" />
+        </StackLayout>
+
+    </Grid>
+
+</ContentPage>
