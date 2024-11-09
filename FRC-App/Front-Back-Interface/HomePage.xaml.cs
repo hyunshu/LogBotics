@@ -619,5 +619,11 @@ private async void OnDebuggingButtonClicked(object sender, EventArgs e)
     await Navigation.PushAsync(new DebuggingPage());
 }
 
+private async void OnReportBugButtonClicked(object sender, EventArgs e)
+{
+    await Navigation.PushAsync(new ReportBugPage());
+}
+
+
 	
 }

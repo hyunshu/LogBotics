@@ -176,6 +176,11 @@
                 CornerRadius="10"
                 Clicked="OnDebuggingButtonClicked" />
 
+            <Button Text="Report a Bug"
+                BackgroundColor="#FF6347"
+                TextColor="White"
+                CornerRadius="10"
+                Clicked="OnReportBugButtonClicked" />
 
             <Button Text="Log Out" 
                     BackgroundColor="#FF858282" 
