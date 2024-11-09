@@ -5,6 +5,21 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="FRC_App.AddPlotPage"
              Title="AddPlotPage">
+
+   <ContentPage.Resources>
+        <DataTemplate x:Key="ChartItemTemplate">
+            <ContentView>
+                <!-- Bind Series, XAxes, YAxes, and Title properties from the Plot object -->
+                <lvc:CartesianChart 
+                    Series="{Binding Series}" 
+                    XAxes="{Binding XAxes}" 
+                    YAxes="{Binding YAxes}"
+                    WidthRequest="300"
+                    HeightRequest="200">
+                </lvc:CartesianChart>
+            </ContentView>
+        </DataTemplate>
+    </ContentPage.Resources>
     
     <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
 
@@ -21,24 +36,11 @@
                 <!-- Activity Indicator -->
                 <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                <!-- Chart Views -->
-                <Label x:Name="chart1label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView1" IsVisible="False" HeightRequest="200" />
-                
-                <Label x:Name="chart2label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView2" IsVisible="False" HeightRequest="200" />
-                
-                <Label x:Name="chart3label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView3" IsVisible="False" HeightRequest="200" />
-                
-                <Label x:Name="chart4label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView4" IsVisible="False" HeightRequest="200" />
-                
-                <Label x:Name="chart5label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView5" IsVisible="False" HeightRequest="200" />
-                
-                <Label x:Name="chart6label" Text="Label" FontSize="16" IsVisible="False" />
-                <microcharts:ChartView x:Name="chartView6" IsVisible="False" HeightRequest="200" />
+                  <!-- CollectionView for displaying the charts -->
+                <CollectionView x:Name="ChartCollectionView"
+                                ItemsSource="{Binding chartCollection}"
+                                ItemTemplate="{StaticResource ChartItemTemplate}">
+                </CollectionView>
                 
             </StackLayout>
         </Frame>

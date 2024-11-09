@@ -5,6 +5,7 @@ using Microcharts;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.Drawing.Geometries;
+using LiveChartsCore.SkiaSharpView.Maui;
 
 namespace FRC_App;
 
@@ -13,39 +14,19 @@ public partial class AddPlotPage : ContentPage
 
 	public User currentUser { get; private set; }
 	public DataContainer userData { get; private set; }
-	public ObservableCollection<ChartView> chartViews { get; set; }
-	public ObservableCollection<Label> chartLabels { get; set; }
-	public ObservableCollection<string> VisibleLabels { get; set; } 
 	public Dictionary<string, Plot> plotDict { get; set; }
+	public ObservableCollection<CartesianChart> chartCollection { get; set; }
+	
 	public int numPlots;
 	public AddPlotPage(User user)
 	{
 		InitializeComponent();
 		currentUser = user;
-
-		chartViews = new ObservableCollection<ChartView>
-        {
-            chartView1,
-            chartView2,
-            chartView3,
-            chartView4,
-            chartView5,
-            chartView6
-        };
-
-		chartLabels = new ObservableCollection<Label>
-		{
-			chart1label,
-            chart2label,
-            chart3label,
-            chart4label,
-            chart5label,
-            chart6label
-		};
-
-		VisibleLabels = new ObservableCollection<string>();
 		plotDict = new Dictionary<string, Plot>{};
+		chartCollection = new ObservableCollection<CartesianChart>();
 		numPlots = 0;
+		BindingContext = this;
+		ChartCollectionView.ItemsSource = chartCollection;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -120,19 +101,8 @@ public partial class AddPlotPage : ContentPage
 	}
 
 	private void renderNewPlot (Plot newPlot) {
-
-		for (int i = 0; i < chartViews.Count; i++) {
-			var chartView = chartViews[i];
-			if (chartView.Chart == null) {
-				chartView.Chart = new LineChart { Entries = newPlot.chart };
-				var chartLabel = chartLabels[i];
-				chartLabel.Text = newPlot.Title;
-
-				chartLabel.IsVisible = true;
-				chartView.IsVisible = true;
-				break;
-			}
-		}
+		CartesianChart newChart = newPlot.GetLineChart();
+		chartCollection.Add(newChart);
 		numPlots++;
 	}
 
@@ -142,15 +112,8 @@ public partial class AddPlotPage : ContentPage
 			return;
 		}
 
-		VisibleLabels.Clear();
-		foreach (Label chartLabel in chartLabels) {
-			if (chartLabel.IsVisible) {
-				VisibleLabels.Add(chartLabel.Text);
-			}
-		}
-		
-		DeleteDropDown.ItemsSource = VisibleLabels;
-		DeleteStack.IsVisible = true;
+
+
 	}
 
 	private async void DeleteSelectedPlot(object sender, EventArgs e) {
@@ -161,20 +124,9 @@ public partial class AddPlotPage : ContentPage
 			return;
 		}
 
-		for (int i = 0; i < chartLabels.Count; i++) {
-			var chartLabel = chartLabels[i];
-			if (string.Equals(selectedPlot, chartLabel.Text)) {
-				var chartView = chartViews[i];
-				chartView.IsVisible = false;
-				chartLabel.IsVisible = false;
-				chartView.Chart = null;
-
-				plotDict.Remove(chartLabel.Text);
-				break;
-			}
-		}
 		numPlots--;
-		DeleteStack.IsVisible = false;
+	
+
 	}
 
 	private async void ExportToJpeg(object sender, EventArgs e) {

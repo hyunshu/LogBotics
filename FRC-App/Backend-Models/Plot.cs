@@ -1,8 +1,9 @@
 using Microcharts;
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView;
-using LiveChartsCore.SkiaSharpView.SKCharts;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView.Maui;
 
 
 public class AxesDifferentLengthsException : Exception {
@@ -51,11 +52,9 @@ public class Plot {
         }
     }
 
-    public SKCartesianChart GetLineChart() {
-        var chart = new SKCartesianChart
+    public CartesianChart GetLineChart() {
+        var chart = new CartesianChart
         {
-            Width = width,
-            Height = height,
             Series = new[]
             {
                 new LineSeries<(double X, double Y)>
@@ -63,7 +62,6 @@ public class Plot {
                     Values = getValues(),
                 }
             },
-            Background = SKColor.Parse(getRandomHexColor()),
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
             YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
 
@@ -78,11 +76,9 @@ public class Plot {
         return chart;
     }
 
-    public SKPolarChart GetPolarChart() {
-        var chart = new SKPolarChart
+    public PolarChart GetPolarChart() {
+        var chart = new PolarChart
         {
-            Width = width,
-            Height = height,
             Series = new[]
             {
                 new PolarLineSeries<(double X, double Y)>
@@ -90,7 +86,6 @@ public class Plot {
                     Values = getValues(),
                 }
             },
-            Background = SKColor.Parse(getRandomHexColor()),
             AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
             RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } },
 
@@ -105,11 +100,9 @@ public class Plot {
         return chart;
     }
 
-    public SKCartesianChart GetScatterChart() {
-        var chart = new SKCartesianChart
+    public CartesianChart GetScatterChart() {
+        var chart = new CartesianChart
         {
-            Width = width,
-            Height = height,
             Series = new[]
             {
                 new ScatterSeries<(double X, double Y)>
@@ -117,7 +110,6 @@ public class Plot {
                     Values = getValues(),
                 }
             },
-            Background = SKColor.Parse(getRandomHexColor()),
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
             YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
 
