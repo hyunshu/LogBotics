@@ -23,7 +23,6 @@ public partial class HomePage : ContentPage
 	public Dictionary<string, Plot> plotDict { get; set; }
 	public int numPlots;
 
-
 	public HomePage(User user)
 	{
 		InitializeComponent();
