@@ -613,5 +613,11 @@ private async void OpenMapPage(object sender, EventArgs e)
     await Navigation.PushAsync(new MapPage(currentUser));
 	}
 }
+
+private async void OnDebuggingButtonClicked(object sender, EventArgs e)
+{
+    await Navigation.PushAsync(new DebuggingPage());
+}
+
 	
 }

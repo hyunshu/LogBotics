@@ -170,6 +170,13 @@
                     CornerRadius="10" 
                     Clicked="Instruction" />
 
+            <Button Text="Debugging"
+                BackgroundColor="#4A4A4A"
+                TextColor="White"
+                CornerRadius="10"
+                Clicked="OnDebuggingButtonClicked" />
+
+
             <Button Text="Log Out" 
                     BackgroundColor="#FF858282" 
                 FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
