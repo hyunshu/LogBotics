@@ -64,6 +64,7 @@ namespace FRC_App.Models
         public bool IsAdmin { get; set; }
 
         // Below is for the user's complete set of data for their FRC mission:
+        public string sessions { get; set; }
         public string dataTypes { get; set; }
         public string dataUnits { get; set; }
         public string rawData { get; set; }

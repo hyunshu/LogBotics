@@ -1,6 +1,6 @@
 
-//Second (intermediate) level of the FRC data structure:
-//i.e. holds all Columns in the CSV file
+//Third (secound-to-last) level of the FRC data structure:
+//i.e. holds all Columns in a CSV file
 public class DataType {
     public string Name { get; set; }
     public List<Column> Columns { get; set; }

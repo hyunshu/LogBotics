@@ -6,6 +6,7 @@ using FRC_App.Models;
 
 public class DataImport
 {
+    public string sessionName;
     public List<string> dataTypes;
     public List<List<string>> dataUnits;
 
@@ -239,8 +240,9 @@ public class DataImport
      * that can be stored by SQL.
      * @param rawData
      * @param user
+     * @param sessionName
      */
-    public void StoreRawData(List<List<List<double>>> rawData, User user)
+    public void StoreRawData(List<List<List<double>>> rawData, User user, string sessionName)
     {
         string dataTypes = "";
         foreach (string type in this.dataTypes) 
@@ -280,10 +282,10 @@ public class DataImport
         }
         rawDataString = rawDataString.Substring(0, rawDataString.Length - 1);
 
-
-        user.dataTypes = dataTypes;
-        user.dataUnits = dataUnits;
-        user.rawData = rawDataString;
+        user.sessions += "|" + sessionName;
+        user.dataTypes += "|" + dataTypes;
+        user.dataUnits += "|" + dataUnits;
+        user.rawData += "|" + rawDataString;
     }
 
 
@@ -297,15 +299,23 @@ public class DataImport
      * object to match the corresponding data structure (dataTypes & dataUnits)
      * that was retrieved.
      * @param user
+     * @param sessionName
      * @returns rawData
      */
-    public List<List<List<double>>> RetrieveRawData(User user)
+    public List<List<List<double>>> RetrieveRawData(User user, string sessionName)
     {
-        this.dataTypes = user.dataTypes.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        this.sessionName = sessionName;
+        int sessionIndex = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList().FindIndex(x => x.Equals(sessionName));
+        string dataTypesString = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string dataUnitsString = user.dataUnits.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string rawDataString = user.rawData.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+
+
+        this.dataTypes = dataTypesString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
 
 
         this.dataUnits.Clear();
-        List<string> filesUnits = user.dataUnits.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesUnits = dataUnitsString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesUnits)
         {
             List<string> units = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -314,7 +324,7 @@ public class DataImport
 
 
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
-        List<string> filesData = user.rawData.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesData = rawDataString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesData)
         {
             List<List<double>> z = new List<List<double>> {};
