@@ -54,7 +54,7 @@ namespace FRC_App
     */
     private async void SendBugReportAutomatically(object sender, EventArgs e)
     {
-        string bugDescription = BugDescriptionEntry.Text;
+        string bugDescription = BugDescriptionEditor.Text;
 
         var message = new MimeMessage();
         message.From.Add(new MailboxAddress("LogBotics App", "logboticsteam@gmail.com"));
