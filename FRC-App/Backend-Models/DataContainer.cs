@@ -9,7 +9,7 @@ public class DataContainer {
     public DataContainer(User user) {
         this.sessions = new List<Session>{};
 
-        List<string> sessions = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string sessionName in sessions) {
             Session session = new Session();
             session.Name = sessionName;
@@ -39,6 +39,7 @@ public class DataContainer {
                 session.DataTypes.Add(dataType);
                 fileNum++;
             }
+            this.sessions.Add(session);
         }
     }
 

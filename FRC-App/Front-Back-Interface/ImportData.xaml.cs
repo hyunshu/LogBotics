@@ -45,6 +45,7 @@ public partial class ImportData : ContentPage
                 List<List<List<double>>> recievedRawData = importDataStructure.FromCSV(directoryPath, fileFamilyName);
                 await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData,sessionName);
 
+                Console.WriteLine($"Updated Sessions:\n{currentUser.sessions}");
                 Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
                 Console.WriteLine($"{currentUser.dataUnits}");
                 Console.WriteLine($"{currentUser.rawData}");

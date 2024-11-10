@@ -282,10 +282,17 @@ public class DataImport
         }
         rawDataString = rawDataString.Substring(0, rawDataString.Length - 1);
 
-        user.sessions += "|" + sessionName;
-        user.dataTypes += "|" + dataTypes;
-        user.dataUnits += "|" + dataUnits;
-        user.rawData += "|" + rawDataString;
+        if (string.IsNullOrEmpty(user.sessions)){
+            user.sessions = sessionName;
+            user.dataTypes = dataTypes;
+            user.dataUnits = dataUnits;
+            user.rawData = rawDataString;
+        } else {
+            user.sessions += "|" + sessionName;
+            user.dataTypes += "|" + dataTypes;
+            user.dataUnits += "|" + dataUnits;
+            user.rawData += "|" + rawDataString;
+        }
     }
 
 

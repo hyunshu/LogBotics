@@ -33,6 +33,10 @@ public partial class HomePage : ContentPage
 		currentUser = user;
 		BindingContext = currentUser;
 
+		if (user.rawData != null) {
+			changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+		}
+
 		chartViews = new ObservableCollection<ChartView>
         {
             chartView1,
@@ -81,6 +85,8 @@ public partial class HomePage : ContentPage
 			return;
 		} 
 
+		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
 		bool noSession = this.sessionData == null;
 
 		if (noSession) {
@@ -93,8 +99,8 @@ public partial class HomePage : ContentPage
 	}
 
 
-	//Demo for front-end devs:
-	private async void changeSession(object sender, EventArgs e) {
+	//Demo for front-end devs (needs to be implemented as a button):
+	private async void changeSession() {
 		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
 		if (!hasData) {
@@ -231,7 +237,12 @@ public partial class HomePage : ContentPage
 	{
 		if (currentUser.rawData is null) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
-		} else if (this.sessionData is null) {
+			return;
+		} 
+
+		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+		
+		if (this.sessionData is null) {
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
@@ -579,6 +590,8 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 
 
 	await UserDatabase.storeData(currentUser,dataStructure,rawData,sessionName);
+
+	changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 
 	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
 	Console.WriteLine($"{currentUser.dataUnits}");
