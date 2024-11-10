@@ -61,6 +61,12 @@ namespace FRC_App
         message.To.Add(new MailboxAddress("Team 24", "jrigdon@purdue.edu"));
         message.Subject = "Bug Report from LogBotics App";
 
+        if (string.IsNullOrWhiteSpace(bugDescription))
+        {
+        await DisplayAlert("Error", "Please enter a description of the bug.", "OK");
+        return;
+        }
+
         var bodyBuilder = new BodyBuilder
         {
             TextBody = $"{bugDescription}\n\nDevice Information:\n" +

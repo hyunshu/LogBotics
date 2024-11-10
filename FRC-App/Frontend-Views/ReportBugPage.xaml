@@ -17,7 +17,5 @@
                 CornerRadius="10"
                 Clicked="SendBugReportAutomatically" />
 
-        <Entry x:Name="BugDescriptionEntry" Placeholder="Describe the issue..." />
-
     </StackLayout>
 </ContentPage>
