@@ -2,80 +2,88 @@
 using FRC_App.Models;
 
 //First (highest) level of the FRC data structure:
-//i.e. holds all files in the CSV file family
+//i.e. holds all sessions of data
 public class DataContainer {
-    private List<DataType> DataTypes { get; set; }
+    private User user { get; set; }
+    private List<Session> sessions { get; set; }
 
-    /**
-     * --- DataContainer() ---
-     * Constructs a DataContainer object based on the user data from
-     * the user parameter. Automatically generates all the DataType 
-     * objects and their subsequent Column objects completing the full
-     * data structure with names and data for every type and column under
-     * DataTypes. Allows below getter methods to work.
-     * @param User
-     */
     public DataContainer(User user) {
-        DataImport dataStructure = new DataImport();
-        List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user);
+        this.user = user;
+        this.sessions = new List<Session>{};
 
-        this.DataTypes = new List<DataType>{};
+        List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
+        foreach (string sessionName in sessions) {
+            Session session = new Session();
+            session.Name = sessionName;
+            session.DataTypes = new List<DataType>{};
 
-        int fileNum = 0;
-        foreach (List<List<double>> type in rawData)
-        {
-            DataType dataType = new DataType();
-            dataType.Name = dataStructure.dataTypes[fileNum];   
-            dataType.Columns = new List<Column>{};
+            DataImport dataStructure = new DataImport();
+            List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user,sessionName);
 
-            int columnNum = 0;
-            foreach (List<double> columnData in type)
+            int fileNum = 0;
+            foreach (List<List<double>> type in rawData)
             {
-                Column column = new Column();
-                column.Label = dataStructure.dataUnits[fileNum][columnNum];
-                column.Data = columnData;
+                DataType dataType = new DataType();
+                dataType.Name = dataStructure.dataTypes[fileNum];   
+                dataType.Columns = new List<Column>{};
 
-                dataType.Columns.Add(column);
-                columnNum++;
+                int columnNum = 0;
+                foreach (List<double> columnData in type)
+                {
+                    Column column = new Column();
+                    column.Label = dataStructure.dataUnits[fileNum][columnNum];
+                    column.Data = columnData;
+
+                    dataType.Columns.Add(column);
+                    columnNum++;
+                }
+
+                session.DataTypes.Add(dataType);
+                fileNum++;
             }
-
-            this.DataTypes.Add(dataType);
-            fileNum++;
+            this.sessions.Add(session);
         }
     }
 
+
+    public void storeDataContainer() {
+        //TODO
+    }
+
+
     /**
-     * --- getDataTypeNames() ---
-     * Returns the list of dataType names (motor, sensor, ect). This should
+     * --- getSessionNames() ---
+     * Returns the list of session names (testing, FRC Competition #2...). This should
      * be used to generate the buttons for the first selection criteria for
      * getting a data axis for plotting ect.
      * @return List<string>
      */
-    public List<string> getDataTypeNames() {
-        List<string> typeNames = new List<string>{};
+    public List<string> getSessionNames() {
+        List<string> sessionNames = new List<string>{};
 
-        foreach (DataType type in this.DataTypes)
+        foreach (Session session in this.sessions)
         {
-            typeNames.Add(type.Name);
+            sessionNames.Add(session.Name);
         }
 
-        return typeNames;
+        return sessionNames;
     }
 
+
     /**
-     * --- getDataType() ---
-     * Returns the DataType object that corresponds to the datatypeName. For example
-     * after the first set of axis selection buttons is chosen (choosing a dataType)
-     * this would convert that string into the corresponding DataType object that holds 
-     * the columns with data & labels.
-     * @param dataTypeName
-     * @return DataType
+     * --- getSession() ---
+     * Returns the Session object that corresponds to the sessionName. For example
+     * after the session selection dropdown is chosen 
+     * this would convert that string into the corresponding Session object that holds 
+     * the dataTypes that hold columns with data & labels.
+     * @param sessionName
+     * @return Session
      */
-    public DataType getDataType(string dataTypeName) {
-        foreach (DataType type in this.DataTypes)
+    public Session getSession(string sessionName) {
+        foreach (Session session in this.sessions)
         {
-            if (String.Equals(type.Name,dataTypeName)) {
-                return type;
+            if (String.Equals(session.Name,sessionName)) {
+                return session;
             }
         }
         return null;

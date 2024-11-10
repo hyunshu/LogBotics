@@ -66,11 +66,11 @@ namespace FRC_App.Services
         }
 
 
-        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData)
+        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData, string sessionName)
         {
             await Init();
             
-            import.StoreRawData(rawData,user);
+            import.StoreRawData(rawData,user,sessionName);
 
             await db.UpdateAsync(user);
         }
