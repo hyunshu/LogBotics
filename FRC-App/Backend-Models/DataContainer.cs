@@ -47,7 +47,9 @@ public class DataContainer {
 
 
     public void storeDataContainer() {
-        //TODO
+        foreach (Session session in this.sessions) {
+            //TODO
+        }
     }
 
 

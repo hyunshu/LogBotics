@@ -7,6 +7,19 @@ public class Session {
     public string Name { get; set; }
     public List<DataType> DataTypes { get; set; }
 
+    public List<List<List<double>>> getRawData() {
+        List<List<List<double>>> rawData = new List<List<List<double>>>{};
+        foreach (DataType type in this.DataTypes) {
+            List<List<double>> typeData = new List<List<double>>{};
+            foreach (Column column in type.Columns) {
+                typeData.Add(column.Data);
+            }
+            rawData.Add(typeData);
+        }
+
+        return rawData;
+    }
+
     /**
      * --- getDataTypeNames() ---
      * Returns the list of dataType names (motor, sensor, ect). This should
