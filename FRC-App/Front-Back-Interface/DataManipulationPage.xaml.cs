@@ -16,27 +16,56 @@ public partial class DataManipulationPage : ContentPage
     private int SelectedDataValueNumber;
     private double SelectedValue;
     private ObservableCollection<ValueItem> ValuesTableItems;
+    public ObservableCollection<string> DataSessions { get; set; }
+    private int SelectedSessionIndex;
 
     public DataManipulationPage(User user)
     {
         InitializeComponent();
         currentUser = user;
 
-        // Initialize data types and units from currentUser
-        var dataImport = new DataImport();
-        var rawData = dataImport.RetrieveRawData(currentUser);
-
-        DataTypes = dataImport.dataTypes;
-        DataUnits = dataImport.dataUnits;
+        // Initialize sessions and bind to the DataSessionPicker
+        LoadSessions();
+        DataSessionPicker.ItemsSource = DataSessions;
 
         // Initialize ValuesTableItems as an empty collection
         ValuesTableItems = new ObservableCollection<ValueItem>();
         ValuesTable.ItemsSource = ValuesTableItems;
+    }
 
-        // Set the initial values for pickers
+    private void LoadSessions()
+    {
+        // Parse sessions from the user object
+        DataSessions = new ObservableCollection<string>(currentUser.sessions.Split('|'));
+    }
+
+    private void OnDataSessionSelected(object sender, EventArgs e)
+    {
+        if (DataSessionPicker.SelectedIndex != -1)
+        {
+            SelectedSessionIndex = DataSessionPicker.SelectedIndex;
+            LoadSessionData();
+        }
+    }
+
+    private void LoadSessionData()
+    {
+        // Load data types and units for the selected session
+        DataTypes = currentUser.dataTypes.Split('|')[SelectedSessionIndex].Split('_').ToList();
+        DataUnits = currentUser.dataUnits.Split('|')[SelectedSessionIndex]
+                       .Split('_')
+                       .Select(unitString => unitString.Split(';').ToList())
+                       .ToList();
+
+        // Update pickers with new data
         DataTypePicker.ItemsSource = DataTypes;
-        SelectedDataType = DataTypes.FirstOrDefault();
-        UpdateFilteredDataUnits();
+        DataTypePicker.SelectedIndex = -1;
+        DataUnitPicker.ItemsSource = null;
+        DataValuePicker.ItemsSource = null;
+
+        // Clear table and current value display
+        ValuesTableItems.Clear();
+        CurrentValueLabel.Text = "Current Value: ";
     }
 
     private void OnDataTypeSelected(object sender, EventArgs e)
@@ -53,8 +82,8 @@ public partial class DataManipulationPage : ContentPage
         int index = DataTypes.IndexOf(SelectedDataType);
         var filteredUnits = index >= 0 && index < DataUnits.Count ? DataUnits[index] : new List<string>();
         DataUnitPicker.ItemsSource = filteredUnits;
-        SelectedDataUnit = filteredUnits.FirstOrDefault();
-        UpdateDataValueNumbers();
+        DataUnitPicker.SelectedIndex = -1;
+        DataValuePicker.ItemsSource = null;
     }
 
     private void OnDataUnitSelected(object sender, EventArgs e)
@@ -71,7 +100,7 @@ public partial class DataManipulationPage : ContentPage
         var entry = GetDataEntry(SelectedDataType, SelectedDataUnit);
         DataValueNumbers = entry != null ? Enumerable.Range(1, entry.Values.Count).ToList() : new List<int>();
         DataValuePicker.ItemsSource = DataValueNumbers;
-        SelectedDataValueNumber = 1; // Reset to 1
+        SelectedDataValueNumber = 1;
         DataValuePicker.SelectedItem = SelectedDataValueNumber;
         UpdateSelectedValue();
         UpdateValuesTable(entry);
@@ -108,15 +137,14 @@ public partial class DataManipulationPage : ContentPage
         if (entry != null && SelectedDataValueNumber - 1 < entry.Values.Count)
         {
             SelectedValue = double.TryParse(entry.Values[SelectedDataValueNumber - 1], out var value) ? value : 0;
-            ValueSlider.Value = SelectedValue; // Sync Slider
-            ValueEntry.Text = SelectedValue.ToString("F2"); // Sync Entry
+            ValueSlider.Value = SelectedValue;
+            ValueEntry.Text = SelectedValue.ToString("F2");
             CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
         }
     }
 
     private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
     {
-        // Sync Entry with Slider changes and update the ValuesTable dynamically
         SelectedValue = e.NewValue;
         ValueEntry.Text = SelectedValue.ToString("F2");
         CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
@@ -125,11 +153,10 @@ public partial class DataManipulationPage : ContentPage
 
     private void OnValueEntryChanged(object sender, TextChangedEventArgs e)
     {
-        // Sync Slider with Entry changes and update the ValuesTable dynamically
         if (double.TryParse(ValueEntry.Text, out var parsedValue) && SelectedValue != parsedValue)
         {
             SelectedValue = parsedValue;
-            ValueSlider.Value = SelectedValue; // Sync Slider
+            ValueSlider.Value = SelectedValue;
             CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
             UpdateTableValue();
         }
@@ -137,7 +164,6 @@ public partial class DataManipulationPage : ContentPage
 
     private void UpdateTableValue()
     {
-        // Update the corresponding item in ValuesTableItems
         if (SelectedDataValueNumber - 1 < ValuesTableItems.Count && SelectedDataValueNumber - 1 >= 0)
         {
             ValuesTableItems[SelectedDataValueNumber - 1].Value = SelectedValue.ToString("F2");
@@ -151,7 +177,8 @@ public partial class DataManipulationPage : ContentPage
 
         if (typeIndex != -1 && unitIndex != -1 && SelectedDataValueNumber - 1 >= 0)
         {
-            var filesData = currentUser.rawData.Split("_", StringSplitOptions.RemoveEmptyEntries).ToList();
+            var filesData = currentUser.rawData.Split("|", StringSplitOptions.RemoveEmptyEntries)[SelectedSessionIndex]
+                            .Split("_", StringSplitOptions.RemoveEmptyEntries).ToList();
             var columnsData = filesData[typeIndex].Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
             var rowsData = columnsData[unitIndex].Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
 
@@ -159,10 +186,10 @@ public partial class DataManipulationPage : ContentPage
 
             columnsData[unitIndex] = string.Join(",", rowsData);
             filesData[typeIndex] = string.Join(";", columnsData);
-            currentUser.rawData = string.Join("_", filesData);
-            
-            UserDatabase.UpdateUserAsync(currentUser);
+            currentUser.rawData = string.Join("|", currentUser.rawData.Split("|", StringSplitOptions.RemoveEmptyEntries)
+                                   .Select((data, index) => index == SelectedSessionIndex ? string.Join("_", filesData) : data));
 
+            UserDatabase.UpdateUserAsync(currentUser);
             DisplayAlert("Save", "Value has been saved successfully.", "OK");
         }
     }
@@ -175,7 +202,8 @@ public partial class DataManipulationPage : ContentPage
         int unitIndex = DataUnits[typeIndex].IndexOf(dataUnit);
         if (unitIndex == -1) return null;
 
-        List<double> values = currentUser.rawData.Split("_", StringSplitOptions.RemoveEmptyEntries)
+        List<double> values = currentUser.rawData.Split("|", StringSplitOptions.RemoveEmptyEntries)[SelectedSessionIndex]
+            .Split("_", StringSplitOptions.RemoveEmptyEntries)
             .ElementAtOrDefault(typeIndex)?
             .Split(";", StringSplitOptions.RemoveEmptyEntries)
             .ElementAtOrDefault(unitIndex)?

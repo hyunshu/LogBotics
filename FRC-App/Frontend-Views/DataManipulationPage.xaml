@@ -5,10 +5,16 @@
     <ScrollView>
         <StackLayout Padding="10">
             <!-- Title of the Page -->
-            <Label Text="Select Data Type, Data Unit, and Data Value to Manipulate" 
-                FontSize="Large" 
-                HorizontalOptions="Center" 
-                Margin="0, 10" />
+            <Label Text="Select Data Session, Data Type, Data Unit, and Data Value to Manipulate" 
+                   FontSize="Large" 
+                   HorizontalOptions="Center" 
+                   Margin="0, 10" />
+
+            <!-- Data Session Picker -->
+            <Label Text="Data Session:" FontAttributes="Bold" />
+            <Picker x:Name="DataSessionPicker"
+                    ItemsSource="{Binding DataSessions}" 
+                    SelectedIndexChanged="OnDataSessionSelected" />
 
             <!-- Data Type Picker -->
             <Label Text="Data Type:" FontAttributes="Bold" />
@@ -37,53 +43,52 @@
 
             <!-- Entry for manipulating the selected value -->
             <Entry x:Name="ValueEntry"
-                Keyboard="Numeric"
-                HorizontalOptions="Center"
-                WidthRequest="99999"
-                TextChanged="OnValueEntryChanged"
-                Margin="0, 10" />
-            
+                   Keyboard="Numeric"
+                   HorizontalOptions="Center"
+                   WidthRequest="99999"
+                   TextChanged="OnValueEntryChanged"
+                   Margin="0, 10" />
+
             <!-- Display Current Value -->
             <Label x:Name="CurrentValueLabel"
-                Text="Current Value: "
-                HorizontalOptions="Center"
-                Margin="0, 10" />
+                   Text="Current Value: "
+                   HorizontalOptions="Center"
+                   Margin="0, 10" />
 
-            <!-- Table of values for the selected Data Type and Data Unit -->
+            <!-- Scrollable Table of values for the selected Data Type and Data Unit -->
             <ScrollView>
                 <CollectionView x:Name="ValuesTable" Margin="0, 10" BackgroundColor="LightGray">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid ColumnDefinitions="50, *, 1"
-                                RowDefinitions="Auto, 1"
-                                Padding="0, 5">
-
+                                  RowDefinitions="Auto, 1"
+                                  Padding="0, 5">
                                 <!-- Order Label -->
                                 <Label Text="{Binding Order}" 
-                                    FontAttributes="Bold" 
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    Grid.Column="0" 
-                                    Margin="5" />
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" 
+                                       Margin="5" />
 
                                 <!-- Value Label -->
                                 <Label Text="{Binding Value}" 
-                                    HorizontalOptions="Center"
-                                    VerticalOptions="Center"
-                                    Grid.Column="1" 
-                                    Margin="5" />
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Grid.Column="1" 
+                                       Margin="5" />
 
                                 <!-- Row Divider -->
                                 <BoxView Grid.Row="1" 
-                                        Grid.ColumnSpan="3" 
-                                        HeightRequest="1" 
-                                        BackgroundColor="DarkGray" />
+                                         Grid.ColumnSpan="3" 
+                                         HeightRequest="1" 
+                                         BackgroundColor="DarkGray" />
 
                                 <!-- Column Divider -->
                                 <BoxView Grid.Row="0" 
-                                        Grid.Column="2" 
-                                        WidthRequest="1" 
-                                        BackgroundColor="DarkGray" />
+                                         Grid.Column="2" 
+                                         WidthRequest="1" 
+                                         BackgroundColor="DarkGray" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
@@ -97,4 +102,3 @@
         </StackLayout>
     </ScrollView>
 </ContentPage>
-
