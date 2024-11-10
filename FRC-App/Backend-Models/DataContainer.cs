@@ -16,7 +16,8 @@ public class DataContainer {
             session.DataTypes = new List<DataType>{};
 
             DataImport dataStructure = new DataImport();
-            List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user,sessionName);
+            //List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user,sessionName);
+            List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user);
 
             int fileNum = 0;
             foreach (List<List<double>> type in rawData)

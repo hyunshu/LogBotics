@@ -2,54 +2,99 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.DataManipulationPage"
              Title="Data Manipulation">
+    <ScrollView>
+        <StackLayout Padding="10">
+            <!-- Title of the Page -->
+            <Label Text="Select Data Type, Data Unit, and Data Value to Manipulate" 
+                FontSize="Large" 
+                HorizontalOptions="Center" 
+                Margin="0, 10" />
 
-    <StackLayout Padding="10">
-        <!-- Title of the Page -->
-        <Label Text="Select Data Type and Data Unit" 
-               FontSize="Large" 
-               HorizontalOptions="Center" 
-               Margin="0, 10" />
+            <!-- Data Type Picker -->
+            <Label Text="Data Type:" FontAttributes="Bold" />
+            <Picker x:Name="DataTypePicker"
+                    ItemsSource="{Binding DataTypes}"
+                    SelectedIndexChanged="OnDataTypeSelected" />
 
-        <!-- Data Type Picker -->
-        <Label Text="Data Type:" FontAttributes="Bold" />
-        <Picker ItemsSource="{Binding DataTypes}"
-                SelectedItem="{Binding SelectedDataType, Mode=TwoWay}" />
+            <!-- Data Unit Picker (dependent on Data Type) -->
+            <Label Text="Data Unit:" FontAttributes="Bold" />
+            <Picker x:Name="DataUnitPicker"
+                    ItemsSource="{Binding FilteredDataUnits}"
+                    SelectedIndexChanged="OnDataUnitSelected"/>
 
-        <!-- Data Unit Picker -->
-        <Label Text="Data Unit:" FontAttributes="Bold" />
-        <Picker ItemsSource="{Binding DataUnits}"
-                SelectedItem="{Binding SelectedDataUnit, Mode=TwoWay}"/>
+            <!-- Data Value Picker (dependent on Data Type and Data Unit) -->
+            <Label Text="Data Value:" FontAttributes="Bold" />
+            <Picker x:Name="DataValuePicker"
+                    ItemsSource="{Binding DataValueNumbers}"
+                    SelectedIndexChanged="OnDataValueSelected" />
 
-        <!-- Value Manipulation Slider -->
-        <Label Text="Adjust Value:" FontAttributes="Bold" />
-        <Slider Minimum="0"
-                Maximum="100" 
-                Value="{Binding SelectedValue, Mode=TwoWay}"
-                HorizontalOptions="FillAndExpand" />
-        <Label Text="{Binding SelectedValue, StringFormat='Current Value: {0:F2}'}" 
-               HorizontalOptions="Center" />
+            <!-- Slider for manipulating the selected value -->
+            <Label Text="Adjust Value:" FontAttributes="Bold" />
+            <Slider x:Name="ValueSlider"
+                    Minimum="0" Maximum="99999"
+                    ValueChanged="OnSliderValueChanged"
+                    Margin="0, 10" />
 
-        <!-- Data Table -->
-        <Label Text="Raw Data Table" 
-               FontSize="Large" 
-               HorizontalOptions="Center" 
-               Margin="0, 20" />
+            <!-- Entry for manipulating the selected value -->
+            <Entry x:Name="ValueEntry"
+                Keyboard="Numeric"
+                HorizontalOptions="Center"
+                WidthRequest="99999"
+                TextChanged="OnValueEntryChanged"
+                Margin="0, 10" />
+            
+            <!-- Display Current Value -->
+            <Label x:Name="CurrentValueLabel"
+                Text="Current Value: "
+                HorizontalOptions="Center"
+                Margin="0, 10" />
 
-        <!-- CollectionView for Data Entries -->
-        <CollectionView ItemsSource="{Binding DataEntries}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid ColumnDefinitions="*, *, *"
-                          RowDefinitions="Auto"
-                          Margin="0, 5">
-                        <Label Text="{Binding Type}" Grid.Column="0" />
-                        <Label Text="{Binding Unit}" Grid.Column="1" />
-                        <Editor Text="{Binding Value, Mode=TwoWay}" 
-                                Grid.Column="2"
-                                AutoSize="TextChanges" />
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-    </StackLayout>
+            <!-- Table of values for the selected Data Type and Data Unit -->
+            <ScrollView>
+                <CollectionView x:Name="ValuesTable" Margin="0, 10" BackgroundColor="LightGray">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="50, *, 1"
+                                RowDefinitions="Auto, 1"
+                                Padding="0, 5">
+
+                                <!-- Order Label -->
+                                <Label Text="{Binding Order}" 
+                                    FontAttributes="Bold" 
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Grid.Column="0" 
+                                    Margin="5" />
+
+                                <!-- Value Label -->
+                                <Label Text="{Binding Value}" 
+                                    HorizontalOptions="Center"
+                                    VerticalOptions="Center"
+                                    Grid.Column="1" 
+                                    Margin="5" />
+
+                                <!-- Row Divider -->
+                                <BoxView Grid.Row="1" 
+                                        Grid.ColumnSpan="3" 
+                                        HeightRequest="1" 
+                                        BackgroundColor="DarkGray" />
+
+                                <!-- Column Divider -->
+                                <BoxView Grid.Row="0" 
+                                        Grid.Column="2" 
+                                        WidthRequest="1" 
+                                        BackgroundColor="DarkGray" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+            <!-- Save Button -->
+            <Button Text="Save" 
+                    HorizontalOptions="Center"
+                    Clicked="OnSaveClicked" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>
+

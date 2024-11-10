@@ -7,123 +7,209 @@ namespace FRC_App;
 
 public partial class DataManipulationPage : ContentPage
 {
-    public User currentUser { get; private set; }
+    private User currentUser;
+    private List<string> DataTypes;
+    private List<List<string>> DataUnits;
+    private List<int> DataValueNumbers;
+    private string SelectedDataType;
+    private string SelectedDataUnit;
+    private int SelectedDataValueNumber;
+    private double SelectedValue;
+    private ObservableCollection<ValueItem> ValuesTableItems;
 
     public DataManipulationPage(User user)
     {
         InitializeComponent();
         currentUser = user;
-        BindingContext = new DataTableViewModel(currentUser); // Pass currentUser to the ViewModel
-    }
-}
 
-public class DataTableViewModel : INotifyPropertyChanged
-{
-    public ObservableCollection<DataEntry> DataEntries { get; set; }
-    public List<string> DataTypes { get; set; }
-    public List<List<string>> DataUnits { get; set; }
+        // Initialize data types and units from currentUser
+        var dataImport = new DataImport();
+        var rawData = dataImport.RetrieveRawData(currentUser);
 
-    private string _selectedDataType;
-    private string _selectedDataUnit;
-    private DataEntry _selectedDataEntry;
-
-    public string SelectedDataType
-    {
-        get => _selectedDataType;
-        set
-        {
-            if (_selectedDataType != value)
-            {
-                _selectedDataType = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedDataType)));
-                UpdateSelectedDataEntry();
-            }
-        }
-    }
-
-    public string SelectedDataUnit
-    {
-        get => _selectedDataUnit;
-        set
-        {
-            if (_selectedDataUnit != value)
-            {
-                _selectedDataUnit = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedDataUnit)));
-                UpdateSelectedDataEntry();
-            }
-        }
-    }
-
-    public double SelectedValue
-    {
-        get => double.TryParse(_selectedDataEntry?.Value, out var value) ? value : 0;
-        set
-        {
-            if (_selectedDataEntry != null && double.TryParse(_selectedDataEntry.Value, out var currentValue) && currentValue != value)
-            {
-                _selectedDataEntry.Value = value.ToString("F2");
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedValue)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DataEntries))); // To refresh CollectionView
-            }
-        }
-    }
-
-    // Default constructor for design-time support
-    public DataTableViewModel()
-    {
-        DataEntries = new ObservableCollection<DataEntry>();
-        DataTypes = new List<string>(); // Initialize to avoid null reference issues
-        DataUnits = new List<List<string>>();
-    }
-
-    // Constructor that takes a User parameter
-    public DataTableViewModel(User user) : this()
-    {
-        // Use DataImport to retrieve structured data
-        DataImport dataImport = new DataImport();
-        List<List<List<double>>> rawData = dataImport.RetrieveRawData(user);
-
-        // Initialize DataTypes and DataUnits from dataImport
         DataTypes = dataImport.dataTypes;
         DataUnits = dataImport.dataUnits;
 
-        // Set default selections
-        SelectedDataType = DataTypes.FirstOrDefault();
-        SelectedDataUnit = DataUnits.FirstOrDefault()?.FirstOrDefault();
+        // Initialize ValuesTableItems as an empty collection
+        ValuesTableItems = new ObservableCollection<ValueItem>();
+        ValuesTable.ItemsSource = ValuesTableItems;
 
-        // Populate DataEntries based on rawData
-        for (int i = 0; i < rawData.Count; i++)
+        // Set the initial values for pickers
+        DataTypePicker.ItemsSource = DataTypes;
+        SelectedDataType = DataTypes.FirstOrDefault();
+        UpdateFilteredDataUnits();
+    }
+
+    private void OnDataTypeSelected(object sender, EventArgs e)
+    {
+        if (DataTypePicker.SelectedIndex != -1)
         {
-            for (int j = 0; j < rawData[i].Count; j++)
+            SelectedDataType = DataTypes[DataTypePicker.SelectedIndex];
+            UpdateFilteredDataUnits();
+        }
+    }
+
+    private void UpdateFilteredDataUnits()
+    {
+        int index = DataTypes.IndexOf(SelectedDataType);
+        var filteredUnits = index >= 0 && index < DataUnits.Count ? DataUnits[index] : new List<string>();
+        DataUnitPicker.ItemsSource = filteredUnits;
+        SelectedDataUnit = filteredUnits.FirstOrDefault();
+        UpdateDataValueNumbers();
+    }
+
+    private void OnDataUnitSelected(object sender, EventArgs e)
+    {
+        if (DataUnitPicker.SelectedIndex != -1)
+        {
+            SelectedDataUnit = DataUnitPicker.ItemsSource[DataUnitPicker.SelectedIndex] as string;
+            UpdateDataValueNumbers();
+        }
+    }
+
+    private void UpdateDataValueNumbers()
+    {
+        var entry = GetDataEntry(SelectedDataType, SelectedDataUnit);
+        DataValueNumbers = entry != null ? Enumerable.Range(1, entry.Values.Count).ToList() : new List<int>();
+        DataValuePicker.ItemsSource = DataValueNumbers;
+        SelectedDataValueNumber = 1; // Reset to 1
+        DataValuePicker.SelectedItem = SelectedDataValueNumber;
+        UpdateSelectedValue();
+        UpdateValuesTable(entry);
+    }
+
+    private void UpdateValuesTable(DataEntry entry)
+    {
+        ValuesTableItems.Clear();
+        if (entry != null)
+        {
+            foreach (var (value, index) in entry.Values.Select((v, i) => (v, i)))
             {
-                DataEntries.Add(new DataEntry
+                ValuesTableItems.Add(new ValueItem
                 {
-                    Type = DataTypes[i],
-                    Unit = i < DataUnits.Count && j < DataUnits[i].Count ? DataUnits[i][j] : string.Empty,
-                    Value = rawData[i][j].FirstOrDefault().ToString("F2") // Displaying the first row in this example
+                    Order = index + 1,
+                    Value = value
                 });
             }
         }
-
-        UpdateSelectedDataEntry();
     }
 
-    private void UpdateSelectedDataEntry()
+    private void OnDataValueSelected(object sender, EventArgs e)
     {
-        _selectedDataEntry = DataEntries.FirstOrDefault(entry => entry.Type == SelectedDataType && entry.Unit == SelectedDataUnit);
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SelectedValue)));
+        if (DataValuePicker.SelectedIndex != -1)
+        {
+            SelectedDataValueNumber = DataValueNumbers[DataValuePicker.SelectedIndex];
+            UpdateSelectedValue();
+        }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    private void UpdateSelectedValue()
+    {
+        var entry = GetDataEntry(SelectedDataType, SelectedDataUnit);
+        if (entry != null && SelectedDataValueNumber - 1 < entry.Values.Count)
+        {
+            SelectedValue = double.TryParse(entry.Values[SelectedDataValueNumber - 1], out var value) ? value : 0;
+            ValueSlider.Value = SelectedValue; // Sync Slider
+            ValueEntry.Text = SelectedValue.ToString("F2"); // Sync Entry
+            CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+        }
+    }
+
+    private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
+    {
+        // Sync Entry with Slider changes and update the ValuesTable dynamically
+        SelectedValue = e.NewValue;
+        ValueEntry.Text = SelectedValue.ToString("F2");
+        CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+        UpdateTableValue();
+    }
+
+    private void OnValueEntryChanged(object sender, TextChangedEventArgs e)
+    {
+        // Sync Slider with Entry changes and update the ValuesTable dynamically
+        if (double.TryParse(ValueEntry.Text, out var parsedValue) && SelectedValue != parsedValue)
+        {
+            SelectedValue = parsedValue;
+            ValueSlider.Value = SelectedValue; // Sync Slider
+            CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+            UpdateTableValue();
+        }
+    }
+
+    private void UpdateTableValue()
+    {
+        // Update the corresponding item in ValuesTableItems
+        if (SelectedDataValueNumber - 1 < ValuesTableItems.Count && SelectedDataValueNumber - 1 >= 0)
+        {
+            ValuesTableItems[SelectedDataValueNumber - 1].Value = SelectedValue.ToString("F2");
+        }
+    }
+
+    private void OnSaveClicked(object sender, EventArgs e)
+    {
+        int typeIndex = DataTypes.IndexOf(SelectedDataType);
+        int unitIndex = DataUnits[typeIndex].IndexOf(SelectedDataUnit);
+
+        if (typeIndex != -1 && unitIndex != -1 && SelectedDataValueNumber - 1 >= 0)
+        {
+            var filesData = currentUser.rawData.Split("_", StringSplitOptions.RemoveEmptyEntries).ToList();
+            var columnsData = filesData[typeIndex].Split(";", StringSplitOptions.RemoveEmptyEntries).ToList();
+            var rowsData = columnsData[unitIndex].Split(",", StringSplitOptions.RemoveEmptyEntries).ToList();
+
+            rowsData[SelectedDataValueNumber - 1] = SelectedValue.ToString("F2");
+
+            columnsData[unitIndex] = string.Join(",", rowsData);
+            filesData[typeIndex] = string.Join(";", columnsData);
+            currentUser.rawData = string.Join("_", filesData);
+            
+            UserDatabase.UpdateUserAsync(currentUser);
+
+            DisplayAlert("Save", "Value has been saved successfully.", "OK");
+        }
+    }
+
+    private DataEntry GetDataEntry(string dataType, string dataUnit)
+    {
+        int typeIndex = DataTypes.IndexOf(dataType);
+        if (typeIndex == -1) return null;
+
+        int unitIndex = DataUnits[typeIndex].IndexOf(dataUnit);
+        if (unitIndex == -1) return null;
+
+        List<double> values = currentUser.rawData.Split("_", StringSplitOptions.RemoveEmptyEntries)
+            .ElementAtOrDefault(typeIndex)?
+            .Split(";", StringSplitOptions.RemoveEmptyEntries)
+            .ElementAtOrDefault(unitIndex)?
+            .Split(",", StringSplitOptions.RemoveEmptyEntries)
+            .Select(val => double.Parse(val))
+            .ToList() ?? new List<double>();
+
+        return new DataEntry
+        {
+            Type = dataType,
+            Unit = dataUnit,
+            Values = new ObservableCollection<string>(values.Select(v => v.ToString("F2")))
+        };
+    }
 }
 
-public class DataEntry : INotifyPropertyChanged
+public class DataEntry
+{
+    public string Type { get; set; }
+    public string Unit { get; set; }
+    public ObservableCollection<string> Values { get; set; }
+
+    public DataEntry()
+    {
+        Values = new ObservableCollection<string>();
+    }
+}
+
+public class ValueItem : INotifyPropertyChanged
 {
     private string _value;
 
-    public string Type { get; set; }
-    public string Unit { get; set; }
+    public int Order { get; set; }
+
     public string Value
     {
         get => _value;
