@@ -15,6 +15,9 @@
                 BackgroundColor="#4A90E2"
                 TextColor="White"
                 CornerRadius="10"
-                Clicked="OnSubmitBugReportClicked" />
+                Clicked="SendBugReportAutomatically" />
+
+        <Entry x:Name="BugDescriptionEntry" Placeholder="Describe the issue..." />
+
     </StackLayout>
 </ContentPage>
