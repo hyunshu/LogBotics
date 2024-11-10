@@ -43,4 +43,22 @@ public class Session {
         }
         return null;
     }
+
+
+    /**
+     * --- Copy() ---
+     * Returns the new Session object that is identical to this session object in every way.
+     * Can be used to duplicate sessions.
+     * @return Session
+     */
+    public Session Copy() {
+        Session copy = new Session();
+        copy.Name = this.Name;
+        copy.DataTypes = new List<DataType>{};
+        foreach (DataType type in this.DataTypes) {
+            copy.DataTypes.Add(type.Copy());
+        }
+        
+        return copy;
+    }
 }

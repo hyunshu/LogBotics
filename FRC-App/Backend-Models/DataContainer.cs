@@ -4,9 +4,11 @@ using FRC_App.Models;
 //First (highest) level of the FRC data structure:
 //i.e. holds all sessions of data
 public class DataContainer {
+    private User user { get; set; }
     private List<Session> sessions { get; set; }
 
     public DataContainer(User user) {
+        this.user = user;
         this.sessions = new List<Session>{};
 
         List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -41,6 +43,11 @@ public class DataContainer {
             }
             this.sessions.Add(session);
         }
+    }
+
+
+    public void storeDataContainer() {
+        //TODO
     }
 
 
