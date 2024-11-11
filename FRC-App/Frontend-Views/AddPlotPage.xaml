@@ -5,21 +5,6 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="FRC_App.AddPlotPage"
              Title="AddPlotPage">
-
-   <ContentPage.Resources>
-        <DataTemplate x:Key="ChartItemTemplate">
-            <ContentView>
-                <!-- Bind Series, XAxes, YAxes, and Title properties from the Plot object -->
-                <lvc:CartesianChart 
-                    Series="{Binding Series}" 
-                    XAxes="{Binding XAxes}" 
-                    YAxes="{Binding YAxes}"
-                    WidthRequest="300"
-                    HeightRequest="200">
-                </lvc:CartesianChart>
-            </ContentView>
-        </DataTemplate>
-    </ContentPage.Resources>
     
     <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
 
@@ -36,11 +21,7 @@
                 <!-- Activity Indicator -->
                 <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                  <!-- CollectionView for displaying the charts -->
-                <CollectionView x:Name="ChartCollectionView"
-                                ItemsSource="{Binding chartCollection}"
-                                ItemTemplate="{StaticResource ChartItemTemplate}">
-                </CollectionView>
+                <lvc:CartesianChart x:Name="lvc1" IsVisible="False" WidthRequest="300" HeightRequest="200"> </lvc:CartesianChart>
                 
             </StackLayout>
         </Frame>

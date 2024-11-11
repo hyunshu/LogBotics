@@ -4,12 +4,23 @@ using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView.Maui;
+using LiveChartsCore.Kernel;
 
 
 public class AxesDifferentLengthsException : Exception {
     public AxesDifferentLengthsException(string message)
         : base(message) { }
- }
+}
+
+public class DataPoint {
+    public double X;
+    public double Y;
+
+    public DataPoint(double x, double y) {
+        X = x;
+        Y = y;
+    }
+}
 
 public class Plot {
     public string Title { get; set; }
@@ -53,13 +64,16 @@ public class Plot {
     }
 
     public CartesianChart GetLineChart() {
+        var datapoints = getValues();
+
         var chart = new CartesianChart
         {
             Series = new[]
             {
-                new LineSeries<(double X, double Y)>
+                new LineSeries<DataPoint>
                 {
-                    Values = getValues(),
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
                 }
             },
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
@@ -77,13 +91,16 @@ public class Plot {
     }
 
     public PolarChart GetPolarChart() {
+        var datapoints = getValues();
+
         var chart = new PolarChart
         {
             Series = new[]
             {
-                new PolarLineSeries<(double X, double Y)>
+                new PolarLineSeries<DataPoint>
                 {
-                    Values = getValues(),
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
                 }
             },
             AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
@@ -101,13 +118,16 @@ public class Plot {
     }
 
     public CartesianChart GetScatterChart() {
+        var datapoints = getValues();
+
         var chart = new CartesianChart
         {
             Series = new[]
             {
-                new ScatterSeries<(double X, double Y)>
+                new ScatterSeries<DataPoint>
                 {
-                    Values = getValues(),
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
                 }
             },
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
@@ -124,12 +144,20 @@ public class Plot {
         return chart;
     }
 
-    private List<(double X, double Y)> getValues() {
-        var values = new List<(double X, double Y)>{};
+    private List<DataPoint> getValues() {
+        var datapoints = new List<DataPoint>();
         for (int i = 0; i < this.numPoints; i++) {
-            values.Add((x.Data[i],y.Data[i]));
+            DataPoint datapoint = new DataPoint(x.Data[i],y.Data[i]);
+            datapoints.Add(datapoint);
         }
-        return values;
+
+        return datapoints;
+
+        // var values = new List<(double X, double Y)>{};
+        // for (int i = 0; i < this.numPoints; i++) {
+        //     values.Add((x.Data[i],y.Data[i]));
+        // }
+        // return values;
     }
 
     public bool SameAxisCheck() {

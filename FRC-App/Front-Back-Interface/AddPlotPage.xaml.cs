@@ -26,7 +26,6 @@ public partial class AddPlotPage : ContentPage
 		chartCollection = new ObservableCollection<CartesianChart>();
 		numPlots = 0;
 		BindingContext = this;
-		ChartCollectionView.ItemsSource = chartCollection;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -102,9 +101,13 @@ public partial class AddPlotPage : ContentPage
 
 	private void renderNewPlot (Plot newPlot) {
 		CartesianChart newChart = newPlot.GetLineChart();
-		chartCollection.Add(newChart);
-		numPlots++;
-	}
+
+			lvc1.Series = newChart.Series;
+			
+			lvc1.IsVisible = true;
+			chartCollection.Add(newChart);
+			numPlots++;
+		}
 
 	private async void DeletePlot(object sender, EventArgs e) {
 		if (numPlots <= 0) {
