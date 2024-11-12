@@ -1,5 +1,6 @@
 ﻿using Microcharts.Maui;
 using Microsoft.Extensions.Logging;
+using SkiaSharp.Views.Maui.Controls.Hosting; 
 
 namespace FRC_App;
 
@@ -10,6 +11,7 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseSkiaSharp()
 			.UseMicrocharts()
 			.ConfigureFonts(fonts =>
 			{

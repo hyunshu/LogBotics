@@ -5,11 +5,6 @@ using Microcharts.Maui;
 using SkiaSharp;
 using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using System.Diagnostics;
-
-using SkiaSharp.Views.Maui.Controls;
-using SkiaSharp.Views.Maui;
-
 using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 //using Microsoft.Maui.Controls.Compatibility.Platform.iOS; //Causes and error on windows
@@ -25,7 +20,6 @@ public partial class HomePage : ContentPage
 	public ObservableCollection<string> VisibleLabels { get; set; } 
 	public Dictionary<string, Plot> plotDict { get; set; }
 	public int numPlots;
-	
 
 	public HomePage(User user)
 	{
@@ -67,34 +61,27 @@ public partial class HomePage : ContentPage
 	{
 		base.OnAppearing();
 		UpdateChartColors();
-		BindingContext = null;
-		BindingContext = currentUser;
+		//BindingContext = null;
+		//BindingContext = currentUser;
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
+		await Navigation.PushAsync(new AddPlotPage(currentUser));
 
-		if (numPlots >= 6) {
-			await DisplayAlert("Error", "Max number of plots is 6!", "OK");
-			return;
-		}
+		// if (numPlots >= 6) {
+		// 	await DisplayAlert("Error", "Max number of plots is 6!", "OK");
+		// 	return;
+		// }
 
-		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+		 // bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		if (!hasData) {
-			await DisplayAlert("Error", "You have no data to display.", "OK");
-			return;
-		} 
+		// if (!hasData) {
+		// 	await DisplayAlert("Error", "You have no data to display.", "OK");
+		// 	return;
+		// } 
 
-		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
-
-		bool noSession = this.sessionData == null;
-
-		if (noSession) {
-			await DisplayAlert("Error", "You have no session selected.", "OK");
-			return;
-		}
-
-		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
+		userData = new DataContainer(currentUser);
+		TypesDropDown.ItemsSource = userData.getDataTypeNames();
 		TypesStack.IsVisible = true;
 	}
 
