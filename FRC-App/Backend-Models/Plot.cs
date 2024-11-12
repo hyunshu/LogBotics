@@ -1,4 +1,4 @@
-using Microcharts;
+
 using SkiaSharp;
 using LiveChartsCore.SkiaSharpView;
 using LiveChartsCore.SkiaSharpView.VisualElements;
@@ -27,7 +27,7 @@ public class Plot {
     public string XLabel { get; set; }
     public string YLabel { get; set; }
     public int numPoints { get; set; }
-    public ChartEntry[] chart { get; set; }
+    // public ChartEntry[] chart { get; set; }
     private int width = 900;
     private int height = 600;
     private Column x;
@@ -49,18 +49,18 @@ public class Plot {
         this.x = x;
         this.y = y;
 
-        chart = new ChartEntry[this.numPoints];
+        // chart = new ChartEntry[this.numPoints];
         string plotColor = getRandomHexColor(); 
 
-        for (int i = 0; i < this.numPoints; i++)
-        {
-            chart[i] = new ChartEntry((float) y.Data[i])
-            {
-                Label = x.Data[i].ToString(),  // i.e time (x domain)
-                ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
-                Color = SKColor.Parse(plotColor)
-            };
-        }
+        // for (int i = 0; i < this.numPoints; i++)
+        // {
+        //     chart[i] = new ChartEntry((float) y.Data[i])
+        //     {
+        //         Label = x.Data[i].ToString(),  // i.e time (x domain)
+        //         ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
+        //         Color = SKColor.Parse(plotColor)
+        //     };
+        // }
     }
 
     public CartesianChart GetLineChart() {
