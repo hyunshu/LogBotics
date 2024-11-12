@@ -107,14 +107,7 @@ public partial class AddPlotPage : ContentPage
 			await DisplayAlert("Warning", "You have selected the x-axis to be the same as the y-axis. This is an unusual request.", "OK");
 		}
 
-		// try {
-		// 	plotDict.Add(newPlot.Title, newPlot);
-		// } catch (ArgumentException) {
-		// 	newPlot.Title = newPlot.Title + "(" + numPlots.ToString() + ")";
-		// 	plotDict.Add(newPlot.Title, newPlot);
-		// }
 		renderNewPlot(newPlot);
-
 		TypesStack.IsVisible = false;
 	}
 
