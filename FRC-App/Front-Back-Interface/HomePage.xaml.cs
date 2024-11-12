@@ -1,10 +1,5 @@
 using FRC_App.Models;
 using FRC_App.Services;
-using Microcharts;
-using Microcharts.Maui;
-using SkiaSharp;
-using PdfSharpCore.Drawing;
-using PdfSharpCore.Pdf;
 using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 //using Microsoft.Maui.Controls.Compatibility.Platform.iOS; //Causes and error on windows
