@@ -12,11 +12,12 @@
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Data Management"
-                           FontSize="Medium"
+                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            FontAttributes="Bold"
-                           TextColor="#333"
                            HorizontalOptions="Center" />
-                           
+
                     <Button Text="Export Data" 
                         BackgroundColor="#4A4A4A" 
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -47,9 +48,10 @@
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Tools"
-                           FontSize="Medium"
+                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            FontAttributes="Bold"
-                           TextColor="#333"
                            HorizontalOptions="Center" />
 
                     <Button Text="Mapping Page" 
@@ -75,9 +77,10 @@
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Settings and Help"
-                           FontSize="Medium"
+                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            FontAttributes="Bold"
-                           TextColor="#333"
                            HorizontalOptions="Center" />
 
                      <Button Text="Preferences" 
@@ -98,7 +101,9 @@
 
                      <Button Text="Debugging"
                         BackgroundColor="#4A4A4A"
-                        TextColor="White"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10"
                         Clicked="OnDebuggingButtonClicked" />
                 </VerticalStackLayout>
@@ -108,14 +113,17 @@
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Feedback"
-                           FontSize="Medium"
+                           FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                           TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                           FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            FontAttributes="Bold"
-                           TextColor="#333"
                            HorizontalOptions="Center" />
 
                      <Button Text="Report a Bug"
                         BackgroundColor="#FF6347"
-                        TextColor="White"
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10"
                         Clicked="OnReportBugButtonClicked" />
                 </VerticalStackLayout>
@@ -124,11 +132,6 @@
             <!-- User Info Section -->
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
-                    <Label Text="User Information"
-                           FontSize="Medium"
-                           FontAttributes="Bold"
-                           TextColor="#333"
-                           HorizontalOptions="Center" />
 
                      <Label Text="Team Info"
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -137,18 +140,22 @@
                         FontAttributes="Bold"
                         HorizontalOptions="Center" />
 
-                     <Label Text="Team #:" 
+                    <HorizontalStackLayout HorizontalOptions ="Center">
+                     <Label Text="Team #: " 
                         FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                         TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
-
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                         />
+                        
                     <Label Text="{Binding TeamNumber}"
                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                            FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            HorizontalOptions="Center" />
+                    </HorizontalStackLayout>
 
-                     <Label Text="Team Name:" 
+                      <HorizontalStackLayout HorizontalOptions ="Center">
+                     <Label Text="Team Name: " 
                             FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                             TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                             FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
@@ -158,6 +165,7 @@
                            TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                            FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                            HorizontalOptions="Center" />
+                      </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
 
