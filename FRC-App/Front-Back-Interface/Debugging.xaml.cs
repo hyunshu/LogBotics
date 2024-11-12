@@ -1,51 +1,86 @@
-using System;
-using System.Collections.ObjectModel;
-using Microsoft.Maui.Controls;
+using Microsoft.Maui.Storage;
+using System.Text;
+using System.Text.RegularExpressions;
 
 namespace FRC_App
 {
     public partial class DebuggingPage : ContentPage
     {
-        public ObservableCollection<string> ErrorsList { get; set; }
-
         public DebuggingPage()
         {
             InitializeComponent();
-            ErrorsList = new ObservableCollection<string>();
-            BindingContext = this;
         }
 
-        private async void OnRetrieveEventsFileClicked(object sender, EventArgs e)
+        // Event handler for file upload button
+private async void OnUploadFileClicked(object sender, EventArgs e)
+{
+    try
+    {
+        // Create a custom file type for .dsevents files or text files
+        var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
         {
-            // Logic to retrieve and parse the .dsevents file
-            var errors = await RetrieveAndParseDSEventsFile();
+            { DevicePlatform.iOS, new[] { "public.text" } },
+            { DevicePlatform.Android, new[] { "text/plain" } },
+            { DevicePlatform.WinUI, new[] { ".dsevents", ".txt" } },
+            { DevicePlatform.macOS, new[] { "public.text" } },
+        });
 
-            if (errors != null)
+        // Pick the .dsevents file or a text file
+        var result = await FilePicker.PickAsync(new PickOptions
+        {
+            PickerTitle = "Select a .dsevents or text file",
+            FileTypes = customFileType
+        });
+
+        if (result != null)
+        {
+            // Read the content of the selected file
+            string fileContent = await File.ReadAllTextAsync(result.FullPath);
+
+            // Parse the file content for errors and warnings
+            var parsedOutput = ParseDSEventsFile(fileContent);
+
+            // Display the parsing status and output
+            ParsingStatusLabel.Text = "Parsing complete. Results:";
+            ParsedOutputLabel.Text = parsedOutput;
+        }
+        else
+        {
+            ParsingStatusLabel.Text = "File selection was canceled.";
+        }
+    }
+    catch (Exception ex)
+    {
+        await DisplayAlert("Error", $"An error occurred while uploading the file: {ex.Message}", "OK");
+    }
+}
+
+
+        // Method to parse the .dsevents file for errors and warnings
+        private string ParseDSEventsFile(string fileContent)
+        {
+            var output = new StringBuilder();
+
+            // Define regex patterns for errors and warnings
+            string errorPattern = @"(?i)(error|failed|lost communication)";
+            string warningPattern = @"(?i)(warning)";
+
+            // Split the content into lines
+            string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var line in lines)
             {
-                foreach (var error in errors)
+                if (Regex.IsMatch(line, errorPattern))
                 {
-                    ErrorsList.Add(error);
+                    output.AppendLine("Error: " + line);
+                }
+                else if (Regex.IsMatch(line, warningPattern))
+                {
+                    output.AppendLine("Warning: " + line);
                 }
             }
-            else
-            {
-                await DisplayAlert("Error", "No .dsevents file found or file could not be read.", "OK");
-            }
-        }
 
-        private async Task<List<string>> RetrieveAndParseDSEventsFile()
-        {
-            // Logic to retrieve the .dsevents file from storage or prompt the user to pick a file
-            // For now, we can simulate this with a hardcoded list
-
-            await Task.Delay(1000); // Simulate file retrieval delay
-
-            // Simulate parsing errors
-            return new List<string> 
-            { 
-                "Error 1: Motor Overcurrent at 12:05 PM", 
-                "Error 2: Gyroscope Communication Failure at 12:10 PM"
-            };
+            return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
         }
     }
 }

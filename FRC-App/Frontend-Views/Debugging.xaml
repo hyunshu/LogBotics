@@ -1,34 +1,27 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.DebuggingPage"
-             Title="Debugging">
+             Title="Debugging Page">
+<ScrollView>
+    <StackLayout Padding="20" Spacing="20">
+        <!-- Button to upload .dsevents file -->
+        <Button Text="Upload .dsevents File"
+                BackgroundColor="#4A90E2"
+                TextColor="White"
+                CornerRadius="10"
+                Clicked="OnUploadFileClicked" />
 
-    <ScrollView>
-        <VerticalStackLayout Padding="10">
-            <!-- Header -->
-            <Label Text="Debugging Window" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
-
-            <!-- Button to Retrieve .dsevents files -->
-            <Button x:Name="RetrieveEventsFileButton"
-                    Text="Retrieve .dsevents File"
-                    BackgroundColor="#4A4A4A"
-                    TextColor="White"
-                    Clicked="OnRetrieveEventsFileClicked" />
-
-            <!-- Display for Errors -->
-            <Label Text="Errors Found:" FontSize="Medium" FontAttributes="Bold" Margin="10,20,10,0" />
-            <CollectionView x:Name="ErrorsCollection"
-                            ItemsSource="{Binding ErrorsList}"
-                            Margin="10">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Black" CornerRadius="5" Padding="10" Margin="5">
-                            <Label Text="{Binding}" FontSize="Small" />
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+        <!-- Label to show the status of parsing -->
+        <Label x:Name="ParsingStatusLabel"
+               Text=""
+               FontSize="Medium"
+               TextColor="Black" />
+        
+        <!-- Display parsed errors and warnings -->
+        <Label x:Name="ParsedOutputLabel"
+               Text=""
+               FontSize="Medium"
+               TextColor="Black" />
+    </StackLayout>
+</ScrollView>
 </ContentPage>
