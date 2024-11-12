@@ -112,7 +112,7 @@ public partial class AddPlotPage : ContentPage
 	}
 
 	private void renderNewPlot (Plot newPlot) {
-		CartesianChart newChart = newPlot.GetScatterChart();
+		CartesianChart newChart = newPlot.GetLineChart();
 
 		for (int i = 0; i < chartCollection.Count; i++) {
 			var currChart = chartCollection[i];
@@ -184,73 +184,72 @@ public partial class AddPlotPage : ContentPage
 	}
 
 	private async void ExportToPdf(object sender, EventArgs e) {
-    if (numPlots == 0) {
-        await DisplayAlert("Error", "There are no plots to export.", "OK");
-        return;
-    }
+		if (numPlots == 0) {
+			await DisplayAlert("Error", "There are no plots to export.", "OK");
+			return;
+		}
 
-    string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+		string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-    using (var pdf = new PdfDocument()) {
-        for (int i = 0; i < chartCollection.Count; i++) {
-            CartesianChart chart = chartCollection[i];
+		using (var pdf = new PdfDocument()) {
+			for (int i = 0; i < chartCollection.Count; i++) {
+				CartesianChart chart = chartCollection[i];
 
-            if (chartGrids[i].IsVisible) {
-                var skChart = new SKCartesianChart
-                {
-                    Series = chart.Series,
-                    Title = chart.Title,
-                };
+				if (chartGrids[i].IsVisible) {
+					var skChart = new SKCartesianChart
+					{
+						Series = chart.Series,
+						Title = chart.Title,
+					};
 
-                // Increase bitmap size for higher resolution
-                int width = 1200;  // Increase width
-                int height = 800;  // Increase height
+					// Increase bitmap size for higher resolution
+					int width = 1200;  // Increase width
+					int height = 800;  // Increase height
 
-                using (var bitmap = new SKBitmap(width, height))
-                using (var canvas = new SKCanvas(bitmap)) {
-                    canvas.Clear(SKColors.White);
+					using (var bitmap = new SKBitmap(width, height))
+					using (var canvas = new SKCanvas(bitmap)) {
+						canvas.Clear(SKColors.White);
 
-                    // Draw content and fit it entirely
-                    skChart.DrawOnCanvas(canvas);
+						// Draw content and fit it entirely
+						skChart.DrawOnCanvas(canvas);
 
-                    using (var image = SKImage.FromBitmap(bitmap))
-                    using (var data = image.Encode(SKEncodedImageFormat.Png, 100)) {
-                        // Add a new page to the PDF
-                        var pdfPage = pdf.AddPage();
-                        var graphics = XGraphics.FromPdfPage(pdfPage);
+						using (var image = SKImage.FromBitmap(bitmap))
+						using (var data = image.Encode(SKEncodedImageFormat.Png, 100)) {
+							// Add a new page to the PDF
+							var pdfPage = pdf.AddPage();
+							var graphics = XGraphics.FromPdfPage(pdfPage);
 
-                        using (var ms = new MemoryStream(data.ToArray()))
-                        using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray()))) {
-                            // Calculate scaling to maintain aspect ratio
-                            double pdfAspect = pdfPage.Width / pdfPage.Height;
-                            double imageAspect = img.PixelWidth / (double)img.PixelHeight;
+							using (var ms = new MemoryStream(data.ToArray()))
+							using (var img = XImage.FromStream(() => new MemoryStream(ms.ToArray()))) {
+								// Calculate scaling to maintain aspect ratio
+								double pdfAspect = pdfPage.Width / pdfPage.Height;
+								double imageAspect = img.PixelWidth / (double)img.PixelHeight;
 
-                            double newWidth, newHeight;
-                            if (pdfAspect > imageAspect) {
-                                // Fit by height
-                                newHeight = pdfPage.Height;
-                                newWidth = img.PixelWidth * (newHeight / img.PixelHeight);
-                            } else {
-                                // Fit by width
-                                newWidth = pdfPage.Width;
-                                newHeight = img.PixelHeight * (newWidth / img.PixelWidth);
-                            }
+								double newWidth, newHeight;
+								if (pdfAspect > imageAspect) {
+									// Fit by height
+									newHeight = pdfPage.Height;
+									newWidth = img.PixelWidth * (newHeight / img.PixelHeight);
+								} else {
+									// Fit by width
+									newWidth = pdfPage.Width;
+									newHeight = img.PixelHeight * (newWidth / img.PixelWidth);
+								}
 
-                            double xPosition = (pdfPage.Width - newWidth) / 2;
-                            double yPosition = (pdfPage.Height - newHeight) / 2;
+								double xPosition = (pdfPage.Width - newWidth) / 2;
+								double yPosition = (pdfPage.Height - newHeight) / 2;
 
-                            // Draw the image on the PDF page
-                            graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
-                        }
-                    }
-                }
-            }
-        }
+								// Draw the image on the PDF page
+								graphics.DrawImage(img, xPosition, yPosition, newWidth, newHeight);
+							}
+						}
+					}
+				}
+			}
 
-        var pdfPath = Path.Combine(desktopPath, "charts.pdf");
-        pdf.Save(pdfPath);
-        await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
-    }
-}
-
+			var pdfPath = Path.Combine(desktopPath, "charts.pdf");
+			pdf.Save(pdfPath);
+			await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
+		}
+	}
 }
