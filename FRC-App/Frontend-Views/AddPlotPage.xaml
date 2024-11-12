@@ -5,7 +5,7 @@
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
              x:Class="FRC_App.AddPlotPage"
              Title="AddPlotPage">
-    
+    <ScrollView>
     <Grid Padding="10" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*,Auto" BackgroundColor="#D3D3D3">
 
         <!-- Main Frame for the charts and buttons -->
@@ -21,8 +21,43 @@
                 <!-- Activity Indicator -->
                 <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" IsVisible="False" Color="Blue" HorizontalOptions="Center" VerticalOptions="Center" />
 
-                <lvc:CartesianChart x:Name="lvc1" IsVisible="False" WidthRequest="300" HeightRequest="200"> </lvc:CartesianChart>
-                
+                <!-- Chart 1 -->
+                <Grid x:Name="ChartGrid1" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart1" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart1Clicked"/>
+                </Grid>
+
+                <!-- Chart 2 -->
+                <Grid x:Name="ChartGrid2" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart2" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart2Clicked"/>
+                </Grid>
+
+                <!-- Chart 3 -->
+                <Grid x:Name="ChartGrid3" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart3" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart3Clicked"/>
+                </Grid>
+
+                <!-- Chart 4 -->
+                <Grid x:Name="ChartGrid4" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart4" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart4Clicked"/>
+                </Grid>
+
+                <!-- Chart 5 -->
+                <Grid x:Name="ChartGrid5" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart5" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart5Clicked"/>
+                </Grid>
+
+                <!-- Chart 6 -->
+                <Grid x:Name="ChartGrid6" IsVisible="False" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ColumnDefinitions="*,Auto">
+                    <lvc:CartesianChart x:Name="chart6" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                    <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart6Clicked"/>
+                </Grid>
+
+
             </StackLayout>
         </Frame>
 
@@ -43,26 +78,14 @@
             </Frame>
         </StackLayout>
 
-        <!-- Delete Plot Section -->
-        <StackLayout x:Name="DeleteStack" Grid.Row="3" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10" IsVisible="False">
-            <Frame BackgroundColor="#E0E0E0" BorderColor="Black" CornerRadius="5" Padding="5">
-                <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    
-                    <!-- Delete Plot Picker -->
-                    <Picker x:Name="DeleteDropDown" Title="Select plot to delete" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
-                    
-                    <!-- Delete Plot Button -->
-                    <Button x:Name="DeletePlotButton" Text="Delete" BackgroundColor="Red" TextColor="Black" CornerRadius="5" Clicked="DeleteSelectedPlot" />
-                </HorizontalStackLayout>
-            </Frame>
-        </StackLayout>
-
         <!-- Buttons to Add/Delete Plot positioned to the right -->
         <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Padding="10">
             <Button Text="Add Plot" BackgroundColor="#4A4A4A" CornerRadius="10" Clicked="AddPlot" />
-            <Button Text="Delete Plot" BackgroundColor="#4A4A4A" CornerRadius="10" Clicked="DeletePlot" />
         </StackLayout>
 
+
+
     </Grid>
+    </ScrollView>
 
 </ContentPage>
