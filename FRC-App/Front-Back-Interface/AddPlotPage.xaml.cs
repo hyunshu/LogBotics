@@ -14,7 +14,6 @@ public partial class AddPlotPage : ContentPage
 
 	public User currentUser { get; private set; }
 	public DataContainer userData { get; private set; }
-	public Dictionary<string, Plot> plotDict { get; set; }
 	public ObservableCollection<CartesianChart> chartCollection { get; set; }
 	public ObservableCollection<string> chartTitles { get; set; } 
 	public ObservableCollection<Grid> chartGrids { get; set; } 
@@ -24,7 +23,6 @@ public partial class AddPlotPage : ContentPage
 	{
 		InitializeComponent();
 		currentUser = user;
-		plotDict = new Dictionary<string, Plot>{};
 		chartCollection = new ObservableCollection<CartesianChart>
 		{
 			chart1,
