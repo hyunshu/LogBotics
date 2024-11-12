@@ -66,6 +66,11 @@ public partial class AddPlotPage : ContentPage
 
 		bool noSession = this.sessionData == null;
 
+		if (noSession) {
+			await DisplayAlert("Error", "You have no session selected.", "OK");
+			return;
+		}
+
 		userData = new DataContainer(currentUser);
 		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
