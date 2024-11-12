@@ -57,30 +57,40 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 
 
         // Method to parse the .dsevents file for errors and warnings
-        private string ParseDSEventsFile(string fileContent)
+    private string ParseDSEventsFile(string fileContent)
+    {
+        var output = new StringBuilder();
+
+        // Define regex patterns for errors and warnings
+        string errorPattern = @"(?i)(error|failed|lost communication)";
+        string warningPattern = @"(?i)(warning)";
+
+        // Split the content into lines
+        string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+        foreach (var line in lines)
         {
-            var output = new StringBuilder();
-
-            // Define regex patterns for errors and warnings
-            string errorPattern = @"(?i)(error|failed|lost communication)";
-            string warningPattern = @"(?i)(warning)";
-
-            // Split the content into lines
-            string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var line in lines)
+            if (Regex.IsMatch(line, errorPattern))
             {
-                if (Regex.IsMatch(line, errorPattern))
-                {
-                    output.AppendLine("Error: " + line);
-                }
-                else if (Regex.IsMatch(line, warningPattern))
-                {
-                    output.AppendLine("Warning: " + line);
-                }
+                var essentialInfo = ExtractEssentialInfo(line);
+                output.AppendLine("Error: " + essentialInfo);
             }
-
-            return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
+            else if (Regex.IsMatch(line, warningPattern))
+            {
+                var essentialInfo = ExtractEssentialInfo(line);
+                output.AppendLine("Warning: " + essentialInfo);
+            }
         }
+
+        return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
+    }
+
+    private string ExtractEssentialInfo(string line)
+    {
+        // Extracts only the essential parts of the message for better readability
+        var match = Regex.Match(line, @"<details>(.*?)<");
+        return match.Success ? match.Groups[1].Value : line;
+    }
+
     }
 }
