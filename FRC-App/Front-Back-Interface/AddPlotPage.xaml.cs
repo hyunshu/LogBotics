@@ -13,6 +13,7 @@ public partial class AddPlotPage : ContentPage
 {
 
 	public User currentUser { get; private set; }
+	public Session sessionData { get; private set; }
 	public DataContainer userData { get; private set; }
 	public ObservableCollection<CartesianChart> chartCollection { get; set; }
 	public ObservableCollection<string> chartTitles { get; set; } 
@@ -61,9 +62,29 @@ public partial class AddPlotPage : ContentPage
 			return;
 		} 
 
+		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
+		bool noSession = this.sessionData == null;
+
 		userData = new DataContainer(currentUser);
-		TypesDropDown.ItemsSource = userData.getDataTypeNames();
+		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
+	}
+
+	private async void changeSession() {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		//TODO: Needs dropdown implementation
+		DataContainer dataContainer = new DataContainer(currentUser);
+		List<string> sessions = dataContainer.getSessionNames();
+		string sessionSelection = sessions[0]; //Chosen from a dropdown
+
+		this.sessionData = dataContainer.getSession(sessionSelection);
 	}
 
 	private async void SelectDataType(object sender, EventArgs e) {
@@ -74,7 +95,7 @@ public partial class AddPlotPage : ContentPage
 			return;
 		}
 
-		DataType dataType = userData.getDataType(selectedDataType);
+		DataType dataType = sessionData.getDataType(selectedDataType);
 
 		xDataDropDown.ItemsSource = dataType.getColumnLabels();
 		yDataDropDown.ItemsSource = dataType.getColumnLabels();
@@ -91,7 +112,7 @@ public partial class AddPlotPage : ContentPage
 			return;
 		}
 
-		DataType dataType = userData.getDataType(selectedDataType);
+		DataType dataType = sessionData.getDataType(selectedDataType);
 		Column columnX = dataType.getColumn(selectedX);
 		Column columnY = dataType.getColumn(selectedY);
 

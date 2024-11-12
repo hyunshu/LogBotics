@@ -68,20 +68,28 @@ public partial class HomePage : ContentPage
 	private async void AddPlot(object sender, EventArgs e) {
 		await Navigation.PushAsync(new AddPlotPage(currentUser));
 
-		// if (numPlots >= 6) {
-		// 	await DisplayAlert("Error", "Max number of plots is 6!", "OK");
-		// 	return;
-		// }
+		if (numPlots >= 6) {
+			await DisplayAlert("Error", "Max number of plots is 6!", "OK");
+			return;
+		}
 
-		 // bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		// if (!hasData) {
-		// 	await DisplayAlert("Error", "You have no data to display.", "OK");
-		// 	return;
-		// } 
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
 
-		userData = new DataContainer(currentUser);
-		TypesDropDown.ItemsSource = userData.getDataTypeNames();
+		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
+		bool noSession = this.sessionData == null;
+
+		if (noSession) {
+			await DisplayAlert("Error", "You have no session selected.", "OK");
+			return;
+		}
+
+		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
 	}
 
