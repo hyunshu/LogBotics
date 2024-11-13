@@ -182,5 +182,12 @@ namespace FRC_App.Services
 
             return user;
         }
+
+        // update user async
+        public static async Task UpdateUserAsync(User user)
+        {
+            await Init();
+            await db.UpdateAsync(user);
+        }
     }
 }

@@ -106,8 +106,8 @@ public partial class HomePage : ContentPage
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
-			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser,sessionData.Name); //Also reconstructs the dataStructure based on the retrieval
-			
+			//List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser,sessionData.Name); //Also reconstructs the dataStructure based on the retrieval
+			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser);
 			//Testing 10/31/2024:
 			//exportDataStructure = new DataImport();
 			//retrievedRawData = exportDataStructure.GenerateTestData();
@@ -128,6 +128,11 @@ public partial class HomePage : ContentPage
 	private async void Instruction(object sender, EventArgs e)
 	{
 		await Navigation.PushAsync(new InstructionPage(currentUser));
+	}
+
+	private async void DataManipulation(object sender, EventArgs e)
+	{
+		await Navigation.PushAsync(new DataManipulationPage(currentUser));
 	}
 
 	public void loadUserPreferences() {
