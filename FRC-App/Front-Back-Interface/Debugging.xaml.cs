@@ -42,7 +42,10 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 
             // Display the parsing status and output
             ParsingStatusLabel.Text = "Parsing complete. Results:";
-            ParsedOutputLabel.Text = parsedOutput;
+            
+            // Set the HTML output to the WebView
+            var htmlContent = $"<html><body>{parsedOutput}</body></html>";
+            ResultsWebView.Source = new HtmlWebViewSource { Html = htmlContent };
         }
         else
         {
@@ -56,34 +59,35 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 }
 
 
+
         // Method to parse the .dsevents file for errors and warnings
-    private string ParseDSEventsFile(string fileContent)
+private string ParseDSEventsFile(string fileContent)
+{
+    var output = new StringBuilder();
+
+    // Define regex patterns for errors and warnings
+    string errorPattern = @"(?i)(error|failed|lost communication)";
+    string warningPattern = @"(?i)(warning)";
+
+    // Split the content into lines
+    string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+    foreach (var line in lines)
     {
-        var output = new StringBuilder();
-
-        // Define regex patterns for errors and warnings
-        string errorPattern = @"(?i)(error|failed|lost communication)";
-        string warningPattern = @"(?i)(warning)";
-
-        // Split the content into lines
-        string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-
-        foreach (var line in lines)
+        if (Regex.IsMatch(line, errorPattern))
         {
-            if (Regex.IsMatch(line, errorPattern))
-            {
-                var essentialInfo = ExtractEssentialInfo(line);
-                output.AppendLine("Error: " + essentialInfo);
-            }
-            else if (Regex.IsMatch(line, warningPattern))
-            {
-                var essentialInfo = ExtractEssentialInfo(line);
-                output.AppendLine("Warning: " + essentialInfo);
-            }
+            var essentialInfo = ExtractEssentialInfo(line);
+            output.AppendLine($"<span style=\"color:red;\">Error:</span> {essentialInfo}<br>");
         }
-
-        return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
+        else if (Regex.IsMatch(line, warningPattern))
+        {
+            var essentialInfo = ExtractEssentialInfo(line);
+            output.AppendLine($"<span style=\"color:darkorange;\">Warning:</span> {essentialInfo}<br>");
+        }
     }
+
+    return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
+}
 
     private string ExtractEssentialInfo(string line)
     {

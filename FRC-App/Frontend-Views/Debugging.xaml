@@ -2,26 +2,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.DebuggingPage"
              Title="Debugging Page">
-<ScrollView>
-    <StackLayout Padding="20" Spacing="20">
-        <!-- Button to upload .dsevents file -->
-        <Button Text="Upload .dsevents File"
-                BackgroundColor="#4A90E2"
-                TextColor="White"
-                CornerRadius="10"
-                Clicked="OnUploadFileClicked" />
 
-        <!-- Label to show the status of parsing -->
-        <Label x:Name="ParsingStatusLabel"
-               Text=""
-               FontSize="Medium"
-               TextColor="Black" />
-        
-        <!-- Display parsed errors and warnings -->
-        <Label x:Name="ParsedOutputLabel"
-               Text=""
-               FontSize="Medium"
-               TextColor="Black" />
-    </StackLayout>
-</ScrollView>
+    <ScrollView>
+        <VerticalStackLayout Padding="10">
+            <!-- Upload Button -->
+            <Button Text="Upload .dsevents File"
+                    BackgroundColor="#4A90E2"
+                    TextColor="White"
+                    CornerRadius="10"
+                    Clicked="OnUploadFileClicked" />
+
+            <!-- Parsing Status Label -->
+            <Label x:Name="ParsingStatusLabel"
+                   FontSize="Medium"
+                   TextColor="Black"
+                   Padding="10"
+                   Margin="5,10" />
+
+            <!-- WebView for displaying the parsed output -->
+            <WebView x:Name="ResultsWebView"
+                     HeightRequest="400"
+                     Margin="5,10" />
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
