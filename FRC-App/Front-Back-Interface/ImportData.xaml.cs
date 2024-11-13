@@ -43,9 +43,10 @@ public partial class ImportData : ContentPage
                 string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
                 string fileFamilyName = fileName.Split('_').First();
                 List<List<List<double>>> recievedRawData = importDataStructure.FromCSV(directoryPath, fileFamilyName);
-                await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData,sessionName);
 
-                Console.WriteLine($"Updated Sessions:\n{currentUser.sessions}");
+                await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
+
+                Console.WriteLine($"Sessions:\n{currentUser.sessions}");
                 Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
                 Console.WriteLine($"{currentUser.dataUnits}");
                 Console.WriteLine($"{currentUser.rawData}");

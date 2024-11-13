@@ -65,14 +65,26 @@ namespace FRC_App.Services
             }
         }
 
-
-        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData, string sessionName)
+        public static async Task clearData(User user)
         {
             await Init();
             
-            import.StoreRawData(rawData,user,sessionName);
+            user.sessions = "";
+            user.dataTypes = "";
+            user.dataUnits = "";
+            user.rawData = "";
 
-            await db.UpdateAsync(user);
+            db.UpdateAsync(user);
+        }
+
+
+        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData)
+        {
+            await Init();
+            
+            import.StoreRawData(rawData,user);
+
+            db.UpdateAsync(user);
         }
 
 

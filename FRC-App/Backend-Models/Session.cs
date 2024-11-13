@@ -7,6 +7,15 @@ public class Session {
     public string Name { get; set; }
     public List<DataType> DataTypes { get; set; }
 
+    public DataImport GetImport() {
+        List<List<string>> dataUnits = new List<List<string>>{};
+        foreach (DataType type in this.DataTypes) {
+            dataUnits.Add(type.getColumnLabels());
+        }
+        
+        return new DataImport(this.Name, getDataTypeNames(), dataUnits);
+    }
+
     public List<List<List<double>>> getRawData() {
         List<List<List<double>>> rawData = new List<List<List<double>>>{};
         foreach (DataType type in this.DataTypes) {

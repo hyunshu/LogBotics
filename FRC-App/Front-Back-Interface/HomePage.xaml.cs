@@ -33,7 +33,7 @@ public partial class HomePage : ContentPage
 		currentUser = user;
 		BindingContext = currentUser;
 
-		if (user.rawData != null) {
+		if (user.sessions != null) {
 			changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 		}
 
@@ -111,9 +111,25 @@ public partial class HomePage : ContentPage
 		//TODO: Needs dropdown implementation
 		DataContainer dataContainer = new DataContainer(currentUser);
 		List<string> sessions = dataContainer.getSessionNames();
-		string sessionSelection = sessions[0]; //Chosen from a dropdown
+		string sessionSelection = sessions.Last(); //Chosen from a dropdown
 
 		this.sessionData = dataContainer.getSession(sessionSelection);
+	}
+
+	//Demo for front-end devs (just demonstrates how to propate data updates for HunShu's edit data page):
+	//Remove this function when edit data page is implemented
+	private async void editDataDemo() {
+
+		DataContainer dataContainer = new DataContainer(currentUser);
+		List<string> sessions = dataContainer.getSessionNames();
+		string sessionSelection = sessions.Last(); //Chosen from a dropdown (happen to choose last entry)
+		Session session = dataContainer.getSession(sessionSelection);
+		DataType removedType = session.DataTypes[0];
+		session.DataTypes.RemoveAt(0); //Removes first DataType
+		Console.WriteLine($"\nTesting Edit Data Functionality:\nRemoved DataType: \"{removedType.Name}\"" + 
+				$" from Session: \"{session.Name}\". Warning! It may now be empty as a result.");
+
+		dataContainer.storeUpdates();
 	}
 
 
@@ -235,12 +251,31 @@ public partial class HomePage : ContentPage
 
 	private async void ExportData(object sender, EventArgs e)
 	{
-		if (currentUser.rawData is null) {
+		if (String.IsNullOrEmpty(currentUser.rawData)) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
 			return;
 		} 
 
+		//Testing 11/12/24: (start)
+		Console.WriteLine($"Sessions:\n{currentUser.sessions}");
+		Console.WriteLine($"Old Stored Data:\n{currentUser.dataTypes}");
+		Console.WriteLine($"{currentUser.dataUnits}");
+		Console.WriteLine($"{currentUser.rawData}");
+
 		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
+		editDataDemo();  //TESTING!!! Remove when edit data page is implemented 
+
+		Console.WriteLine($"\nUpdated Sessions:\n{currentUser.sessions}");
+		Console.WriteLine($"Edited Data Exported:\n{currentUser.dataTypes}");
+		Console.WriteLine($"{currentUser.dataUnits}");
+		Console.WriteLine($"{currentUser.rawData}");
+		//Testing 11/12/24 (end)
+
+		if (String.IsNullOrEmpty(currentUser.rawData)) {
+			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
+			return;
+		} 
 		
 		if (this.sessionData is null) {
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
@@ -586,10 +621,11 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 
 	//TODO: Need popup to name the session of data imported from the Robot
 	string sessionName = "textboxEntry";
+	dataStructure.sessionName = sessionName;
 
 
 
-	await UserDatabase.storeData(currentUser,dataStructure,rawData,sessionName);
+	await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
 	changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 
