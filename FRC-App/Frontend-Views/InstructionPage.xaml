@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.InstructionPage"
-             Title="NetworkTables Configuration Instructions">
+             Title="Instructions">
 
     <ScrollView>
         <StackLayout Padding="20">
             <!-- Header -->
-            <Label Text="Steps to Configure NetworkTables Output" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10" />
+            <Label Text="Steps for Network Tables Configurations and .dsevents Files" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" Margin="0,10" />
 
             <!-- Add NetworkTable Calls -->
             <Label Text="Add NetworkTable Calls to Robot Code:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
@@ -159,6 +159,29 @@
                 TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                 FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                 Margin="0,5" />
+
+        <!-- Instructions for Getting DS Log File -->
+            <Label Text="Instructions for Getting the DS Log File:" FontSize="Medium" FontAttributes="Bold" Margin="0,5" />
+            <Label Text="1. Open FRC Driver Station." 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                   Margin="0,5" />
+            <Label Text="2. Click on the gear in the top left of the DS output textbox." 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                   Margin="0,5" />
+            <Label Text="3. Click on Download WPILogs." 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                   Margin="0,5" />
+            <Label Text="4. The .dsevents file will be located in C:\Users\Public\Documents\FRC\Log Files\WPILogs." 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                   Margin="0,5" />
         </StackLayout>
     </ScrollView>
 </ContentPage>
