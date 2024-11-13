@@ -17,8 +17,9 @@ public class DataImport
      * @param dataTypes
      * @param dataUnits
      */
-    public DataImport(List<string> dataTypes, List<List<string>> dataUnits)
+    public DataImport(string sessionName, List<string> dataTypes, List<List<string>> dataUnits)
     {
+        this.sessionName = sessionName;
         this.dataTypes = dataTypes;
         this.dataUnits = dataUnits;
     }
@@ -168,6 +169,8 @@ public class DataImport
      */
     public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
     {
+        this.sessionName = fileName;
+
         //Testing Only need this ordering part to run the testcases:
         String[] oldFileNames = Directory.GetFiles(directoryPath); //Rename to fileNames if not ordering for test cases
         String[] fileNames = new String[4];
@@ -242,7 +245,7 @@ public class DataImport
      * @param user
      * @param sessionName
      */
-    public void StoreRawData(List<List<List<double>>> rawData, User user, string sessionName)
+    public void StoreRawData(List<List<List<double>>> rawData, User user)
     {
         string dataTypes = "";
         foreach (string type in this.dataTypes) 
@@ -282,10 +285,17 @@ public class DataImport
         }
         rawDataString = rawDataString.Substring(0, rawDataString.Length - 1);
 
-        user.sessions += "|" + sessionName;
-        user.dataTypes += "|" + dataTypes;
-        user.dataUnits += "|" + dataUnits;
-        user.rawData += "|" + rawDataString;
+        if (string.IsNullOrEmpty(user.sessions)){
+            user.sessions = this.sessionName;
+            user.dataTypes = dataTypes;
+            user.dataUnits = dataUnits;
+            user.rawData = rawDataString;
+        } else {
+            user.sessions += "|" + this.sessionName;
+            user.dataTypes += "|" + dataTypes;
+            user.dataUnits += "|" + dataUnits;
+            user.rawData += "|" + rawDataString;
+        }
     }
 
 

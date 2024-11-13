@@ -43,4 +43,15 @@ public class DataType {
         return null;
     }
 
+    public DataType Copy() {
+        DataType copy = new DataType();
+        copy.Name = this.Name;
+        copy.Columns = new List<Column>{};
+        foreach (Column col in this.Columns) {
+            copy.Columns.Add(col.Copy());
+        }
+        
+        return copy;
+    }
+
 }

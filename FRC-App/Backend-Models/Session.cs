@@ -7,6 +7,28 @@ public class Session {
     public string Name { get; set; }
     public List<DataType> DataTypes { get; set; }
 
+    public DataImport GetImport() {
+        List<List<string>> dataUnits = new List<List<string>>{};
+        foreach (DataType type in this.DataTypes) {
+            dataUnits.Add(type.getColumnLabels());
+        }
+        
+        return new DataImport(this.Name, getDataTypeNames(), dataUnits);
+    }
+
+    public List<List<List<double>>> getRawData() {
+        List<List<List<double>>> rawData = new List<List<List<double>>>{};
+        foreach (DataType type in this.DataTypes) {
+            List<List<double>> typeData = new List<List<double>>{};
+            foreach (Column column in type.Columns) {
+                typeData.Add(column.Data);
+            }
+            rawData.Add(typeData);
+        }
+
+        return rawData;
+    }
+
     /**
      * --- getDataTypeNames() ---
      * Returns the list of dataType names (motor, sensor, ect). This should
@@ -42,5 +64,23 @@ public class Session {
             }
         }
         return null;
+    }
+
+
+    /**
+     * --- Copy() ---
+     * Returns the new Session object that is identical to this session object in every way.
+     * Can be used to duplicate sessions.
+     * @return Session
+     */
+    public Session Copy() {
+        Session copy = new Session();
+        copy.Name = this.Name;
+        copy.DataTypes = new List<DataType>{};
+        foreach (DataType type in this.DataTypes) {
+            copy.DataTypes.Add(type.Copy());
+        }
+        
+        return copy;
     }
 }

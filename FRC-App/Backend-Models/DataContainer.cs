@@ -1,15 +1,18 @@
 
 using FRC_App.Models;
+using FRC_App.Services;
 
 //First (highest) level of the FRC data structure:
 //i.e. holds all sessions of data
 public class DataContainer {
+    private User user { get; set; }
     private List<Session> sessions { get; set; }
 
     public DataContainer(User user) {
+        this.user = user;
         this.sessions = new List<Session>{};
 
-        List<string> sessions = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string sessionName in sessions) {
             Session session = new Session();
             session.Name = sessionName;
@@ -40,6 +43,23 @@ public class DataContainer {
                 session.DataTypes.Add(dataType);
                 fileNum++;
             }
+            this.sessions.Add(session);
+        }
+    }
+
+    /**
+     * --- storeUpdates() ---
+     * After any and all updates are made to the DataContainer object 
+     * (i.e. removing sessions, data manipulation...) this function resets the data stored under
+     * the user in the UserDataBase.db file to the data in this DataContainer.
+     */
+    public async void storeUpdates() {
+        UserDatabase.clearData(this.user);
+
+        foreach (Session session in this.sessions) {
+            DataImport sessionStruture = session.GetImport();
+            
+            UserDatabase.storeData(this.user, sessionStruture, session.getRawData());
         }
     }
 

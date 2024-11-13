@@ -1,3 +1,4 @@
+using System.Data.Common;
 using System.Threading.Tasks;
 using FRC_App.Models;
 using SQLite;
@@ -14,6 +15,7 @@ namespace FRC_App.Services
             }
 
             string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
+            Console.WriteLine(databasePath);
             // HyunShu Desktop Path
             //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
             //string databasePath = Path.Combine(desktopPath, "LogBoticsDatabase.db");  // Database will be stored on the desktop
@@ -65,14 +67,26 @@ namespace FRC_App.Services
             }
         }
 
-
-        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData, string sessionName)
+        public static async Task clearData(User user)
         {
             await Init();
             
-            import.StoreRawData(rawData,user,sessionName);
+            user.sessions = "";
+            user.dataTypes = "";
+            user.dataUnits = "";
+            user.rawData = "";
 
-            await db.UpdateAsync(user);
+            db.UpdateAsync(user);
+        }
+
+
+        public static async Task storeData(User user, DataImport import, List<List<List<double>>> rawData)
+        {
+            await Init();
+            
+            import.StoreRawData(rawData,user);
+
+            db.UpdateAsync(user);
         }
 
 

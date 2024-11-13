@@ -1,19 +1,35 @@
 
-using System.IO.Compression;
-using Microcharts;
 using SkiaSharp;
+using LiveChartsCore.SkiaSharpView;
+using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView.Maui;
+using LiveChartsCore.Kernel;
+
 
 public class AxesDifferentLengthsException : Exception {
     public AxesDifferentLengthsException(string message)
         : base(message) { }
- }
+}
+
+public class DataPoint {
+    public double X;
+    public double Y;
+
+    public DataPoint(double x, double y) {
+        X = x;
+        Y = y;
+    }
+}
 
 public class Plot {
     public string Title { get; set; }
     public string XLabel { get; set; }
     public string YLabel { get; set; }
     public int numPoints { get; set; }
-    public ChartEntry[] chart { get; set; }
+    // public ChartEntry[] chart { get; set; }
+    private int width = 900;
+    private int height = 600;
     private Column x;
     private Column y;
 
@@ -33,18 +49,115 @@ public class Plot {
         this.x = x;
         this.y = y;
 
-        chart = new ChartEntry[this.numPoints];
-        string plotColor = getRandomHexColor();
-        for (int i = 0; i < this.numPoints; i++)
-			{
-				chart[i] = new ChartEntry((float) y.Data[i])
-				{
-					Label = x.Data[i].ToString(),  // i.e time (x domain)
-					ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
-					Color = SKColor.Parse(plotColor)
-				};
-			}
+        // chart = new ChartEntry[this.numPoints];
+        string plotColor = getRandomHexColor(); 
 
+        // for (int i = 0; i < this.numPoints; i++)
+        // {
+        //     chart[i] = new ChartEntry((float) y.Data[i])
+        //     {
+        //         Label = x.Data[i].ToString(),  // i.e time (x domain)
+        //         ValueLabel = y.Data[i].ToString("#.#####"), // i.e. spin angle (y domain)
+        //         Color = SKColor.Parse(plotColor)
+        //     };
+        // }
+    }
+
+    public CartesianChart GetLineChart() {
+        var datapoints = getValues();
+
+        var chart = new CartesianChart
+        {
+            Series = new[]
+            {
+                new LineSeries<DataPoint>
+                {
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+                }
+            },
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
+        };
+
+        return chart;
+    }
+
+    public PolarChart GetPolarChart() {
+        var datapoints = getValues();
+
+        var chart = new PolarChart
+        {
+            Series = new[]
+            {
+                new PolarLineSeries<DataPoint>
+                {
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+                }
+            },
+            AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
+            RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
+        };
+
+        return chart;
+    }
+
+    public CartesianChart GetScatterChart() {
+        var datapoints = getValues();
+
+        var chart = new CartesianChart
+        {
+            Series = new[]
+            {
+                new ScatterSeries<DataPoint>
+                {
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+                }
+            },
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
+        };
+
+        return chart;
+    }
+
+    private List<DataPoint> getValues() {
+        var datapoints = new List<DataPoint>();
+        for (int i = 0; i < this.numPoints; i++) {
+            DataPoint datapoint = new DataPoint(x.Data[i],y.Data[i]);
+            datapoints.Add(datapoint);
+        }
+
+        return datapoints;
+
+        // var values = new List<(double X, double Y)>{};
+        // for (int i = 0; i < this.numPoints; i++) {
+        //     values.Add((x.Data[i],y.Data[i]));
+        // }
+        // return values;
     }
 
     public bool SameAxisCheck() {
