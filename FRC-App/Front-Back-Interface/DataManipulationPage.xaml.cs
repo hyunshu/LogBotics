@@ -127,6 +127,7 @@ public partial class DataManipulationPage : ContentPage
         if (DataValuePicker.SelectedIndex != -1)
         {
             SelectedDataValueNumber = DataValueNumbers[DataValuePicker.SelectedIndex];
+            UpdateTableValue();
             UpdateSelectedValue();
         }
     }
@@ -150,17 +151,22 @@ public partial class DataManipulationPage : ContentPage
         CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
         UpdateTableValue();
     }
-
+    
     private void OnValueEntryChanged(object sender, TextChangedEventArgs e)
     {
-        if (double.TryParse(ValueEntry.Text, out var parsedValue) && SelectedValue != parsedValue)
+        string input = ValueEntry.Text;
+        if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^\d+\.\d{2}$"))
         {
-            SelectedValue = parsedValue;
-            ValueSlider.Value = SelectedValue;
-            CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
-            UpdateTableValue();
+            if (double.TryParse(input, out var parsedValue) && SelectedValue != parsedValue)
+            {
+                SelectedValue = parsedValue;
+                ValueSlider.Value = SelectedValue;
+                CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+                UpdateTableValue();
+            }
         }
     }
+
 
     private void UpdateTableValue()
     {

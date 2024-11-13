@@ -281,6 +281,11 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
 	*/
 }
 
+private async void ManipulateDataPage(object sender, EventArgs e)
+{
+	await Navigation.PushAsync(new DataManipulationPage(currentUser));
+}
+
 private async void OpenMapPage(object sender, EventArgs e)
 {
 	if (currentUser.rawData is null) {
@@ -304,6 +309,4 @@ private async void OnReportBugButtonClicked(object sender, EventArgs e)
     await Navigation.PushAsync(new ReportBugPage());
 }
 
-
-	
 }

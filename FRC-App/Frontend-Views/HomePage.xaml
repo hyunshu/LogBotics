@@ -41,6 +41,14 @@
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         CornerRadius="10" 
                         Clicked="RunNetworkTablesClient" />
+
+                    <Button Text="Manipulate Data" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="ManipulateDataPage" />
                 </VerticalStackLayout>
             </Frame>
 
