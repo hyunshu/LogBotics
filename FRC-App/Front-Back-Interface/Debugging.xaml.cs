@@ -34,6 +34,12 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 
         if (result != null)
         {
+            if (!result.FileName.EndsWith(".dsevents", StringComparison.OrdinalIgnoreCase))
+                {
+                    ParsingStatusLabel.Text = "Invalid file type. Please select a .dsevents file.";
+                    return;
+                }
+
             // Read the content of the selected file
             string fileContent = await File.ReadAllTextAsync(result.FullPath);
 
