@@ -270,12 +270,12 @@ public partial class HomePage : ContentPage
 		Console.WriteLine($"Edited Data Exported:\n{currentUser.dataTypes}");
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
-		//Testing 11/12/24 (end)
 
 		if (String.IsNullOrEmpty(currentUser.rawData)) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
 			return;
 		} 
+		//Testing 11/12/24 (end)
 		
 		if (this.sessionData is null) {
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
