@@ -101,9 +101,7 @@
 
                      <Button Text="Debugging"
                         BackgroundColor="#4A4A4A"
-                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        TextColor="White"
                         CornerRadius="10"
                         Clicked="OnDebuggingButtonClicked" />
                 </VerticalStackLayout>

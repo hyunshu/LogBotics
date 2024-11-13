@@ -1,34 +1,28 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FRC_App.DebuggingPage"
-             Title="Debugging">
+             Title="Debugging Page">
 
     <ScrollView>
         <VerticalStackLayout Padding="10">
-            <!-- Header -->
-            <Label Text="Debugging Window" FontSize="Large" FontAttributes="Bold" HorizontalOptions="Center" />
-
-            <!-- Button to Retrieve .dsevents files -->
-            <Button x:Name="RetrieveEventsFileButton"
-                    Text="Retrieve .dsevents File"
-                    BackgroundColor="#4A4A4A"
+            <!-- Upload Button -->
+            <Button Text="Upload .dsevents File"
+                    BackgroundColor="#4A90E2"
                     TextColor="White"
-                    Clicked="OnRetrieveEventsFileClicked" />
+                    CornerRadius="10"
+                    Clicked="OnUploadFileClicked" />
 
-            <!-- Display for Errors -->
-            <Label Text="Errors Found:" FontSize="Medium" FontAttributes="Bold" Margin="10,20,10,0" />
-            <CollectionView x:Name="ErrorsCollection"
-                            ItemsSource="{Binding ErrorsList}"
-                            Margin="10">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BorderColor="Black" CornerRadius="5" Padding="10" Margin="5">
-                            <Label Text="{Binding}" FontSize="Small" />
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+            <!-- Parsing Status Label -->
+            <Label x:Name="ParsingStatusLabel"
+                   FontSize="Medium"
+                   TextColor="Black"
+                   Padding="10"
+                   Margin="5,10" />
+
+            <!-- WebView for displaying the parsed output -->
+            <WebView x:Name="ResultsWebView"
+                     HeightRequest="400"
+                     Margin="5,10" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
