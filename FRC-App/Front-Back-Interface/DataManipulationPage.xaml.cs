@@ -127,7 +127,6 @@ public partial class DataManipulationPage : ContentPage
         if (DataValuePicker.SelectedIndex != -1)
         {
             SelectedDataValueNumber = DataValueNumbers[DataValuePicker.SelectedIndex];
-            UpdateTableValue();
             UpdateSelectedValue();
         }
     }
