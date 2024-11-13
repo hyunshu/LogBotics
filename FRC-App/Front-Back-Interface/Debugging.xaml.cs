@@ -77,23 +77,47 @@ private string ParseDSEventsFile(string fileContent)
 
     // Split the content into lines
     string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+    bool appendNextLine = false;
+    string currentOutput = string.Empty;
 
     foreach (var line in lines)
     {
         if (Regex.IsMatch(line, errorPattern))
         {
-            var essentialInfo = ExtractEssentialInfo(line);
-            output.AppendLine($"<span style=\"color:red;\">Error:</span> {essentialInfo}<br>");
+            if (appendNextLine)
+            {
+                output.AppendLine(currentOutput);
+                appendNextLine = false;
+            }
+            currentOutput = $"<span style=\"color:red;\">Error:</span> {ExtractEssentialInfo(line)}";
+            appendNextLine = true;
         }
         else if (Regex.IsMatch(line, warningPattern))
         {
-            var essentialInfo = ExtractEssentialInfo(line);
-            output.AppendLine($"<span style=\"color:darkorange;\">Warning:</span> {essentialInfo}<br>");
+            if (appendNextLine)
+            {
+                output.AppendLine(currentOutput);
+                appendNextLine = false;
+            }
+            currentOutput = $"<span style=\"color:darkorange;\">Warning:</span> {ExtractEssentialInfo(line)}";
+            appendNextLine = true;
         }
+        else if (appendNextLine)
+        {
+            // Add details to the current output
+            currentOutput += $"<br>▼ Details<br>{ExtractEssentialInfo(line)}";
+        }
+    }
+
+    // Append any remaining output
+    if (appendNextLine)
+    {
+        output.AppendLine(currentOutput);
     }
 
     return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
 }
+
 
     private string ExtractEssentialInfo(string line)
     {
