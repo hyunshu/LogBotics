@@ -5,38 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:FRC_App"
     Shell.TabBarBackgroundColor="#FF055397"
-    Shell.FlyoutBehavior="Disabled"
     Title="FRC_App">
 
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:LoginPage}"
         Route="loginpage" />
-
-    <!-- <ShellContent
-        Title="Report Bug"
-        ContentTemplate="{DataTemplate local:ReportBugPage}"
-        Route="reportbugpage" /> -->
-
-    <!-- <ShellContent
-        Title="Debugging"
-        ContentTemplate="{DataTemplate local:DebuggingPage}"
-        Route="debuggingpage" /> -->
-
-    <!-- <ShellContent
-        Title="Preferences"
-        ContentTemplate="{DataTemplate local:PreferencePage}"
-        Route="preferencepage" /> -->
-
-    <!-- <ShellContent
-        Title="Import Data"
-        ContentTemplate="{DataTemplate local:ImportData}"
-        Route="importdata" /> -->
-
-    <!-- <ShellContent
-        Title="Edit Account Info"
-        ContentTemplate="{DataTemplate local:EditAccountInfoPage}"
-        Route="editaccountinfopage" /> -->
 
     <TabBar>
         <Tab Title="Home Page">
