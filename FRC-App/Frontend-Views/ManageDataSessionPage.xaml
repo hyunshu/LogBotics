@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FRC_App"
+             x:Class="FRC_App.ManageDataSessionPage"
+             Title="Manage Data Session">
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="15">
+            <!-- Title -->
+            <Label Text="Select a Data Session"
+                   FontSize="Large"
+                   HorizontalOptions="Center"
+                   Margin="0, 10" />
+
+            <!-- Data Session Picker -->
+            <Label Text="Data Session:" FontAttributes="Bold" />
+            <Picker x:Name="DataSessionPicker"
+                    ItemsSource="{Binding DataSessions}" 
+                    SelectedIndexChanged="OnDataSessionSelected" />
+
+            <!-- Buttons -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                <Button Text="Create"
+                        Clicked="OnCreateSessionClicked"
+                        HorizontalOptions="CenterAndExpand" />
+                <Button Text="Rename"
+                        Clicked="OnRenameSessionClicked"
+                        HorizontalOptions="CenterAndExpand" />
+                <Button Text="Duplicate"
+                        Clicked="OnDuplicateSessionClicked"
+                        HorizontalOptions="CenterAndExpand" />
+                <Button Text="Delete"
+                        Clicked="OnDeleteSessionClicked"
+                        HorizontalOptions="CenterAndExpand" />
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

@@ -106,8 +106,7 @@ public partial class HomePage : ContentPage
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
-			//List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser,sessionData.Name); //Also reconstructs the dataStructure based on the retrieval
-			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser);
+			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser,sessionData.Name);
 			//Testing 10/31/2024:
 			//exportDataStructure = new DataImport();
 			//retrievedRawData = exportDataStructure.GenerateTestData();
@@ -279,6 +278,11 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
         await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
     }
 	*/
+}
+
+private async void ManageDataSessionPage(object sender, EventArgs e)
+{
+	await Navigation.PushAsync(new ManageDataSessionPage(currentUser));
 }
 
 private async void ManipulateDataPage(object sender, EventArgs e)

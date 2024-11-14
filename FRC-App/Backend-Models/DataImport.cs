@@ -312,13 +312,20 @@ public class DataImport
      * @param sessionName
      * @returns rawData
      */
-    public List<List<List<double>>> RetrieveRawData(User user)
+    public List<List<List<double>>> RetrieveRawData(User user, string sessionName)
     {
-        this.dataTypes = user.dataTypes.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        this.sessionName = sessionName;
+        int sessionIndex = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList().FindIndex(x => x.Equals(sessionName));
+        string dataTypesString = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string dataUnitsString = user.dataUnits.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string rawDataString = user.rawData.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+
+
+        this.dataTypes = dataTypesString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
 
 
         this.dataUnits.Clear();
-        List<string> filesUnits = user.dataUnits.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesUnits = dataUnitsString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesUnits)
         {
             List<string> units = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -327,7 +334,7 @@ public class DataImport
 
 
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
-        List<string> filesData = user.rawData.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesData = rawDataString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesData)
         {
             List<List<double>> z = new List<List<double>> {};
@@ -346,47 +353,6 @@ public class DataImport
         }
         return rawData;
     }
-    // public List<List<List<double>>> RetrieveRawData(User user, string sessionName)
-    // {
-    //     this.sessionName = sessionName;
-    //     int sessionIndex = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList().FindIndex(x => x.Equals(sessionName));
-    //     string dataTypesString = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-    //     string dataUnitsString = user.dataUnits.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-    //     string rawDataString = user.rawData.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-
-
-    //     this.dataTypes = dataTypesString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-
-
-    //     this.dataUnits.Clear();
-    //     List<string> filesUnits = dataUnitsString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //     foreach (string file in filesUnits)
-    //     {
-    //         List<string> units = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //         this.dataUnits.Add(units);
-    //     }
-
-
-    //     List<List<List<double>>> rawData = new List<List<List<double>>> {};
-    //     List<string> filesData = rawDataString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //     foreach (string file in filesData)
-    //     {
-    //         List<List<double>> z = new List<List<double>> {};
-    //         List<string> columnsData = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //         foreach (string column in columnsData)
-    //         {
-    //             List<double> y = new List<double> {};
-    //             List<string> rowsData = column.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //             foreach (var x in rowsData) 
-    //             {
-    //                 y.Add(Double.Parse(x));
-    //             }
-    //             z.Add(y);
-    //         }
-    //         rawData.Add(z);
-    //     }
-    //     return rawData;
-    // }
 
     public void SendRawData()
     {
