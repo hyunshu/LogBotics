@@ -4,23 +4,26 @@
              xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.ImportData"
              Title="Data Import and Export">
-    <StackLayout Padding="20">
+    <StackLayout Padding="20" Spacing="20">
 
         <!-- Instruction Label -->
         <Label Text="Click the button below to select a file from the file family you want to import"
                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-               HorizontalOptions="Center" />
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
 
         <!-- Import File Button -->
-        <Button Text="Import File" 
-                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                Clicked="OnImportButtonClicked" 
-                HorizontalOptions="Center" 
-                VerticalOptions="CenterAndExpand" />
+        <Frame CornerRadius="10" Padding="10" BorderColor="#D1D1D1">
+            <Button Text="Import File" 
+                    FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                    FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                    Clicked="OnImportButtonClicked" 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="CenterAndExpand" />
+        </Frame>
 
         <!-- Selected File Label -->
         <Label x:Name="SelectedFileLabel" 
@@ -29,25 +32,33 @@
                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                HorizontalOptions="Center" 
-               VerticalOptions="EndAndExpand" />
+               VerticalOptions="CenterAndExpand" />
 
-       <Button Text="Run Network Client" 
-              BackgroundColor="#4A4A4A" 
-              FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-              TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-              FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-              CornerRadius="10" 
-              Clicked="RunNetworkTablesClient" />
+        <!-- Run Network Client Button -->
+        <Frame CornerRadius="10" Padding="10" BorderColor="#D1D1D1">
+            <Button Text="Run Network Client" 
+                    BackgroundColor="#4A4A4A" 
+                    FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                    FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                    CornerRadius="10" 
+                    Clicked="RunNetworkTablesClient" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+        </Frame>
 
+        <!-- Export Data Button -->
+        <Frame CornerRadius="10" Padding="10" BorderColor="#D1D1D1">
+            <Button Text="Export Data" 
+                    BackgroundColor="#4A4A4A" 
+                    FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                    TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                    FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                    CornerRadius="10" 
+                    Clicked="ExportData" 
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="CenterAndExpand" />
+        </Frame>
 
-       <Button Text="Export Data" 
-                        BackgroundColor="#4A4A4A" 
-                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                        CornerRadius="10" 
-                        Clicked="ExportData" />
-
-       
     </StackLayout>
 </ContentPage>
