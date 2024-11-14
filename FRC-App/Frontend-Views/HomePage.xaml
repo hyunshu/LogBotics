@@ -9,7 +9,7 @@
         <VerticalStackLayout Padding="10" Spacing="15">
 
             <!-- Data Management Section -->
-            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
+            <!-- <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Data Management"
                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -42,10 +42,10 @@
                         CornerRadius="10" 
                         Clicked="RunNetworkTablesClient" />
                 </VerticalStackLayout>
-            </Frame>
+            </Frame> -->
 
             <!-- Tools Section -->
-            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
+            <!-- <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Tools"
                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -54,27 +54,11 @@
                            FontAttributes="Bold"
                            HorizontalOptions="Center" />
 
-                    <Button Text="Mapping Page" 
-                        BackgroundColor="#4A4A4A" 
-                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                        CornerRadius="10" 
-                        Clicked="OpenMapPage" />
-
-                   <Button Text="Add Plot Page" 
-                        BackgroundColor="#4A4A4A" 
-                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                        CornerRadius="10"  
-                        Clicked="AddPlot" />
-
                 </VerticalStackLayout>
-            </Frame>
+            </Frame> -->
 
             <!-- Preferences and Help Section -->
-            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
+            <!-- <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Settings and Help"
                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -91,14 +75,6 @@
                         CornerRadius="10" 
                         Clicked="Preference" />
 
-                     <Button Text="Instructions" 
-                        BackgroundColor="#4A4A4A" 
-                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
-                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
-                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
-                        CornerRadius="10" 
-                        Clicked="Instruction" />
-
                      <Button Text="Debugging"
                         BackgroundColor="#4A4A4A"
                         TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
@@ -107,10 +83,10 @@
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         Clicked="OnDebuggingButtonClicked" />
                 </VerticalStackLayout>
-            </Frame>
+            </Frame> -->
 
             <!-- Feedback Section -->
-            <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
+            <!-- <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Feedback"
                            FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
@@ -127,7 +103,7 @@
                         CornerRadius="10"
                         Clicked="OnReportBugButtonClicked" />
                 </VerticalStackLayout>
-            </Frame>
+            </Frame> -->
 
             <!-- User Info Section -->
             <Frame BackgroundColor="#E0E0E0" CornerRadius="10" Padding="10">

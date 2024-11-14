@@ -18,7 +18,7 @@ public partial class HomePage : ContentPage
 		BindingContext = currentUser;
 
 		if (currentUser.sessions != null) {
-			changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+			//changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 		}
 
 		loadUserPreferences();
@@ -33,102 +33,94 @@ public partial class HomePage : ContentPage
 
 	
 	//Demo for front-end devs (needs to be implemented as a button):
-	private async void changeSession() {
-		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+	// private async void changeSession() {
+	// 	bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
 
-		if (!hasData) {
-			await DisplayAlert("Error", "You have no data to display.", "OK");
-			return;
-		} 
+	// 	if (!hasData) {
+	// 		await DisplayAlert("Error", "You have no data to display.", "OK");
+	// 		return;
+	// 	} 
 
-		//TODO: Needs dropdown implementation
-		DataContainer dataContainer = new DataContainer(currentUser);
-		List<string> sessions = dataContainer.getSessionNames();
-		string sessionSelection = sessions.Last(); //Chosen from a dropdown
+	// 	//TODO: Needs dropdown implementation
+	// 	DataContainer dataContainer = new DataContainer(currentUser);
+	// 	List<string> sessions = dataContainer.getSessionNames();
+	// 	string sessionSelection = sessions.Last(); //Chosen from a dropdown
 
-		this.sessionData = dataContainer.getSession(sessionSelection);
-	}
+	// 	this.sessionData = dataContainer.getSession(sessionSelection);
+	// }
 
 	//Demo for front-end devs (just demonstrates how to propate data updates for HunShu's edit data page):
 	//Remove this function when edit data page is implemented
-	private async void editDataDemo() {
+	// private async void editDataDemo() {
 
-		DataContainer dataContainer = new DataContainer(currentUser);
-		List<string> sessions = dataContainer.getSessionNames();
-		string sessionSelection = sessions.Last(); //Chosen from a dropdown (happen to choose last entry)
-		Session session = dataContainer.getSession(sessionSelection);
-		DataType removedType = session.DataTypes[0];
-		session.DataTypes.RemoveAt(0); //Removes first DataType
-		Console.WriteLine($"\nTesting Edit Data Functionality:\nRemoved DataType: \"{removedType.Name}\"" + 
-				$" from Session: \"{session.Name}\". Warning! It may now be empty as a result.");
+	// 	DataContainer dataContainer = new DataContainer(currentUser);
+	// 	List<string> sessions = dataContainer.getSessionNames();
+	// 	string sessionSelection = sessions.Last(); //Chosen from a dropdown (happen to choose last entry)
+	// 	Session session = dataContainer.getSession(sessionSelection);
+	// 	DataType removedType = session.DataTypes[0];
+	// 	session.DataTypes.RemoveAt(0); //Removes first DataType
+	// 	Console.WriteLine($"\nTesting Edit Data Functionality:\nRemoved DataType: \"{removedType.Name}\"" + 
+	// 			$" from Session: \"{session.Name}\". Warning! It may now be empty as a result.");
 
-		dataContainer.storeUpdates();
-	}
+	// 	dataContainer.storeUpdates();
+	// }
 
-	private async void AddPlot(object sender, EventArgs e) {
-		await Navigation.PushAsync(new AddPlotPage());
-	}
+	// private async void ImportData(object sender, EventArgs e)
+	// {
+	// 	await Shell.Current.GoToAsync("///importdata");
+	// }
 
-	private async void ImportData(object sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new ImportData(currentUser));
-	}
+	// private async void ExportData(object sender, EventArgs e)
+	// {
+	// 	if (String.IsNullOrEmpty(currentUser.rawData)) {
+	// 		await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
+	// 		return;
+	// 	} 
 
-	private async void ExportData(object sender, EventArgs e)
-	{
-		if (String.IsNullOrEmpty(currentUser.rawData)) {
-			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
-			return;
-		} 
+	// 	//Testing 11/12/24: (start)
+	// 	Console.WriteLine($"Sessions:\n{currentUser.sessions}");
+	// 	Console.WriteLine($"Old Stored Data:\n{currentUser.dataTypes}");
+	// 	Console.WriteLine($"{currentUser.dataUnits}");
+	// 	Console.WriteLine($"{currentUser.rawData}");
 
-		//Testing 11/12/24: (start)
-		Console.WriteLine($"Sessions:\n{currentUser.sessions}");
-		Console.WriteLine($"Old Stored Data:\n{currentUser.dataTypes}");
-		Console.WriteLine($"{currentUser.dataUnits}");
-		Console.WriteLine($"{currentUser.rawData}");
+	// 	// changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 
-		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+	// 	editDataDemo();  //TESTING!!! Remove when edit data page is implemented 
 
-		editDataDemo();  //TESTING!!! Remove when edit data page is implemented 
+	// 	Console.WriteLine($"\nUpdated Sessions:\n{currentUser.sessions}");
+	// 	Console.WriteLine($"Edited Data Exported:\n{currentUser.dataTypes}");
+	// 	Console.WriteLine($"{currentUser.dataUnits}");
+	// 	Console.WriteLine($"{currentUser.rawData}");
 
-		Console.WriteLine($"\nUpdated Sessions:\n{currentUser.sessions}");
-		Console.WriteLine($"Edited Data Exported:\n{currentUser.dataTypes}");
-		Console.WriteLine($"{currentUser.dataUnits}");
-		Console.WriteLine($"{currentUser.rawData}");
-
-		if (String.IsNullOrEmpty(currentUser.rawData)) {
-			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
-			return;
-		} 
-		//Testing 11/12/24 (end)
+	// 	if (String.IsNullOrEmpty(currentUser.rawData)) {
+	// 		await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
+	// 		return;
+	// 	} 
+	// 	//Testing 11/12/24 (end)
 		
-		if (this.sessionData is null) {
-			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
-		} else {
-			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
-			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser); //Also reconstructs the dataStructure based on the retrieval
+	// 	if (this.sessionData is null) {
+	// 		await DisplayAlert("Error", "You have no session selected to Export.", "OK");
+	// 	} else {
+	// 		DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
+	// 		List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser); //Also reconstructs the dataStructure based on the retrieval
 			
-			//Testing 10/31/2024:
-			//exportDataStructure = new DataImport();
-			//retrievedRawData = exportDataStructure.GenerateTestData();
-			//Testing 10/31/2024
+	// 		//Testing 10/31/2024:
+	// 		//exportDataStructure = new DataImport();
+	// 		//retrievedRawData = exportDataStructure.GenerateTestData();
+	// 		//Testing 10/31/2024
 
-			DataExport export = new DataExport(exportDataStructure);
-			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
+	// 		DataExport export = new DataExport(exportDataStructure);
+	// 		export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
 
-			await DisplayAlert("Success", "Data Exported", "Continue"); 
-		}
-	}
+	// 		await DisplayAlert("Success", "Data Exported", "Continue"); 
+	// 	}
+	// }
 
-	private async void Preference(object sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new PreferencePage(currentUser));
-	}
+	// private async void Preference(object sender, EventArgs e)
+	// {
+	// 	await Shell.Current.GoToAsync("///preferencepage");
+	// }
 
-	private async void Instruction(object sender, EventArgs e)
-	{
-		await Navigation.PushAsync(new InstructionPage());
-	}
 
 	public void loadUserPreferences() {
 		string userThemeKey = $"{currentUser.Username}_{currentUser.TeamNumber}_theme";
@@ -145,7 +137,7 @@ public partial class HomePage : ContentPage
 		if (answer)
 		{
 			((App)Application.Current).LoadTheme("Dark Theme");
-			Application.Current.MainPage = new NavigationPage(new LoginPage());	
+			await Shell.Current.GoToAsync("///loginpage");	
 		}
 	}
 
@@ -202,30 +194,30 @@ public partial class HomePage : ContentPage
 } 
 */
 
-private async void RunNetworkTablesClient(object sender, EventArgs e)
-{
-	DataImport dataStructure = new DataImport();
-	string directoryPath = "../";
-	string fileName = "RealRobotData.txt";
-	List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
+// private async void RunNetworkTablesClient(object sender, EventArgs e)
+// {
+	// DataImport dataStructure = new DataImport();
+	// string directoryPath = "../";
+	// string fileName = "RealRobotData.txt";
+	// List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
 
 
 
-	//TODO: Need popup to name the session of data imported from the Robot
-	string sessionName = "textboxEntry";
-	dataStructure.sessionName = sessionName;
+	// //TODO: Need popup to name the session of data imported from the Robot
+	// string sessionName = "textboxEntry";
+	// dataStructure.sessionName = sessionName;
 
 
 
-	await UserDatabase.storeData(currentUser,dataStructure,rawData);
+	// await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
-	changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+	// // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 
-	Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-	Console.WriteLine($"{currentUser.dataUnits}");
-	Console.WriteLine($"{currentUser.rawData}");
+	// Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+	// Console.WriteLine($"{currentUser.dataUnits}");
+	// Console.WriteLine($"{currentUser.rawData}");
 
-	await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
+	// await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
 
 	/* Doesn't work on every machine as of 10/31/2024 - James Gilliam
     try
@@ -274,31 +266,29 @@ private async void RunNetworkTablesClient(object sender, EventArgs e)
         await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
     }
 	*/
-}
+	//}
 
-private async void OpenMapPage(object sender, EventArgs e)
-{
-	if (currentUser.rawData is null) {
-		await DisplayAlert("Error", "You have no data to display.", "OK");
-		return;
-	} else if (this.sessionData is null) {
-		await DisplayAlert("Error", "You have no session selected.", "OK");
-		return;
-	} else {
-    await Navigation.PushAsync(new MapPage(currentUser,this.sessionData));
-	}
-}
+// private async void OpenMapPage(object sender, EventArgs e)
+// {
+// 	if (currentUser.rawData is null) {
+// 		await DisplayAlert("Error", "You have no data to display.", "OK");
+// 		return;
+// 	} else if (this.sessionData is null) {
+// 		await DisplayAlert("Error", "You have no session selected.", "OK");
+// 		return;
+// 	} else {
+//     await Navigation.PushAsync(new MapPage(currentUser,this.sessionData));
+// 	}
+// }
 
-private async void OnDebuggingButtonClicked(object sender, EventArgs e)
-{
-    await Navigation.PushAsync(new DebuggingPage());
-}
+// private async void OnDebuggingButtonClicked(object sender, EventArgs e)
+// {
+//     await Shell.Current.GoToAsync("///debuggingpage");
+// }
 
-private async void OnReportBugButtonClicked(object sender, EventArgs e)
-{
-    await Navigation.PushAsync(new ReportBugPage());
-}
+// private async void OnReportBugButtonClicked(object sender, EventArgs e)
+// {
+//     await Shell.Current.GoToAsync("///reportbugpage");
+// }
 
-
-	
 }

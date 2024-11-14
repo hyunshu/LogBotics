@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.ImportData"
-             Title="Import Data">
+             Title="Data Import and Export">
     <StackLayout Padding="20">
 
         <!-- Instruction Label -->
@@ -30,5 +30,24 @@
                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                HorizontalOptions="Center" 
                VerticalOptions="EndAndExpand" />
+
+       <Button Text="Run Network Client" 
+              BackgroundColor="#4A4A4A" 
+              FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+              TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+              FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+              CornerRadius="10" 
+              Clicked="RunNetworkTablesClient" />
+
+
+       <Button Text="Export Data" 
+                        BackgroundColor="#4A4A4A" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                        CornerRadius="10" 
+                        Clicked="ExportData" />
+
+       
     </StackLayout>
 </ContentPage>
