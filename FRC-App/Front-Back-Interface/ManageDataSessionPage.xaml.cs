@@ -10,8 +10,9 @@ public partial class ManageDataSessionPage : ContentPage
 {
     public User currentUser  { get; private set; }
     public DataContainer dataContainer { get; private set; }
-    public List<string> sessions { get; private set; }
-    public Session sessionData { get; private set; } 
+    public List<string> sessionsNames { get; private set; }
+    public string selectedSessionName { get; private set; }
+    public Session selectedSession { get; private set; } 
 
 	public ManageDataSessionPage()
 	{
@@ -19,35 +20,149 @@ public partial class ManageDataSessionPage : ContentPage
         currentUser = UserSession.CurrentUser;
 
         DataContainer dataContainer = new DataContainer(currentUser);
-        sessions = dataContainer.getSessionNames();
-        DataSessionPicker.ItemsSource = sessions;
+        sessionsNames = dataContainer.getSessionNames();
+        DataSessionPicker.ItemsSource = sessionsNames;
 	}
 
-    private void OnDataSessionSelected(object sender, EventArgs e)
+    private async void OnDataSessionSelected(object sender, EventArgs e)
     {
         if (DataSessionPicker.SelectedIndex != -1)
         {
-            sessionData = dataContainer.getSession(sessions[DataSessionPicker.SelectedIndex]);
+            selectedSessionName = sessionsNames[DataSessionPicker.SelectedIndex];
+            selectedSession = dataContainer.getSession(selectedSessionName);
         }
     }
     
-    private void OnCreateSessionClicked(object sender, EventArgs e)
+    private async void OnCreateSessionClicked(object sender, EventArgs e)
     {
-        // Logic to create a new data session
+        // Prompt the user to input a new name
+        string newName = await DisplayPromptAsync(
+            "Rename Data Session",
+            $"Enter a name for the new session:",
+            placeholder: "New Session Name"
+        );
+
+        if (!string.IsNullOrEmpty(newName))
+        {
+            // Update the session name
+            Session newSession = new Session();
+            newSession.Name = newName;
+            dataContainer.addSession(newSession);
+
+            // Update the sessionsNames list and refresh the Picker
+            sessionsNames.Add(newName);
+            DataSessionPicker.ItemsSource = null; // Force refresh
+            DataSessionPicker.ItemsSource = sessionsNames;
+
+            await DisplayAlert("Success", $"Session renamed to '{newName}'.", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Session name cannot be empty.", "OK");
+        }
+
     }
 
-    private void OnRenameSessionClicked(object sender, EventArgs e)
+    private async void OnRenameSessionClicked(object sender, EventArgs e)
     {
-        // Logic to rename the selected data session
+        if (selectedSession == null)
+        {
+            await DisplayAlert("Error", "Please select a session to rename.", "OK");
+            return;
+        }
+
+        // Prompt the user to input a new name
+        string newName = await DisplayPromptAsync(
+            "Rename Data Session",
+            $"Enter a new name for session '{selectedSessionName}':",
+            initialValue: selectedSessionName,
+            placeholder: "New Session Name"
+        );
+
+        if (!string.IsNullOrEmpty(newName))
+        {
+            // Update the session name
+            selectedSession.Name = newName;
+            dataContainer.storeUpdates();
+
+            // Update the sessionsNames list and refresh the Picker
+            int index = sessionsNames.IndexOf(selectedSessionName);
+            if (index != -1)
+            {
+                sessionsNames[index] = newName;
+                DataSessionPicker.ItemsSource = null; // Force refresh
+                DataSessionPicker.ItemsSource = sessionsNames;
+            }
+
+            await DisplayAlert("Success", $"Session renamed to '{newName}'.", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Session name cannot be empty.", "OK");
+        }
     }
 
-    private void OnDuplicateSessionClicked(object sender, EventArgs e)
+    private async void OnDuplicateSessionClicked(object sender, EventArgs e)
     {
-        // Logic to duplicate the selected data session
+        if (selectedSession == null)
+        {
+            await DisplayAlert("Error", "Please select a session to duplicate.", "OK");
+            return;
+        }
+
+        // Prompt the user to input a new name
+        string newName = await DisplayPromptAsync(
+            "Duplicate Data Session",
+            $"Enter a name for the duplicated session '{selectedSessionName}':",
+            initialValue: selectedSessionName + " (Copy)",
+            placeholder: "Duplicate Session Name"
+        );
+
+        if (!string.IsNullOrEmpty(newName))
+        {
+            // Duplicate the session
+            Session newSession = selectedSession.Copy();
+            newSession.Name = newName;
+            dataContainer.addSession(newSession);
+            dataContainer.storeUpdates();
+
+            // Update the sessionsNames list and refresh the Picker
+            sessionsNames.Add(newName);
+            DataSessionPicker.ItemsSource = null; // Force refresh
+            DataSessionPicker.ItemsSource = sessionsNames;
+
+            await DisplayAlert("Success", $"Session duplicated as '{newName}'.", "OK");
+        }
+        else
+        {
+            await DisplayAlert("Error", "Session name cannot be empty.", "OK");
+        }
     }
 
-    private void OnDeleteSessionClicked(object sender, EventArgs e)
+    private async void OnDeleteSessionClicked(object sender, EventArgs e)
     {
-        // Logic to delete the selected data session
+        if (selectedSession == null)
+        {
+            await DisplayAlert("Error", "Please select a session to delete.", "OK");
+            return;
+        }
+
+        bool delete = await DisplayAlert("Delete Data Session",
+            $"Are you sure you want to delete the session '{selectedSessionName}'?",
+            "Yes", "No");
+
+        if (delete) {
+            dataContainer.removeSession(selectedSession);
+            dataContainer.storeUpdates();
+
+            // Update the sessionsNames list and refresh the Picker
+            sessionsNames.Remove(selectedSessionName);
+            DataSessionPicker.ItemsSource = null; // Force refresh
+            DataSessionPicker.ItemsSource = sessionsNames;
+
+            await DisplayAlert("Success", $"Session '{selectedSessionName}' deleted.", "OK");
+        } else {
+            await DisplayAlert("Cancelled", "Session deletion cancelled.", "OK");
+        }
     }
 }

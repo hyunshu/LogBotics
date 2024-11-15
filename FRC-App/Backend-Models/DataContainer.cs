@@ -100,4 +100,12 @@ public class DataContainer {
         }
         return null;
     }
+
+    public void addSession(Session session) {
+        this.sessions.Add(session);
+    }
+
+    public void removeSession(Session session) {
+        this.sessions.Remove(session);
+    }
 }
