@@ -11,7 +11,7 @@ namespace FRC_App;
 
 public partial class AddPlotPage : ContentPage
 {
-
+	public int selectedChart { get; private set; }
 	public User currentUser { get; private set; }
 	public Session sessionData { get; private set; }
 	public DataContainer userData { get; private set; }
@@ -44,6 +44,7 @@ public partial class AddPlotPage : ContentPage
 			ChartGrid6
 		};
 		numPlots = 0;
+		selectedChart = -1;
 		BindingContext = this;
 		chartTitles = new ObservableCollection<string>();
 	}
@@ -155,34 +156,80 @@ public partial class AddPlotPage : ContentPage
 	}
 
 
-	private async void OnDeleteChart1Clicked(object sender, EventArgs e) {
+	private void OnDeleteChart1Clicked(object sender, EventArgs e) {
 		chartGrids[0].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart2Clicked(object sender, EventArgs e) {
+	private void OnSelectChart1Clicked(object sender, EventArgs e) {
+		selectedChart = 0;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart2Clicked(object sender, EventArgs e) {
 		chartGrids[1].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart3Clicked(object sender, EventArgs e) {
+	private void OnSelectChart2Clicked(object sender, EventArgs e) {
+		selectedChart = 1;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart3Clicked(object sender, EventArgs e) {
 		chartGrids[2].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
+	}
+
+	private void OnSelectChart3Clicked(object sender, EventArgs e) {
+		selectedChart = 2;
+		EditChartStack.IsVisible = true;
 	}
 
 	private async void OnDeleteChart4Clicked(object sender, EventArgs e) {
 		chartGrids[3].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart5Clicked(object sender, EventArgs e) {
+	private void OnSelectChart4Clicked(object sender, EventArgs e) {
+		selectedChart = 3;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart5Clicked(object sender, EventArgs e) {
 		chartGrids[4].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart6Clicked(object sender, EventArgs e) {
+	private void OnSelectChart5Clicked(object sender, EventArgs e) {
+		selectedChart = 4;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart6Clicked(object sender, EventArgs e) {
 		chartGrids[5].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
+	}
+
+	private void OnSelectChart6Clicked(object sender, EventArgs e) {
+		selectedChart = 5;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void SelectChartType(object sender, EventArgs e) {
+		
+	}
+
+	private void SaveChartEdits(object sender, EventArgs e) {
+		
+
+		EditChartStack.IsVisible = false;
 	}
 
 	private async void ExportToJpeg(object sender, EventArgs e) {
