@@ -39,11 +39,15 @@
                 ContentTemplate="{DataTemplate local:ManageDataSessionPage}"
                 Route="managedatasessionpage" />
 
-
             <ShellContent
                 Title="Manipulate Data"
                 ContentTemplate="{DataTemplate local:DataManipulationPage}"
                 Route="datamanipulationpage" />
+
+            <ShellContent
+                Title="Edit Data"
+                ContentTemplate="{DataTemplate local:EditDataPage}"
+                Route="editdatapage" />
 
             <ShellContent
                 Title="Preferences"
