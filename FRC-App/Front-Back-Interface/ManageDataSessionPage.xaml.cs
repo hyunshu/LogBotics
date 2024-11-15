@@ -13,10 +13,10 @@ public partial class ManageDataSessionPage : ContentPage
     public List<string> sessions { get; private set; }
     public Session sessionData { get; private set; } 
 
-	public ManageDataSessionPage(User user)
+	public ManageDataSessionPage()
 	{
 		InitializeComponent();
-        currentUser = user;
+        currentUser = UserSession.CurrentUser;
 
         DataContainer dataContainer = new DataContainer(currentUser);
         sessions = dataContainer.getSessionNames();

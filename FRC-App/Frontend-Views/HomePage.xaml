@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.HomePage"
-
              Title="Home Page">
 
     <!-- Main layout container -->

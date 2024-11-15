@@ -35,6 +35,11 @@
                 Route="editaccountinfopage" />
 
             <ShellContent
+                Title="Manipulate Data"
+                ContentTemplate="{DataTemplate local:DataManipulationPage}"
+                Route="datamanipulationpage" />
+
+            <ShellContent
                 Title="Preferences"
                 ContentTemplate="{DataTemplate local:PreferencePage}"
                 Route="preferencepage" />
