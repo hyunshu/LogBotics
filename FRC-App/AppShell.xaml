@@ -35,6 +35,12 @@
                 Route="editaccountinfopage" />
 
             <ShellContent
+                Title="Manage Data Session"
+                ContentTemplate="{DataTemplate local:ManageDataSessionPage}"
+                Route="managedatasessionpage" />
+
+
+            <ShellContent
                 Title="Manipulate Data"
                 ContentTemplate="{DataTemplate local:DataManipulationPage}"
                 Route="datamanipulationpage" />

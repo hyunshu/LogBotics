@@ -19,10 +19,10 @@ public partial class DataManipulationPage : ContentPage
     public ObservableCollection<string> DataSessions { get; set; }
     private int SelectedSessionIndex;
 
-    public DataManipulationPage(User user)
+    public DataManipulationPage()
     {
         InitializeComponent();
-        currentUser = user;
+        currentUser = UserSession.CurrentUser;
 
         // Initialize sessions and bind to the DataSessionPicker
         LoadSessions();
