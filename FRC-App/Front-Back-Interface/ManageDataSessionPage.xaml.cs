@@ -19,7 +19,7 @@ public partial class ManageDataSessionPage : ContentPage
 		InitializeComponent();
         currentUser = UserSession.CurrentUser;
 
-        DataContainer dataContainer = new DataContainer(currentUser);
+        this.dataContainer = new DataContainer(currentUser);
         sessionsNames = dataContainer.getSessionNames();
         DataSessionPicker.ItemsSource = sessionsNames;
 	}

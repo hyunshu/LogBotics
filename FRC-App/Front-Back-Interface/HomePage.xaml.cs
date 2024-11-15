@@ -9,6 +9,7 @@ namespace FRC_App;
 public partial class HomePage : ContentPage
 {
 	public User currentUser { get; private set; }
+	public DataContainer dataContainer { get; private set; }
 	public Session sessionData { get; private set; }
 
 	public HomePage()
@@ -21,6 +22,8 @@ public partial class HomePage : ContentPage
 			//changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 		}
 
+		dataContainer = new DataContainer(currentUser);
+		DataSessionPicker.ItemsSource = dataContainer.getSessionNames();
 		loadUserPreferences();
 	}
 
@@ -29,6 +32,14 @@ public partial class HomePage : ContentPage
 		base.OnAppearing();
 		BindingContext = null;
 		BindingContext = currentUser;
+	}
+
+	private async void OnDataSessionSelected(object sender, EventArgs e)
+	{
+		if (DataSessionPicker.SelectedIndex != -1)
+		{
+
+		}
 	}
 
 	
