@@ -20,10 +20,10 @@ public partial class AddPlotPage : ContentPage
 	public ObservableCollection<Grid> chartGrids { get; set; } 
 	
 	public int numPlots;
-	public AddPlotPage(User user)
+	public AddPlotPage()
 	{
 		InitializeComponent();
-		currentUser = user;
+		currentUser = UserSession.CurrentUser;
 		chartCollection = new ObservableCollection<CartesianChart>
 		{
 			chart1,

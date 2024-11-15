@@ -10,10 +10,10 @@ namespace FRC_App
     {
         public User currentUser  { get; private set; }
 
-        public EditAccountInfoPage(User user)
+        public EditAccountInfoPage()
         {
             InitializeComponent();
-            currentUser = user;
+            currentUser = UserSession.CurrentUser;
         }
 
         // Event handler for saving Team Name
