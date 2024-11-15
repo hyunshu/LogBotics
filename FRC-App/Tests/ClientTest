@@ -1,0 +1,19 @@
+using Npgsql;
+
+class ClientTest
+{
+    static void Main(string[] args)
+    {
+        var connString = "Host=your_server_ip;Port=5432;Username=your_user;Password=your_password;Database=your_database";
+
+        using (var conn = new NpgsqlConnection(connString))
+        {
+            conn.Open();
+            using (var cmd = new NpgsqlCommand("SELECT version();", conn))
+            {
+                var version = cmd.ExecuteScalar().ToString();
+                Console.WriteLine($"PostgreSQL version: {version}");
+            }
+        }
+    }
+}

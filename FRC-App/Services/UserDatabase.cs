@@ -2,25 +2,28 @@ using System.Data.Common;
 using System.Threading.Tasks;
 using FRC_App.Models;
 using SQLite;
+using Npgsql;
 
 namespace FRC_App.Services
 {
     public static class UserDatabase {
 
         static SQLiteAsyncConnection db;
+        //static NpgsqlConnection db;
         static async Task Init()
         {   
             if (db != null) {
                 return;
             }
 
-            string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
-            Console.WriteLine(databasePath);
-            // HyunShu Desktop Path
-            //string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            //string databasePath = Path.Combine(desktopPath, "LogBoticsDatabase.db");  // Database will be stored on the desktop
+            //string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
+            string connectionString = "host=10.186.94.82 port=5432 dbname=postgres user=postgres password=1234 connect_timeout=10 sslmode=prefer";
+            Console.WriteLine(connectionString);
 
-            //Console.WriteLine(databasePath);
+            DatabaseInitializer dbInitializer = new DatabaseInitializer(connectionString);
+            dbInitializer.InitializeDatabase();
+            
+            string databasePath = "jgff";
             db = new SQLiteAsyncConnection(databasePath);
 
             await db.CreateTableAsync<User>();
