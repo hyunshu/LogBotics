@@ -5,6 +5,7 @@ using LiveChartsCore.SkiaSharpView.VisualElements;
 using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView.Maui;
 using LiveChartsCore.Kernel;
+using LiveChartsCore.SkiaSharpView.Painting;
 
 
 public class AxesDifferentLengthsException : Exception {
@@ -63,7 +64,7 @@ public class Plot {
         // }
     }
 
-    public CartesianChart GetLineChart() {
+    public CartesianChart GetLineChart(SKColor color) {
         var datapoints = getValues();
 
         var chart = new CartesianChart
@@ -73,7 +74,9 @@ public class Plot {
                 new LineSeries<DataPoint>
                 {
                     Values = datapoints,
-                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y),
+                    Stroke = new SolidColorPaint(color), 
+                    Fill = null
                 }
             },
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
@@ -90,34 +93,34 @@ public class Plot {
         return chart;
     }
 
-    public PolarChart GetPolarChart() {
-        var datapoints = getValues();
+    // public PolarChart GetPolarChart() {
+    //     var datapoints = getValues();
 
-        var chart = new PolarChart
-        {
-            Series = new[]
-            {
-                new PolarLineSeries<DataPoint>
-                {
-                    Values = datapoints,
-                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
-                }
-            },
-            AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
-            RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } },
+    //     var chart = new PolarChart
+    //     {
+    //         Series = new[]
+    //         {
+    //             new PolarLineSeries<DataPoint>
+    //             {
+    //                 Values = datapoints,
+    //                 Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+    //             }
+    //         },
+    //         AngleAxes = new[] { new PolarAxis { Labeler = value => this.XLabel } },
+    //         RadiusAxes = new[] { new PolarAxis { Labeler = value => this.YLabel } },
 
-            Title = new LabelVisual
-            {
-                Text = this.YLabel + " vs " + this.XLabel,
-                TextSize = 20,
-                Padding = new LiveChartsCore.Drawing.Padding(15)
-            }
-        };
+    //         Title = new LabelVisual
+    //         {
+    //             Text = this.YLabel + " vs " + this.XLabel,
+    //             TextSize = 20,
+    //             Padding = new LiveChartsCore.Drawing.Padding(15)
+    //         }
+    //     };
 
-        return chart;
-    }
+    //     return chart;
+    // }
 
-    public CartesianChart GetScatterChart() {
+    public CartesianChart GetScatterChart(SKColor color) {
         var datapoints = getValues();
 
         var chart = new CartesianChart
@@ -127,7 +130,9 @@ public class Plot {
                 new ScatterSeries<DataPoint>
                 {
                     Values = datapoints,
-                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y)
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y),
+                    Stroke = new SolidColorPaint(color),
+                    Fill = new SolidColorPaint(color)
                 }
             },
             XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
@@ -142,6 +147,48 @@ public class Plot {
         };
 
         return chart;
+    }
+
+     public CartesianChart GetStepLineChart(SKColor color) {
+        var datapoints = getValues();
+
+        var chart = new CartesianChart
+        {
+            Series = new[]
+            {
+                new StepLineSeries<DataPoint>
+                {
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y),
+                    Stroke = new SolidColorPaint(color),
+                    Fill = null
+                
+                }
+            },
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
+        };
+
+        return chart;
+    }
+
+    public bool isLineChart(CartesianChart chart) {
+        return chart.Series.First() is LineSeries<DataPoint>;
+    }
+
+    public bool isScatterChart (CartesianChart chart) {
+        return chart.Series.First() is ScatterSeries<DataPoint>;
+    }
+
+    public bool isStepLineChart (CartesianChart chart) {
+        return chart.Series.First() is StepLineSeries<DataPoint>;
     }
 
     private List<DataPoint> getValues() {

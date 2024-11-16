@@ -25,7 +25,7 @@
                     <lvc:CartesianChart x:Name="chart1" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart1Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart1Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart1Clicked"/>
                         </VerticalStackLayout>
                 </Grid>
 
@@ -34,7 +34,7 @@
                     <lvc:CartesianChart x:Name="chart2" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart2Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart2Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart2Clicked"/>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -43,7 +43,7 @@
                     <lvc:CartesianChart x:Name="chart3" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart3Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart3Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart3Clicked"/>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -52,7 +52,7 @@
                     <lvc:CartesianChart x:Name="chart4" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart4Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart4Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart4Clicked"/>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -61,7 +61,7 @@
                     <lvc:CartesianChart x:Name="chart5" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart5Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart5Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart5Clicked"/>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -70,7 +70,7 @@
                     <lvc:CartesianChart x:Name="chart6" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                     <VerticalStackLayout Grid.Column ="1">
                         <Button Text="Delete" Grid.Column="1" BackgroundColor="Red" TextColor="White" Clicked="OnDeleteChart6Clicked"/>
-                        <Button Text="Select" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart6Clicked"/>
+                        <Button Text="Edit" Grid.Column="1" BackgroundColor="#FF0464C5" TextColor="White" Clicked="OnSelectChart6Clicked"/>
                     </VerticalStackLayout>
                 </Grid>
 
@@ -100,7 +100,6 @@
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                     
                 <Picker x:Name="ChartsDropDown" 
-                    SelectedIndexChanged="SelectChartType" 
                     Title="Choose Chart Type" 
                     FontSize="16" 
                     TextColor="Black" 
@@ -110,7 +109,7 @@
                     <Picker.Items>
                         <x:String>Scatter</x:String>
                         <x:String>Line</x:String>
-                        <x:String>Bar</x:String>
+                        <x:String>Step Line</x:String>
                     </Picker.Items>
                 </Picker>
 
@@ -131,7 +130,19 @@
                         <x:String>White</x:String>
                     </Picker.Items>
                 </Picker>
-                    
+
+                <VerticalStackLayout WidthRequest="250">
+                    <Label Text="Enter Chart Name"
+                        TextColor="Black" 
+                        FontSize="16" />
+                    <Entry x:Name="ChartTitleEntry"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        FontSize="18"
+                        HeightRequest="50" />
+                </VerticalStackLayout>
+
+                <Button x:Name="SaveChartButton" Text="Save" BackgroundColor="#FF1B35CD" TextColor="White" CornerRadius="5" Clicked="SaveChartEdits" />
 
                 </HorizontalStackLayout>
             </Frame>
