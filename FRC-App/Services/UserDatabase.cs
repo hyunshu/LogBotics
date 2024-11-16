@@ -9,7 +9,7 @@ namespace FRC_App.Services
     public static class UserDatabase {
 
         static SQLiteAsyncConnection db;
-        static string connectionString = "Host=10.186.94.82;Port=5432;Username=Client;Password=1234;Database=postgres";
+        static string connectionString = "Host=100.69.42.127;Port=5432;Username=Client;Password=1234;Database=postgres";
         //static NpgsqlConnection db;
         static async Task Init()
         {   
