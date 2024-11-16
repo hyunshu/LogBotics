@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FRC_App.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+10e4b1273298b2a187057f10c37b46c70fa5875a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c5f5d598e7970da264c8eaf72f988df4bb884390")]
 [assembly: System.Reflection.AssemblyProductAttribute("FRC_App.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FRC_App.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
