@@ -24,7 +24,7 @@ public class DatabaseInitializer
                     Password VARCHAR(128),
                     SecurityQuestion VARCHAR(256),
                     SecurityAnswer VARCHAR(512),
-                    IsAdmin BOOLEAN DEFAULT FALSE
+                    IsAdmin BOOLEAN DEFAULT FALSE,
                     sessions VARCHAR(1048576),
                     dataTypes VARCHAR(1048576),
                     dataUnits VARCHAR(1048576),

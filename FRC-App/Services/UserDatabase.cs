@@ -17,7 +17,7 @@ namespace FRC_App.Services
             }
 
             //string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
-            string connectionString = "host=10.186.94.82 port=5432 dbname=postgres user=postgres password=1234 connect_timeout=10 sslmode=prefer";
+            string connectionString = "Host=10.186.94.82;Port=5432;Username=poop;Password=1234;Database=postgres";
             Console.WriteLine(connectionString);
 
             DatabaseInitializer dbInitializer = new DatabaseInitializer(connectionString);
