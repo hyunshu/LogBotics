@@ -9,7 +9,7 @@ namespace FRC_App.Services
     public static class UserDatabase {
 
         static SQLiteAsyncConnection db;
-        static string connectionString = "Host=10.186.94.82;Port=5432;Username=postgres;Password=1234;Database=postgres";
+        static string connectionString = "Host=10.186.94.82;Port=5432;Username=Client;Password=1234;Database=postgres";
         //static NpgsqlConnection db;
         static async Task Init()
         {   
@@ -205,15 +205,6 @@ namespace FRC_App.Services
             return null;
         }
 
-        public static async Task<bool> CheckUserExistsAsync(string username)
-        {
-            // Assuming you're using SQLite or similar, adjust this query to your actual DB structure
-            await Init();
-            //var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
-            return false;// existingUser != null;
-        }
-
-
         // update team name
         public static async Task UpdateTeamName(User user, string teamName)
         {
@@ -224,7 +215,8 @@ namespace FRC_App.Services
                 throw new ArgumentException("Team name already exists.");
             }
             user.TeamName = teamName;
-            await db.UpdateAsync(user);
+            
+            updateDatabase(user);
         }
         // update team number
         public static async Task UpdateTeamNumber(User user, string teamNumber)
@@ -236,7 +228,8 @@ namespace FRC_App.Services
                 throw new ArgumentException("Team number already exists.");
             }
             user.TeamNumber = teamNumber;
-            await db.UpdateAsync(user);
+            
+            updateDatabase(user);
         }
         // update username
         public static async Task UpdateUsername(User user, string username)
@@ -248,40 +241,103 @@ namespace FRC_App.Services
                 throw new ArgumentException("Username already exists.");
             }
             user.Username = username;
-            await db.UpdateAsync(user);
+            
+            updateDatabase(user);
         }
         // update password
         public static async Task UpdatePassword(User user, string password)
         {
             await Init();
             user.Password = password;
-            await db.UpdateAsync(user);
+            
+            updateDatabase(user);
         }
 
         // check if team name exists
         public static async Task<bool> CheckTeamNameExistsAsync(string teamName)
         {
             await Init();
-            //var existingTeamName = await db.Table<User>().Where(u => u.TeamName == teamName).FirstOrDefaultAsync();
-            return false;//existingTeamName != null;
+            
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Users
+                    WHERE TeamName = @teamName;
+                ";
+
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("teamName", teamName);
+
+                    // Execute the query and retrieve the count
+                    long count = (long)cmd.ExecuteScalar();
+
+                    // If count > 0, the TeamName exists
+                    return count > 0;
+                }
+            }
         }
         // check if team number exists
         public static async Task<bool> CheckTeamNumberExistsAsync(string teamNumber)
         {
             await Init();
-            //var existingTeamNumber = await db.Table<User>().Where(u => u.TeamNumber == teamNumber).FirstOrDefaultAsync();
-            return false;//existingTeamNumber != null;
+            
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Users
+                    WHERE TeamNumber = @teamNumber;
+                ";
+
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("teamNumber", teamNumber);
+
+                    // Execute the query and retrieve the count
+                    long count = (long)cmd.ExecuteScalar();
+
+                    // If count > 0, the TeamNumber exists
+                    return count > 0;
+                }
+            }
         }
         // check if username exists
         public static async Task<bool> CheckUserNameExistsAsync(string username)
         {
             await Init();
-            //var existingUsername = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
-            return false;//existingUsername != null;
+            
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
+
+                string query = @"
+                    SELECT COUNT(*) 
+                    FROM Users
+                    WHERE Username = @username;
+                ";
+
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("username", username);
+
+                    // Execute the query and retrieve the count
+                    long count = (long)cmd.ExecuteScalar();
+
+                    // If count > 0, the username exists
+                    return count > 0;
+                }
+            }
         }
 
 
-        // get user async
+        // get user async (Unused)
+        /*
         public static async Task<User> GetUserAsync(string username)
         {
             await Init();
@@ -289,12 +345,14 @@ namespace FRC_App.Services
 
             return user;
         }
+        */
 
         // update user async
         public static async Task UpdateUserAsync(User user)
         {
             await Init();
-            await db.UpdateAsync(user);
+            
+            updateDatabase(user);
         }
     }
 }
