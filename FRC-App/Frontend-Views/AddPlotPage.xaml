@@ -110,6 +110,7 @@
                         <x:String>Scatter</x:String>
                         <x:String>Line</x:String>
                         <x:String>Step Line</x:String>
+                        <x:String>Row</x:String>
                     </Picker.Items>
                 </Picker>
 

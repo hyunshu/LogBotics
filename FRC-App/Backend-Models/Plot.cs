@@ -179,6 +179,36 @@ public class Plot {
         return chart;
     }
 
+     public CartesianChart GetRowChart(SKColor color) {
+        var datapoints = getValues();
+
+        var chart = new CartesianChart
+        {
+            Series = new[]
+            {
+                new RowSeries<DataPoint>
+                {
+                    Values = datapoints,
+                    Mapping = (datapoint, index) => new(datapoint.X, datapoint.Y),
+                    Stroke = new SolidColorPaint(color),
+                    Fill = new SolidColorPaint(color)
+                
+                }
+            },
+            XAxes = new[] { new Axis { Labeler = value => this.XLabel } },
+            YAxes = new[] { new Axis { Labeler = value => this.YLabel } },
+
+            Title = new LabelVisual
+            {
+                Text = this.YLabel + " vs " + this.XLabel,
+                TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+            }
+        };
+
+        return chart;
+    }
+
     public bool isLineChart(CartesianChart chart) {
         return chart.Series.First() is LineSeries<DataPoint>;
     }
@@ -189,6 +219,10 @@ public class Plot {
 
     public bool isStepLineChart (CartesianChart chart) {
         return chart.Series.First() is StepLineSeries<DataPoint>;
+    }
+
+    public bool isRowChart (CartesianChart chart) {
+        return chart.Series.First() is RowSeries<DataPoint>;
     }
 
     private List<DataPoint> getValues() {

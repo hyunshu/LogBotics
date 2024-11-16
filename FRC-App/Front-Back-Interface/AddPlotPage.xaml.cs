@@ -251,6 +251,9 @@ public partial class AddPlotPage : ContentPage
 				case "Step Line":
 					chart.Series = plot.GetStepLineChart(SKColors.Blue).Series;
 					break;
+				case "Row":
+					chart.Series = plot.GetRowChart(SKColors.Blue).Series;
+					break;
 				default:
 					break;
 			}
@@ -266,7 +269,9 @@ public partial class AddPlotPage : ContentPage
 				chart.Series = plot.GetScatterChart(newColor).Series;
 			} else if (plot.isStepLineChart(chart)) {
 				chart.Series = plot.GetStepLineChart(newColor).Series;
-			}	
+			} else if (plot.isRowChart(chart)) {
+				chart.Series = plot.GetRowChart(newColor).Series;
+			}
 		}
 
 		string newTitle = ChartTitleEntry.Text;
