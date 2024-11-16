@@ -9,6 +9,7 @@ namespace FRC_App.Services
     public static class UserDatabase {
 
         static SQLiteAsyncConnection db;
+        static string connectionString = "Host=10.186.94.82;Port=5432;Username=postgres;Password=1234;Database=postgres";
         //static NpgsqlConnection db;
         static async Task Init()
         {   
@@ -17,16 +18,11 @@ namespace FRC_App.Services
             }
 
             //string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
-            string connectionString = "Host=10.186.94.82;Port=5432;Username=poop;Password=1234;Database=postgres";
             Console.WriteLine(connectionString);
 
             DatabaseInitializer dbInitializer = new DatabaseInitializer(connectionString);
             dbInitializer.InitializeDatabase();
             
-            string databasePath = "jgff";
-            db = new SQLiteAsyncConnection(databasePath);
-
-            await db.CreateTableAsync<User>();
         }
 
         public static async Task AddUser(string teamName, string teamNumber, string name, string password, string securityQuestion, string securityAnswer, bool isAdmin = false)
@@ -57,16 +53,85 @@ namespace FRC_App.Services
                 IsAdmin = isAdmin  // Store the admin status
             };
 
-            try
-            {
+            //try
+            //{
                 // Insert the user into the database
-                var id = await db.InsertAsync(user);
-            }
-            catch (Exception ex)
+                using (var conn = new NpgsqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    using (var cmd = new NpgsqlCommand("INSERT INTO Users (TeamName, TeamNumber, Username, Password, SecurityQuestion, SecurityAnswer, IsAdmin) VALUES (@TeamName, @TeamNumber, @Username, @Password, @SecurityQuestion, @SecurityAnswer, @IsAdmin) RETURNING Id", conn))
+                    {
+                        cmd.Parameters.AddWithValue("TeamName", user.TeamName);
+                        cmd.Parameters.AddWithValue("TeamNumber", user.TeamNumber);
+                        cmd.Parameters.AddWithValue("Username", user.Username);
+                        cmd.Parameters.AddWithValue("Password", user.Password);
+                        cmd.Parameters.AddWithValue("SecurityQuestion", user.SecurityQuestion);
+                        cmd.Parameters.AddWithValue("SecurityAnswer", user.SecurityAnswer);
+                        cmd.Parameters.AddWithValue("IsAdmin", user.IsAdmin);
+                        cmd.Parameters.AddWithValue("sessions", "");
+                        cmd.Parameters.AddWithValue("dataTypes", "");
+                        cmd.Parameters.AddWithValue("dataUnits", "");
+                        cmd.Parameters.AddWithValue("rawData", "");
+                        
+                        user.Id = (int)cmd.ExecuteScalar();
+                    }
+                }
+            //}
+            // catch (Exception ex)
+            // {
+            //     // Handle any errors during the insertion process
+            //     Console.WriteLine($"Error inserting user: {ex.Message}");
+            //     throw; // Re-throwing to make sure the caller is aware of the failure
+            // }
+        }
+
+        public static void updateDatabase(User user) {
+
+            using (var conn = new NpgsqlConnection(connectionString))
             {
-                // Handle any errors during the insertion process
-                Console.WriteLine($"Error inserting user: {ex.Message}");
-                throw; // Re-throwing to make sure the caller is aware of the failure
+                conn.Open();
+
+                string updateQuery = @"
+                    UPDATE Users
+                    SET 
+                        TeamName = @teamName,
+                        TeamNumber = @teamNumber,
+                        Username = @username,
+                        Password = @password,
+                        SecurityQuestion = @securityQuestion,
+                        SecurityAnswer = @securityAnswer,
+                        IsAdmin = @isAdmin,
+                        sessions = @sessions,
+                        dataTypes = @dataTypes,
+                        dataUnits = @dataUnits,
+                        rawData = @rawData
+                    WHERE Id = @id;
+                ";
+
+                using (var cmd = new NpgsqlCommand(updateQuery, conn))
+                {
+                    // Add parameters to prevent SQL injection
+                    cmd.Parameters.AddWithValue("id", user.Id);
+                    cmd.Parameters.AddWithValue("teamName", user.TeamName ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("teamNumber", user.TeamNumber ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("username", user.Username ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("password", user.Password ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("securityQuestion", user.SecurityQuestion ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("securityAnswer", user.SecurityAnswer ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("isAdmin", user.IsAdmin);
+                    cmd.Parameters.AddWithValue("sessions", user.sessions ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("dataTypes", user.dataTypes ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("dataUnits", user.dataUnits ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("rawData", user.rawData ?? (object)DBNull.Value);
+
+                    // Execute the update command
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    if (rowsAffected == 0)
+                    {
+                        Console.WriteLine("No user found with the given ID.");
+                    }
+                }
             }
         }
 
@@ -79,7 +144,7 @@ namespace FRC_App.Services
             user.dataUnits = "";
             user.rawData = "";
 
-            db.UpdateAsync(user);
+            updateDatabase(user);
         }
 
 
@@ -89,24 +154,63 @@ namespace FRC_App.Services
             
             import.StoreRawData(rawData,user);
 
-            db.UpdateAsync(user);
+            updateDatabase(user);
         }
 
 
         public static async Task<User> GetUser(string username)
         {
             await Init();
-            var user = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            
+            using (var conn = new NpgsqlConnection(connectionString))
+            {
+                conn.Open();
 
-            return user;
+                string query = @"
+                    SELECT Id, TeamName, TeamNumber, Username, Password, SecurityQuestion, SecurityAnswer, 
+                        IsAdmin, sessions, dataTypes, dataUnits, rawData
+                    FROM Users
+                    WHERE Username = @username;
+                ";
+
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("username", username);
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read()) // Check if a row exists
+                        {
+                            return new User
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                TeamName = reader["TeamName"] as string,
+                                TeamNumber = reader["TeamNumber"] as string,
+                                Username = reader["Username"] as string,
+                                Password = reader["Password"] as string,
+                                SecurityQuestion = reader["SecurityQuestion"] as string,
+                                SecurityAnswer = reader["SecurityAnswer"] as string,
+                                IsAdmin = reader.GetBoolean(reader.GetOrdinal("IsAdmin")),
+                                sessions = reader["sessions"] as string,
+                                dataTypes = reader["dataTypes"] as string,
+                                dataUnits = reader["dataUnits"] as string,
+                                rawData = reader["rawData"] as string
+                            };
+                        }
+                    }
+                }
+            }
+
+            // If no user is found, return null
+            return null;
         }
 
         public static async Task<bool> CheckUserExistsAsync(string username)
         {
             // Assuming you're using SQLite or similar, adjust this query to your actual DB structure
             await Init();
-            var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
-            return existingUser != null;
+            //var existingUser = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            return false;// existingUser != null;
         }
 
 
@@ -158,22 +262,22 @@ namespace FRC_App.Services
         public static async Task<bool> CheckTeamNameExistsAsync(string teamName)
         {
             await Init();
-            var existingTeamName = await db.Table<User>().Where(u => u.TeamName == teamName).FirstOrDefaultAsync();
-            return existingTeamName != null;
+            //var existingTeamName = await db.Table<User>().Where(u => u.TeamName == teamName).FirstOrDefaultAsync();
+            return false;//existingTeamName != null;
         }
         // check if team number exists
         public static async Task<bool> CheckTeamNumberExistsAsync(string teamNumber)
         {
             await Init();
-            var existingTeamNumber = await db.Table<User>().Where(u => u.TeamNumber == teamNumber).FirstOrDefaultAsync();
-            return existingTeamNumber != null;
+            //var existingTeamNumber = await db.Table<User>().Where(u => u.TeamNumber == teamNumber).FirstOrDefaultAsync();
+            return false;//existingTeamNumber != null;
         }
         // check if username exists
         public static async Task<bool> CheckUserNameExistsAsync(string username)
         {
             await Init();
-            var existingUsername = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
-            return existingUsername != null;
+            //var existingUsername = await db.Table<User>().Where(u => u.Username == username).FirstOrDefaultAsync();
+            return false;//existingUsername != null;
         }
 
 

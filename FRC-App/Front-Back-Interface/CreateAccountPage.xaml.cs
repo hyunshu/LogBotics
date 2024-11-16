@@ -53,18 +53,18 @@ public partial class CreateAccountPage : ContentPage
                 return;
             }
             
-			try
-            {
+			//try
+            //{
                 // Need to add new fields to user for question and answer
                 await UserDatabase.AddUser(teamName, teamNumber, username, password, securityQuestion, securityAnswer, false);
                 await DisplayAlert("Success", "Account created successfully!", "Go Back to Login");
 				await Navigation.PopAsync();
-            }
-            catch (Exception ex)
-            {
+            //}
+            //catch (Exception ex)
+            //{
                 // Handle case where user already exists or any other error
-                await DisplayAlert("Error", ex.Message, "OK");
-            }
+            //    await DisplayAlert("Error", ex.Message, "OK");
+            //}
         } else {
             await DisplayAlert("Error", "Missing info", "OK");
         }
