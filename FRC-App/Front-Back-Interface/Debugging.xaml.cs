@@ -67,7 +67,7 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 
 
         // Method to parse the .dsevents file for errors and warnings
-private string ParseDSEventsFile(string fileContent)
+public string ParseDSEventsFile(string fileContent)
 {
     var output = new StringBuilder();
 
@@ -125,6 +125,13 @@ private string ParseDSEventsFile(string fileContent)
         var match = Regex.Match(line, @"<details>(.*?)<");
         return match.Success ? match.Groups[1].Value : line;
     }
+
+    public string ParsingStatus
+    {
+        get => ParsingStatusLabel.Text;
+        set => ParsingStatusLabel.Text = value;
+    }
+
 
     }
 }
