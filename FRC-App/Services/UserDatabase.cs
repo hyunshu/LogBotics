@@ -8,14 +8,14 @@ namespace FRC_App.Services
 {
     public static class UserDatabase {
 
-        static SQLiteAsyncConnection db;
-        static string connectionString = "Host=100.69.42.127;Port=5432;Username=Client;Password=1234;Database=postgres";
+        //static SQLiteAsyncConnection db;
+        static string connectionString = "Host=35.238.44.226;Port=5432;Username=postgres;Password=4$VP4&Be#8N#E}'>;Database=postgres";
         //static NpgsqlConnection db;
         static async Task Init()
         {   
-            if (db != null) {
-                return;
-            }
+            //if (db != null) {
+            //    return;
+            //}
 
             //string databasePath = Path.Combine(FileSystem.AppDataDirectory, "LogBoticsDatabase.db");  // Might need to change this to a diff directory in the future
             Console.WriteLine(connectionString);
