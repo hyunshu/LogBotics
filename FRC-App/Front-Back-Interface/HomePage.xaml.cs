@@ -11,27 +11,36 @@ public partial class HomePage : ContentPage
 	public User currentUser { get; private set; }
 	public DataContainer dataContainer { get; private set; }
 	public Session sessionData { get; private set; }
+	public ObservableCollection<string> sessionNames { get; set; } 
 
 	public HomePage()
 	{
 		InitializeComponent();
 		currentUser = UserSession.CurrentUser;
 		BindingContext = currentUser;
+		sessionNames = new ObservableCollection<string>();
 
 		if (currentUser.sessions != null) {
 			//changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 		}
 
 		dataContainer = new DataContainer(currentUser);
-		DataSessionPicker.ItemsSource = dataContainer.getSessionNames();
+		// DataSessionPicker.ItemsSource = dataContainer.getSessionNames();
 		loadUserPreferences();
 	}
 
-	protected override void OnAppearing()
+	protected override void OnNavigatedTo(NavigatedToEventArgs args)
 	{
-		base.OnAppearing();
+		base.OnNavigatedTo(args);
 		BindingContext = null;
 		BindingContext = currentUser;
+
+		sessionNames.Clear();
+		foreach (string session in dataContainer.getSessionNames()) {
+			sessionNames.Add(session);
+		}
+		DataSessionPicker.ItemsSource = sessionNames;
+
 	}
 
 	private async void OnDataSessionSelected(object sender, EventArgs e)

@@ -66,6 +66,8 @@
                              FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
                      <Picker x:Name="DataSessionPicker"
                                    ItemsSource="{Binding DataSessions}"
+                                   TextColor="Black"
+                                   BackgroundColor="White"
                                    SelectedIndexChanged="OnDataSessionSelected" />
                                    
 
