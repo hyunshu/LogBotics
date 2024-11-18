@@ -35,10 +35,13 @@ public partial class HomePage : ContentPage
 		BindingContext = null;
 		BindingContext = currentUser;
 
+		dataContainer = new DataContainer(currentUser);
+
 		sessionNames.Clear();
 		foreach (string session in dataContainer.getSessionNames()) {
 			sessionNames.Add(session);
 		}
+		DataSessionPicker.ItemsSource = null;
 		DataSessionPicker.ItemsSource = sessionNames;
 
 	}
