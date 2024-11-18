@@ -1,72 +1,70 @@
 using Xunit;
+using FRC_App.Utilities;
 
-namespace FRC_App.Tests
+public class DseventsParserTests
 {
-    public class DebuggingPageTests
+    [Fact]
+    public void Parse_FindsErrorsAndWarnings()
     {
-        // Test: ParsingStatus updates correctly when set
-        [Fact]
-        public void ParsingStatusLabel_UpdatesCorrectly()
-        {
-            // Arrange
-            var debuggingPage = new DebuggingPage();
+        // Arrange
+        string fileContent = @"
+            [2024-01-01 12:00:00] ERROR: Lost communication with device
+            [2024-01-01 12:01:00] WARNING: High latency detected
+        ";
 
-            // Act
-            debuggingPage.ParsingStatus = "File uploaded successfully.";
+        // Act
+        var result = DseventsParser.Parse(fileContent);
 
-            // Assert
-            Assert.Equal("File uploaded successfully.", debuggingPage.ParsingStatus);
-        }
+        // Assert
+        Assert.Contains("Error:", result);
+        Assert.Contains("Lost communication with device", result);
+        Assert.Contains("Warning:", result);
+        Assert.Contains("High latency detected", result);
+    }
 
-        // Test: ParsingStatus displays error message for invalid file type
-        [Fact]
-        public void ParsingStatusLabel_DisplaysErrorForInvalidFileType()
-        {
-            // Arrange
-            var debuggingPage = new DebuggingPage();
+    [Fact]
+    public void Parse_NoErrorsOrWarnings()
+    {
+        // Arrange
+        string fileContent = @"
+            [2024-01-01 12:00:00] INFO: All systems operational
+        ";
 
-            // Simulate an invalid file type
-            var invalidFileName = "log.txt";
+        // Act
+        var result = DseventsParser.Parse(fileContent);
 
-            // Act
-            if (!invalidFileName.EndsWith(".dsevents", StringComparison.OrdinalIgnoreCase))
-            {
-                debuggingPage.ParsingStatus = "Invalid file type. Please select a .dsevents file.";
-            }
+        // Assert
+        Assert.Equal("No errors or warnings found.", result);
+    }
 
-            // Assert
-            Assert.Equal("Invalid file type. Please select a .dsevents file.", debuggingPage.ParsingStatus);
-        }
+    [Fact]
+    public void Parse_EmptyFileContent()
+    {
+        // Arrange
+        string emptyContent = "";
 
-        // Test: ParsingStatus displays cancellation message when no file is selected
-        [Fact]
-        public void ParsingStatusLabel_DisplaysCancellationMessage()
-        {
-            // Arrange
-            var debuggingPage = new DebuggingPage();
+        // Act
+        var result = DseventsParser.Parse(emptyContent);
 
-            // Act
-            debuggingPage.ParsingStatus = "File selection was canceled.";
+        // Assert
+        Assert.Equal("No errors or warnings found.", result);
+    }
 
-            // Assert
-            Assert.Equal("File selection was canceled.", debuggingPage.ParsingStatus);
-        }
+    [Fact]
+    public void Parse_FindsMultipleErrors()
+    {
+        // Arrange
+        string fileContent = @"
+            [2024-01-01 12:00:00] ERROR: Device failed to respond
+            [2024-01-01 12:01:00] ERROR: Lost communication with device
+        ";
 
-        // Test: ParsingStatus displays parsing result
-        [Fact]
-        public void ParsingStatusLabel_DisplaysParsingResult()
-        {
-            // Arrange
-            var debuggingPage = new DebuggingPage();
+        // Act
+        var result = DseventsParser.Parse(fileContent);
 
-            // Simulate a parsing operation
-            string simulatedParsingResult = "Parsing complete. Results: No errors found.";
-
-            // Act
-            debuggingPage.ParsingStatus = simulatedParsingResult;
-
-            // Assert
-            Assert.Equal("Parsing complete. Results: No errors found.", debuggingPage.ParsingStatus);
-        }
+        // Assert
+        Assert.Contains("Error:", result);
+        Assert.Contains("Device failed to respond", result);
+        Assert.Contains("Lost communication with device", result);
     }
 }

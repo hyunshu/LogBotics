@@ -1,3 +1,4 @@
+using FRC_App.Utilities;
 using Microsoft.Maui.Storage;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -44,7 +45,8 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
             string fileContent = await File.ReadAllTextAsync(result.FullPath);
 
             // Parse the file content for errors and warnings
-            var parsedOutput = ParseDSEventsFile(fileContent);
+            //var parsedOutput = ParseDSEventsFile(fileContent);
+            string parsedOutput = DseventsParser.Parse(fileContent);
 
             // Display the parsing status and output
             ParsingStatusLabel.Text = "Parsing complete. Results:";
@@ -66,57 +68,57 @@ private async void OnUploadFileClicked(object sender, EventArgs e)
 
 
 
-        // Method to parse the .dsevents file for errors and warnings
-public string ParseDSEventsFile(string fileContent)
-{
-    var output = new StringBuilder();
-
-    // Define regex patterns for errors and warnings
-    string errorPattern = @"(?i)(error|failed|lost communication)";
-    string warningPattern = @"(?i)(warning)";
-
-    // Split the content into lines
-    string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
-    bool appendNextLine = false;
-    string currentOutput = string.Empty;
-
-    foreach (var line in lines)
+    // Method to parse the .dsevents file for errors and warnings
+    public string ParseDSEventsFile(string fileContent)
     {
-        if (Regex.IsMatch(line, errorPattern))
-        {
-            if (appendNextLine)
-            {
-                output.AppendLine(currentOutput);
-                appendNextLine = false;
-            }
-            currentOutput = $"<span style=\"color:red;\">Error:</span> {ExtractEssentialInfo(line)}";
-            appendNextLine = true;
-        }
-        else if (Regex.IsMatch(line, warningPattern))
-        {
-            if (appendNextLine)
-            {
-                output.AppendLine(currentOutput);
-                appendNextLine = false;
-            }
-            currentOutput = $"<span style=\"color:darkorange;\">Warning:</span> {ExtractEssentialInfo(line)}";
-            appendNextLine = true;
-        }
-        else if (appendNextLine)
-        {
-            // Add details to the current output
-            currentOutput += $"<br>▼ Details<br>{ExtractEssentialInfo(line)}";
-        }
-    }
+        var output = new StringBuilder();
 
-    // Append any remaining output
-    if (appendNextLine)
-    {
-        output.AppendLine(currentOutput);
-    }
+        // Define regex patterns for errors and warnings
+        string errorPattern = @"(?i)(error|failed|lost communication)";
+        string warningPattern = @"(?i)(warning)";
 
-    return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
-}
+        // Split the content into lines
+        string[] lines = fileContent.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+        bool appendNextLine = false;
+        string currentOutput = string.Empty;
+
+        foreach (var line in lines)
+        {
+            if (Regex.IsMatch(line, errorPattern))
+            {
+                if (appendNextLine)
+                {
+                    output.AppendLine(currentOutput);
+                    appendNextLine = false;
+                }
+                currentOutput = $"<span style=\"color:red;\">Error:</span> {ExtractEssentialInfo(line)}";
+                appendNextLine = true;
+            }
+            else if (Regex.IsMatch(line, warningPattern))
+            {
+                if (appendNextLine)
+                {
+                    output.AppendLine(currentOutput);
+                    appendNextLine = false;
+                }
+                currentOutput = $"<span style=\"color:darkorange;\">Warning:</span> {ExtractEssentialInfo(line)}";
+                appendNextLine = true;
+            }
+            else if (appendNextLine)
+            {
+                // Add details to the current output
+                currentOutput += $"<br>▼ Details<br>{ExtractEssentialInfo(line)}";
+            }
+        }
+
+        // Append any remaining output
+        if (appendNextLine)
+        {
+            output.AppendLine(currentOutput);
+        }
+
+        return output.Length > 0 ? output.ToString() : "No errors or warnings found.";
+    }
 
 
     private string ExtractEssentialInfo(string line)
