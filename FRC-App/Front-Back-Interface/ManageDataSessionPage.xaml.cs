@@ -37,7 +37,7 @@ public partial class ManageDataSessionPage : ContentPage
     {
         // Prompt the user to input a new name
         string newName = await DisplayPromptAsync(
-            "Rename Data Session",
+            "Create a New Session",
             $"Enter a name for the new session:",
             placeholder: "New Session Name"
         );
@@ -48,9 +48,12 @@ public partial class ManageDataSessionPage : ContentPage
             Session newSession = new Session();
             newSession.Name = newName;
             dataContainer.addSession(newSession);
+            var dataCT1 = dataContainer;
+            dataContainer.storeUpdates();
+            var dataCT2 = dataContainer;
 
             // Update the sessionsNames list and refresh the Picker
-            sessionsNames.Add(newName);
+            sessionsNames = dataContainer.getSessionNames();
             DataSessionPicker.ItemsSource = null; // Force refresh
             DataSessionPicker.ItemsSource = sessionsNames;
 
@@ -89,7 +92,7 @@ public partial class ManageDataSessionPage : ContentPage
             int index = sessionsNames.IndexOf(selectedSessionName);
             if (index != -1)
             {
-                sessionsNames[index] = newName;
+                sessionsNames = dataContainer.getSessionNames();
                 DataSessionPicker.ItemsSource = null; // Force refresh
                 DataSessionPicker.ItemsSource = sessionsNames;
             }
@@ -127,7 +130,7 @@ public partial class ManageDataSessionPage : ContentPage
             dataContainer.storeUpdates();
 
             // Update the sessionsNames list and refresh the Picker
-            sessionsNames.Add(newName);
+            sessionsNames = dataContainer.getSessionNames();
             DataSessionPicker.ItemsSource = null; // Force refresh
             DataSessionPicker.ItemsSource = sessionsNames;
 
@@ -156,7 +159,7 @@ public partial class ManageDataSessionPage : ContentPage
             dataContainer.storeUpdates();
 
             // Update the sessionsNames list and refresh the Picker
-            sessionsNames.Remove(selectedSessionName);
+            sessionsNames = dataContainer.getSessionNames();
             DataSessionPicker.ItemsSource = null; // Force refresh
             DataSessionPicker.ItemsSource = sessionsNames;
 
