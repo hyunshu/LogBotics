@@ -269,6 +269,7 @@ public partial class HomePage : ContentPage
         await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
     }
 	*/
+
 	//}
 
 // private async void OpenMapPage(object sender, EventArgs e)
@@ -293,5 +294,4 @@ public partial class HomePage : ContentPage
 // {
 //     await Shell.Current.GoToAsync("///reportbugpage");
 // }
-
 }
