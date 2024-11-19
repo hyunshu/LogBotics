@@ -25,6 +25,7 @@ public class DatabaseInitializer
                     SecurityQuestion VARCHAR(256),
                     SecurityAnswer VARCHAR(512),
                     IsAdmin BOOLEAN DEFAULT FALSE,
+                    IsActivePoo BOOLEAN DEFAULT FALSE,
                     sessions VARCHAR(1048576),
                     dataTypes VARCHAR(1048576),
                     dataUnits VARCHAR(1048576),

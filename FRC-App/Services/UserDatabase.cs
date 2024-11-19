@@ -9,7 +9,7 @@ namespace FRC_App.Services
     public static class UserDatabase {
 
         //static SQLiteAsyncConnection db;
-        static string connectionString = "Host=35.238.44.226;Port=5432;Username=postgres;Password=4$VP4&Be#8N#E}'>;Database=postgres";
+        static string connectionString = "Host=35.223.164.152;Port=5432;Username=postgres;Password=:GC{o`pgD><D8?]q;Database=postgres";
         //static NpgsqlConnection db;
         static async Task Init()
         {   
@@ -25,7 +25,23 @@ namespace FRC_App.Services
             
         }
 
-        public static async Task AddUser(string teamName, string teamNumber, string name, string password, string securityQuestion, string securityAnswer, bool isAdmin = false)
+        public static async Task login(User user) {
+            await Init();
+
+            user.IsActivePoo = true;
+
+            updateDatabase(user);
+        }
+
+        public static async Task logout(User user) {
+            await Init();
+
+            user.IsActivePoo = false;
+
+            updateDatabase(user);
+        }
+
+        public static async Task AddUser(string teamName, string teamNumber, string name, string password, string securityQuestion, string securityAnswer, bool isAdmin = false, bool isActivePoo = false)
         {
             await Init();
             // cannot create a user with an existing team name, team number, or username
@@ -50,7 +66,8 @@ namespace FRC_App.Services
                 Password = password,
                 SecurityQuestion = securityQuestion,
                 SecurityAnswer = securityAnswer,
-                IsAdmin = isAdmin  // Store the admin status
+                IsAdmin = isAdmin,  // Store the admin status
+                IsActivePoo = isActivePoo,
             };
 
             //try
@@ -60,7 +77,7 @@ namespace FRC_App.Services
                 {
                     conn.Open();
 
-                    using (var cmd = new NpgsqlCommand("INSERT INTO Users (TeamName, TeamNumber, Username, Password, SecurityQuestion, SecurityAnswer, IsAdmin) VALUES (@TeamName, @TeamNumber, @Username, @Password, @SecurityQuestion, @SecurityAnswer, @IsAdmin) RETURNING Id", conn))
+                    using (var cmd = new NpgsqlCommand("INSERT INTO Users (TeamName, TeamNumber, Username, Password, SecurityQuestion, SecurityAnswer, IsAdmin, IsActivePoo) VALUES (@TeamName, @TeamNumber, @Username, @Password, @SecurityQuestion, @SecurityAnswer, @IsAdmin, @IsActivePoo) RETURNING Id", conn))
                     {
                         cmd.Parameters.AddWithValue("TeamName", user.TeamName);
                         cmd.Parameters.AddWithValue("TeamNumber", user.TeamNumber);
@@ -69,6 +86,7 @@ namespace FRC_App.Services
                         cmd.Parameters.AddWithValue("SecurityQuestion", user.SecurityQuestion);
                         cmd.Parameters.AddWithValue("SecurityAnswer", user.SecurityAnswer);
                         cmd.Parameters.AddWithValue("IsAdmin", user.IsAdmin);
+                        cmd.Parameters.AddWithValue("IsActivePoo", user.IsActivePoo);
                         cmd.Parameters.AddWithValue("sessions", "");
                         cmd.Parameters.AddWithValue("dataTypes", "");
                         cmd.Parameters.AddWithValue("dataUnits", "");
@@ -102,6 +120,7 @@ namespace FRC_App.Services
                         SecurityQuestion = @securityQuestion,
                         SecurityAnswer = @securityAnswer,
                         IsAdmin = @isAdmin,
+                        IsActivePoo = @isActivePoo,
                         sessions = @sessions,
                         dataTypes = @dataTypes,
                         dataUnits = @dataUnits,
@@ -120,6 +139,7 @@ namespace FRC_App.Services
                     cmd.Parameters.AddWithValue("securityQuestion", user.SecurityQuestion ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("securityAnswer", user.SecurityAnswer ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("isAdmin", user.IsAdmin);
+                    cmd.Parameters.AddWithValue("isActivePoo", user.IsActivePoo);
                     cmd.Parameters.AddWithValue("sessions", user.sessions ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("dataTypes", user.dataTypes ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("dataUnits", user.dataUnits ?? (object)DBNull.Value);
@@ -168,7 +188,7 @@ namespace FRC_App.Services
 
                 string query = @"
                     SELECT Id, TeamName, TeamNumber, Username, Password, SecurityQuestion, SecurityAnswer, 
-                        IsAdmin, sessions, dataTypes, dataUnits, rawData
+                        IsAdmin, IsActivePoo, sessions, dataTypes, dataUnits, rawData
                     FROM Users
                     WHERE Username = @username;
                 ";
@@ -191,6 +211,7 @@ namespace FRC_App.Services
                                 SecurityQuestion = reader["SecurityQuestion"] as string,
                                 SecurityAnswer = reader["SecurityAnswer"] as string,
                                 IsAdmin = reader.GetBoolean(reader.GetOrdinal("IsAdmin")),
+                                IsActivePoo = reader.GetBoolean(reader.GetOrdinal("IsActivePoo")),
                                 sessions = reader["sessions"] as string,
                                 dataTypes = reader["dataTypes"] as string,
                                 dataUnits = reader["dataUnits"] as string,
@@ -203,6 +224,15 @@ namespace FRC_App.Services
 
             // If no user is found, return null
             return null;
+        }
+
+        public static async Task<bool> checkActive(string username) {
+            var user = await GetUser(username);
+            if (user == null) {
+                return false;
+            } else {
+                return user.IsActivePoo;
+            }
         }
 
         // update team name
@@ -280,6 +310,7 @@ namespace FRC_App.Services
                 }
             }
         }
+
         // check if team number exists
         public static async Task<bool> CheckTeamNumberExistsAsync(string teamNumber)
         {
