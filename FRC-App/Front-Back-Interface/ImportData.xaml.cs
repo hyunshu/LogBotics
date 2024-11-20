@@ -5,9 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using SkiaSharp;
+using Windows.Storage;
 
 using FRC_App.Models;
 using FRC_App.Services;
+using FRC_App.Platforms.Windows;
 
 namespace FRC_App;
 public partial class ImportData : ContentPage
@@ -24,157 +26,105 @@ public partial class ImportData : ContentPage
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
     {
-        //try
-        //{
-            var result = await FilePicker.Default.PickAsync(new PickOptions
-            {
-                PickerTitle = "Please select a file to import"
-            });
+        #if WINDOWS
+        try
+        {
             
-            string extension = result.FileName.Split(".",StringSplitOptions.RemoveEmptyEntries).Last();
-            if (result != null && extension.Equals("csv"))
+            var filePaths = new List<string>{};
+            var filePicker = new WindowsFilePicker();//DependencyService.Get<IFilePicker>();
+            if (filePicker != null)
             {
-                // Get the file name
-                var fileName = result.FileName;
-                string sessionName = fileName.Split("_",StringSplitOptions.RemoveEmptyEntries).First();
-                // Display the selected file name
-                SelectedFileLabel.Text = $"Selected file: {fileName}";
-
-                DataImport importDataStructure = new DataImport();
-                string directoryPath = result.FullPath.Substring(0, result.FullPath.Length - fileName.Length);
-                string fileFamilyName = fileName.Split('_').First();
-                List<List<List<double>>> recievedRawData = importDataStructure.FromCSV(directoryPath, fileFamilyName);
-
-                await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
-
-                Console.WriteLine($"Sessions:\n{currentUser.sessions}");
-                Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-                Console.WriteLine($"{currentUser.dataUnits}");
-                Console.WriteLine($"{currentUser.rawData}");
-
-
-                //Run Data Storage Test cases:
-                // Generate Fake Test FRC Data to compare with retrieved stored data if no new data is imported this session:
-                DataImport dataStructure = new DataImport(); //Constuctor override uses fake FRC data structure
-                List<List<List<double>>> rawData = dataStructure.GenerateTestData();  //Testing FRC data (not real)
-
-                Console.WriteLine($"Retrieved Data:\nRunning Test Cases . . .");
-                int i = 0;
-                foreach (string type in importDataStructure.dataTypes)
+                filePaths = await filePicker.PickFilesAsync();
+                if (filePaths != null && filePaths.Any())
                 {
-                    if (!type.Equals(dataStructure.dataTypes[i]))
+                    Console.WriteLine();
+                    foreach (var file in filePaths)
                     {
-                        Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Types Storage Failure!");
-                    } else {
-                        Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Types Storage Passed.");
+                        Console.WriteLine($"Selected file: {file}");
                     }
-                    i++;
+                } else {
+                    throw new Exception("No CSV files selected! Couldn't import.");
                 }
-
-                i = 0;
-                foreach (List<string> file in importDataStructure.dataUnits)
-                {
-                    int j = 0;
-                    int errors = 0;
-                    foreach (string unit in file) 
-                    {
-                        if (!unit.Equals(dataStructure.dataUnits[i][j]))
-                        {
-                            Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Units Storage Failure!\nColumn: {j+1}");
-                            errors++;
-                        }
-                        j++;
-                    }
-                    if (errors == 0)
-                        Console.WriteLine($"{dataStructure.dataTypes[i]}: Data Units Storage Passed.");
-                    i++;
-                }
-
-                i = 0;
-                foreach (List<List<double>> file in recievedRawData)
-                {
-                    int j = 0;
-                    int errors = 0;
-                    foreach (List<double> column in file) 
-                    {
-                        int k = 0;
-                        foreach (double x in column) 
-                        {
-                            if (x != rawData[i][j][k]) 
-                            {
-                                Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Failure!\nColumn: {j+1}\nEntry: {k+1}");
-                                errors++;
-                            }
-                            k++;
-                        }
-                        j++;
-                    }
-                    if (errors == 0)
-                        Console.WriteLine($"{dataStructure.dataTypes[i]}: Raw Data Storage Passed.");
-                    i++;
-                }
-
-                await DisplayAlert("Success", "Data Imported", "Continue");
-            }
-            else
-            {
-                // User canceled the file picking
-                SelectedFileLabel.Text = "No CSV file selected";
             }
 
+            DataImport importDataStructure = new DataImport();
+            List<List<List<double>>> recievedRawData = importDataStructure.FromCSV(filePaths);
+
+            // Get the file name
+            string sessionName = filePaths[0].Split("\\",StringSplitOptions.RemoveEmptyEntries).Last().Split("_",StringSplitOptions.RemoveEmptyEntries).First();
+            // Display the selected file name
+            SelectedFileLabel.Text = $"CSV files selected from Session: {sessionName}";
             
-        //}
-        //catch (Exception ex)
-        //{
-            // Handle any exceptions that occur
-            //await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
-        //}
+
+            DataContainer container = new DataContainer(currentUser);
+            if (container.getSessionNames() != null && container.getSessionNames().Any()) {
+                if (container.getSessionNames().Contains(sessionName)) {
+                    throw new Exception($"A session named \"{sessionName}\" already exists under this user.");
+                }
+            }
+
+            UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
+
+            DataContainer updataedContainer = new DataContainer(currentUser);
+            this.sessionData = updataedContainer.getSession(sessionName);
+            this.sessionName = sessionName;
+
+
+            Console.WriteLine($"Retrieved Data");
+            Console.WriteLine($"Sessions:\n{currentUser.sessions}");
+            Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+            Console.WriteLine($"{currentUser.dataUnits}");
+            Console.WriteLine($"{currentUser.rawData}");
+
+
+            await DisplayAlert("Success", "Data Imported", "Continue");
+            
+        }
+        catch (Exception ex)
+        {
+            //Handle any exceptions that occur
+            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+            SelectedFileLabel.Text = "No CSV files selected";
+        }
+        #endif
     }
 
     private async void ExportData(object sender, EventArgs e)
 	{
+        try {
 		if (String.IsNullOrEmpty(currentUser.rawData)) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
 			return;
 		} 
 
-		//Testing 11/12/24: (start)
+		//All data prior to export:
 		Console.WriteLine($"Sessions:\n{currentUser.sessions}");
 		Console.WriteLine($"Old Stored Data:\n{currentUser.dataTypes}");
 		Console.WriteLine($"{currentUser.dataUnits}");
 		Console.WriteLine($"{currentUser.rawData}");
 
-		// changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
-
-		editDataDemo();  //TESTING!!! Remove when edit data page is implemented 
-
-		Console.WriteLine($"\nUpdated Sessions:\n{currentUser.sessions}");
-		Console.WriteLine($"Edited Data Exported:\n{currentUser.dataTypes}");
-		Console.WriteLine($"{currentUser.dataUnits}");
-		Console.WriteLine($"{currentUser.rawData}");
-
-		if (String.IsNullOrEmpty(currentUser.rawData)) {
-			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
-			return;
-		} 
-		//Testing 11/12/24 (end)
-		
 		if (this.sessionData is null) {
 			await DisplayAlert("Error", "You have no session selected to Export.", "OK");
 		} else {
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
-			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser, sessionName); //Also reconstructs the dataStructure based on the retrieval
-			
-			//Testing 10/31/2024:
-			//exportDataStructure = new DataImport();
-			//retrievedRawData = exportDataStructure.GenerateTestData();
-			//Testing 10/31/2024
+			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser, this.sessionName); //Also reconstructs the dataStructure based on the retrieval
+
+            var filePicker = new WindowsFilePicker(); // Direct instantiation if preferred
+            var directory = await filePicker.PickDirectoryAsync();
+            if (string.IsNullOrEmpty(directory)) {
+                throw new Exception("No or invalid export directory was selected. Export failed.");
+            }
 
 			DataExport export = new DataExport(exportDataStructure);
-			export.ToCSV(retrievedRawData,"SampleDemo");  //(FileName should be prompted for not hardcoded)
+			export.ToCSV(retrievedRawData,this.sessionName, directory);
 
 			await DisplayAlert("Success", "Data Exported", "Continue"); 
 		}
+        } catch (Exception ex)
+        {
+            //Handle any exceptions that occur
+            await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+        }
 	}
 
     private async void editDataDemo() {
