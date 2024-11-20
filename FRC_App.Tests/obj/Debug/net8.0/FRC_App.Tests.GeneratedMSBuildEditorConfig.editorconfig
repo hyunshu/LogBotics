@@ -12,6 +12,12 @@ build_property.ProjectDir = C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Te
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
+[C:/Users/Jenna/Documents/GitHub/LogBotics/FRC_App.Tests/CoverageReport/report.css]
+build_metadata.AdditionalFiles.GenKind = Css
+build_metadata.AdditionalFiles.ManifestResourceName = FRC_App.Tests.CoverageReport.report.css
+build_metadata.AdditionalFiles.TargetPath = CoverageReport\report.css
+build_metadata.AdditionalFiles.RelativePath = CoverageReport\report.css
+
 [C:/Users/Jenna/Documents/GitHub/LogBotics/FRC_App.Tests/TestResults/coverage_report/report.css]
 build_metadata.AdditionalFiles.GenKind = Css
 build_metadata.AdditionalFiles.ManifestResourceName = FRC_App.Tests.TestResults.coverage_report.report.css

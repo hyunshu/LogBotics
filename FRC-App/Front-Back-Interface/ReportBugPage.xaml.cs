@@ -9,7 +9,7 @@ namespace FRC_App
         public ReportBugPage()
         {
             InitializeComponent();
-            _bugReportService = new BugReportService();
+            _bugReportService = new BugReportService(new DeviceInfoProvider());
         }
 
         private async void SendBugReportAutomatically(object sender, EventArgs e)

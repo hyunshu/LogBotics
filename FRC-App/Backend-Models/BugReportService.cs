@@ -1,13 +1,15 @@
 using MailKit.Net.Smtp;
 using MimeKit;
-
 namespace FRC_App.Services
 {
     public class BugReportService
     {
-        private const string SenderEmail = "logboticsteam@gmail.com";
-        private const string AppPassword = "wfso mcdw gmie wngx";
-        private const string RecipientEmail = "jrigdon@purdue.edu";
+        private readonly IDeviceInfoProvider _deviceInfoProvider;
+
+        public BugReportService(IDeviceInfoProvider deviceInfoProvider)
+        {
+            _deviceInfoProvider = deviceInfoProvider;
+        }
 
         public async Task<string> SendBugReportAsync(string bugDescription)
         {
@@ -17,24 +19,24 @@ namespace FRC_App.Services
             }
 
             var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("LogBotics App", SenderEmail));
-            message.To.Add(new MailboxAddress("Team 24", RecipientEmail));
+            message.From.Add(new MailboxAddress("LogBotics App", "logboticsteam@gmail.com"));
+            message.To.Add(new MailboxAddress("Team 24", "jrigdon@purdue.edu"));
             message.Subject = "Bug Report from LogBotics App";
 
             var bodyBuilder = new BodyBuilder
             {
                 TextBody = $"{bugDescription}\n\nDevice Information:\n" +
-                           $"Device: {DeviceInfo.Name}, OS: {DeviceInfo.Platform}, Version: {DeviceInfo.VersionString}"
+                           $"Device: {_deviceInfoProvider.Name}, OS: {_deviceInfoProvider.Platform}, Version: {_deviceInfoProvider.VersionString}"
             };
 
             message.Body = bodyBuilder.ToMessageBody();
 
             try
             {
-                using (var client = new SmtpClient())
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
                     await client.ConnectAsync("smtp.gmail.com", 587, false);
-                    await client.AuthenticateAsync(SenderEmail, AppPassword);
+                    await client.AuthenticateAsync("logboticsteam@gmail.com", "wfso mcdw gmie wngx");
                     await client.SendAsync(message);
                     await client.DisconnectAsync(true);
                 }
