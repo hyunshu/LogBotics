@@ -352,9 +352,5 @@ public class DataImport
         }
         return rawData;
     }
-
-    public void SendRawData()
-    {
-        // TODO
-    }
+    
 }

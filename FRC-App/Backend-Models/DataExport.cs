@@ -28,7 +28,7 @@ public class DataExport
      * @param rawData
      * @param fileName
      */
-    public void ToCSV(List<List<List<double>>> rawData, string fileName)
+    public void ToCSV(List<List<List<double>>> rawData, string fileName, string directoryPath)
     {
         int i = 0;  // Iterator for the ith CSV file
         foreach (var dataType in dataTypes)
@@ -36,7 +36,7 @@ public class DataExport
             // Loop through each dataType creating a new CSV file each time:
 
             // Create and label a new CSV file:
-            using (StreamWriter writer = new StreamWriter($"../FRCDataOut/{fileName}_{dataType}.csv"))
+            using (StreamWriter writer = new StreamWriter($"{directoryPath}/{fileName}_{dataType}.csv"))
             {
                 // Write the data labels/units as the first row for the ith CSV:
                 var dataFileUnits = dataUnits[i];
