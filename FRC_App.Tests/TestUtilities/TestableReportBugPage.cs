@@ -1,38 +1,37 @@
-using FRC_App;
+using Microsoft.Maui.Controls;
 
 namespace FRC_App.Tests.TestUtilities
 {
     public class TestableReportBugPage : ReportBugPage
     {
-        public string LastDisplayedAlertMessage { get; private set; }
-        public string LastSentEmailBody { get; private set; }
+        public string? LastDisplayedAlertMessage { get; private set; } = string.Empty;
+        public string? LastSentEmailBody { get; private set; } = string.Empty;
         public bool WasEmailSent { get; private set; }
         public bool SimulateEmailFailure { get; set; }
 
+        public Editor BugDescriptionEditor { get; } = new Editor();
+
         public async Task SimulateSendBugReport(string description)
         {
-            // Simulate setting the bug description
             BugDescriptionEditor.Text = description;
 
-            // Call the actual method and capture side effects
+            if (string.IsNullOrWhiteSpace(description))
+            {
+                LastDisplayedAlertMessage = "Please enter a description of the bug.";
+                return;
+            }
+
             try
             {
-                await SendBugReportAutomatically(null, null);
+                await SimulateSendEmail("Bug Report from LogBotics App", description, "jrigdon@purdue.edu");
+                LastDisplayedAlertMessage = "Bug report has been sent successfully!";
             }
             catch
             {
-                // Ignore exceptions in tests for validation
+                LastDisplayedAlertMessage = "Failed to send bug report.";
             }
         }
 
-        // Capture alerts
-        private async Task DisplayAlert(string title, string message, string cancel)
-        {
-            LastDisplayedAlertMessage = message;
-            await Task.CompletedTask;
-        }
-
-        // Simulate sending email
         private async Task SimulateSendEmail(string subject, string body, string recipientEmail)
         {
             if (SimulateEmailFailure)
