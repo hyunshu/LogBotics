@@ -48,9 +48,7 @@ public partial class ManageDataSessionPage : ContentPage
             Session newSession = new Session();
             newSession.Name = newName;
             dataContainer.addSession(newSession);
-            var dataCT1 = dataContainer;
             dataContainer.storeUpdates();
-            var dataCT2 = dataContainer;
 
             // Update the sessionsNames list and refresh the Picker
             sessionsNames = dataContainer.getSessionNames();

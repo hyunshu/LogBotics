@@ -28,13 +28,15 @@ public partial class EditDataPage : ContentPage
         DataSessionPicker.ItemsSource = sessionsNames;
     }
     
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+        dataContainer = new DataContainer(currentUser);
         sessionsNames = dataContainer.getSessionNames();
         DataSessionPicker.ItemsSource = null; // Force refresh
         DataSessionPicker.ItemsSource = sessionsNames;
-    }
+	}
+
 
     private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
     {
