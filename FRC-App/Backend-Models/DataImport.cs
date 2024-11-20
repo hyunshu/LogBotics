@@ -99,12 +99,12 @@ public class DataImport
     }
 
 
-    public List<List<List<double>>> FromRobot(string directoryPath, string fileName) {
+    public List<List<List<double>>> FromRobot(string filePath) {
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
 
-        var filestream = new FileStream(directoryPath + fileName,
+        var filestream = new FileStream(filePath,
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.ReadWrite);
