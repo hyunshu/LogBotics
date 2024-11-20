@@ -12,6 +12,7 @@ public partial class MapPage : ContentPage
     private Session sessionData;
     private User currentUser;
     public bool isRenderMap = false;
+    public bool clearCanvas = false;
     public ObservableCollection<string> sessionNames { get; set; } 
 
     public MapPage()
@@ -148,6 +149,8 @@ public partial class MapPage : ContentPage
 		this.sessionData = dataContainer.getSession(selectedSession);
 
 		// remove the robots path from canvas
+        clearCanvas = true;
+        canvasView.InvalidateSurface();
 
 		await DisplayAlert("Success", "Session Loaded Successfully.", "OK");
 	}
@@ -197,6 +200,7 @@ public partial class MapPage : ContentPage
 
     
                 canvas.DrawPath(testPath, paint);
+                isRenderMap = false;
 
 
                 // var paint = new SKPaint
@@ -232,6 +236,9 @@ public partial class MapPage : ContentPage
 
                 // canvas.DrawPath(path, paint);
 
+            } else if (clearCanvas) {
+                e.Surface.Canvas.Clear(SKColors.Transparent);
+                clearCanvas = false;
             }
             
 			// var canvas = e.Surface.Canvas;
