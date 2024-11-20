@@ -20,9 +20,9 @@ public partial class HomePage : ContentPage
 		BindingContext = currentUser;
 		sessionNames = new ObservableCollection<string>();
 
-		if (currentUser.sessions != null) {
+		// if (currentUser.sessions != null) {
 			//changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
-		}
+		// }
 
 		dataContainer = new DataContainer(currentUser);
 		// DataSessionPicker.ItemsSource = dataContainer.getSessionNames();
@@ -35,42 +35,53 @@ public partial class HomePage : ContentPage
 		BindingContext = null;
 		BindingContext = currentUser;
 
-		dataContainer = new DataContainer(currentUser);
+		// dataContainer = new DataContainer(currentUser);
 
-		sessionNames.Clear();
-		foreach (string session in dataContainer.getSessionNames()) {
-			sessionNames.Add(session);
-		}
-		DataSessionPicker.ItemsSource = null;
-		DataSessionPicker.ItemsSource = sessionNames;
+		// sessionNames.Clear();
+		// foreach (string session in dataContainer.getSessionNames()) {
+		// 	sessionNames.Add(session);
+		// }
+		// DataSessionPicker.ItemsSource = null;
+		// DataSessionPicker.ItemsSource = sessionNames;
 
 	}
 
-	private async void OnDataSessionSelected(object sender, EventArgs e)
-	{
-		if (DataSessionPicker.SelectedIndex != -1)
-		{
-
-		}
-	}
-
-	
-	//Demo for front-end devs (needs to be implemented as a button):
-	// private async void changeSession() {
+	// private async void OnLoadSessionClicked(object sender, EventArgs e)
+	// {
 	// 	bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
-
 	// 	if (!hasData) {
-	// 		await DisplayAlert("Error", "You have no data to display.", "OK");
+	// 		await DisplayAlert("Error", "You have no data to load.", "OK");
 	// 		return;
 	// 	} 
 
-	// 	//TODO: Needs dropdown implementation
-	// 	DataContainer dataContainer = new DataContainer(currentUser);
-	// 	List<string> sessions = dataContainer.getSessionNames();
-	// 	string sessionSelection = sessions.Last(); //Chosen from a dropdown
-
-	// 	this.sessionData = dataContainer.getSession(sessionSelection);
+	// 	sessionStack.IsVisible = true;
 	// }
+
+	// private void OnDataSessionSelected(object sender, EventArgs e)
+	// {
+	// 	if (DataSessionPicker.SelectedIndex != -1)
+	// 	{
+	// 		string selectedSession = DataSessionPicker.SelectedItem as string;
+	// 		if (!string.IsNullOrEmpty(selectedSession)) {
+	// 			changeSession(selectedSession);
+	// 		}
+	// 	}
+
+	// 	sessionStack.IsVisible = false;
+	// }
+
+	
+	private async void changeSession(string selectedSession) {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		DataContainer dataContainer = new DataContainer(currentUser);
+		this.sessionData = dataContainer.getSession(selectedSession);
+	}
 
 	//Demo for front-end devs (just demonstrates how to propate data updates for HunShu's edit data page):
 	//Remove this function when edit data page is implemented

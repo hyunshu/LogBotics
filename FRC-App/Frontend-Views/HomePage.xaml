@@ -59,7 +59,15 @@
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
 
+                <!-- <Button Text="Load Session" 
+                     BackgroundColor="#FF858282" 
+                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                     TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                     Clicked="OnLoadSessionClicked"/> -->
+                     
                 <!-- Data Session Dropdown -->
+                <!-- <VerticalStackLayout x:Name="sessionStack" IsVisible="False">
                      <Label Text="Data Session:"
                              FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                              TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
@@ -69,6 +77,7 @@
                                    TextColor="Black"
                                    BackgroundColor="White"
                                    SelectedIndexChanged="OnDataSessionSelected" />
+              </VerticalStackLayout> -->
                                    
 
             </VerticalStackLayout>

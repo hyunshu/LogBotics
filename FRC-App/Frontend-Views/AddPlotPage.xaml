@@ -80,6 +80,19 @@
         <!-- Buttons to Add/Delete Plot positioned to the right -->
         <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Padding="10">
             <Button Text="Add Plot" BackgroundColor="#4A4A4A" CornerRadius="10" Clicked="AddPlot" />
+             <Button Text="Load Session" 
+                     BackgroundColor="#FF858282" 
+                     TextColor="Black"
+                     Clicked="OnLoadSessionClicked"/>
+                <!-- Data Session Dropdown -->
+                <VerticalStackLayout x:Name="sessionStack" IsVisible="False">
+                     <Label Text="Data Session:"
+                             TextColor="Black" />
+                     <Picker x:Name="DataSessionPicker"
+                                   TextColor="Black"
+                                   BackgroundColor="White"
+                                   SelectedIndexChanged="OnDataSessionSelected" />
+              </VerticalStackLayout>
         </StackLayout>
 
 

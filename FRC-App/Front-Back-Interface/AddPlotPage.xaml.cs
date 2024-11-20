@@ -14,10 +14,11 @@ public partial class AddPlotPage : ContentPage
 
 	public User currentUser { get; private set; }
 	public Session sessionData { get; private set; }
-	public DataContainer userData { get; private set; }
+	public DataContainer dataContainer { get; private set; }
 	public ObservableCollection<CartesianChart> chartCollection { get; set; }
 	public ObservableCollection<string> chartTitles { get; set; } 
 	public ObservableCollection<Grid> chartGrids { get; set; } 
+	public ObservableCollection<string> sessionNames { get; set; } 
 	
 	public int numPlots;
 	public AddPlotPage()
@@ -46,6 +47,7 @@ public partial class AddPlotPage : ContentPage
 		numPlots = 0;
 		BindingContext = this;
 		chartTitles = new ObservableCollection<string>();
+		sessionNames = new ObservableCollection<string>();
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -62,7 +64,7 @@ public partial class AddPlotPage : ContentPage
 			return;
 		} 
 
-		changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+		// changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
 
 		bool noSession = this.sessionData == null;
 
@@ -71,7 +73,7 @@ public partial class AddPlotPage : ContentPage
 			return;
 		}
 
-		userData = new DataContainer(currentUser);
+		dataContainer = new DataContainer(currentUser);
 		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
 	}
@@ -277,5 +279,76 @@ public partial class AddPlotPage : ContentPage
 			pdf.Save(pdfPath);
 			await DisplayAlert("Export Successful", $"PDF saved to {pdfPath}", "OK");
 		}
+	}
+
+	protected override void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+
+		dataContainer = new DataContainer(currentUser);
+
+		sessionNames.Clear();
+		foreach (string session in dataContainer.getSessionNames()) {
+			sessionNames.Add(session);
+		}
+		DataSessionPicker.ItemsSource = null;
+		DataSessionPicker.ItemsSource = sessionNames;
+
+	}
+
+	private async void OnLoadSessionClicked(object sender, EventArgs e)
+	{
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to load.", "OK");
+			return;
+		} 
+
+		sessionStack.IsVisible = true;
+	}
+
+	private void OnDataSessionSelected(object sender, EventArgs e)
+	{
+		if (DataSessionPicker.SelectedIndex != -1)
+		{
+			string selectedSession = DataSessionPicker.SelectedItem as string;
+			if (!string.IsNullOrEmpty(selectedSession)) {
+				changeSession(selectedSession);
+			}
+		}
+
+		sessionStack.IsVisible = false;
+	}
+
+	private async void changeSession(string selectedSession) {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		if (this.sessionData != null) {
+			bool confirmChange = await DisplayAlert(
+				"Confirm Session Change", 
+				"Are you sure you want to load a new session? You will lose your current progress.", 
+				"Yes", 
+				"No"
+			);
+
+			if (!confirmChange)
+			{
+				return;
+			}
+		}
+
+		DataContainer dataContainer = new DataContainer(currentUser);
+		this.sessionData = dataContainer.getSession(selectedSession);
+
+		foreach (Grid grid in chartGrids) {
+			grid.IsVisible = false;
+		}
+
+		await DisplayAlert("Success", "Session Loaded Successfully.", "OK");
 	}
 }
