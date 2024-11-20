@@ -5,11 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using SkiaSharp;
-using Windows.Storage;
 
 using FRC_App.Models;
 using FRC_App.Services;
-using FRC_App.Platforms.Windows;
+#if WINDOWS
+    using FRC_App.Platforms.Windows;
+    using Windows.Storage;
+#endif
 
 namespace FRC_App;
 public partial class ImportData : ContentPage
@@ -91,6 +93,7 @@ public partial class ImportData : ContentPage
 
     private async void ExportData(object sender, EventArgs e)
 	{
+        #if WINDOWS
         try {
 		if (String.IsNullOrEmpty(currentUser.rawData)) {
 			await DisplayAlert("Error", "No data to Export. Import data first.", "OK");
@@ -125,6 +128,7 @@ public partial class ImportData : ContentPage
             //Handle any exceptions that occur
             await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
         }
+        #endif
 	}
 
     private async void editDataDemo() {
