@@ -9,9 +9,10 @@ using SkiaSharp;
 using FRC_App.Models;
 using FRC_App.Services;
 #if WINDOWS
-    using FRC_App.Platforms.Windows;
     using Windows.Storage;
+    using FRC_App.Platforms.Windows;
 #endif
+using System.Diagnostics;
 
 namespace FRC_App;
 public partial class ImportData : ContentPage
@@ -112,7 +113,7 @@ public partial class ImportData : ContentPage
 			DataImport exportDataStructure = new DataImport(); //Constuctor override uses fake FRC data structure (should mimic what was imported)
 			List<List<List<double>>> retrievedRawData = exportDataStructure.RetrieveRawData(currentUser, this.sessionName); //Also reconstructs the dataStructure based on the retrieval
 
-            var filePicker = new WindowsFilePicker(); // Direct instantiation if preferred
+            var filePicker = new WindowsFilePicker(); 
             var directory = await filePicker.PickDirectoryAsync();
             if (string.IsNullOrEmpty(directory)) {
                 throw new Exception("No or invalid export directory was selected. Export failed.");
@@ -147,30 +148,7 @@ public partial class ImportData : ContentPage
 
     private async void RunNetworkTablesClient(object sender, EventArgs e)
     {
-        DataImport dataStructure = new DataImport();
-        string directoryPath = "../";
-        string fileName = "RealRobotData.txt";
-        List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
-
-
-
-        //TODO: Need popup to name the session of data imported from the Robot
-        string sessionName = "textboxEntry";
-        dataStructure.sessionName = sessionName;
-
-
-
-        await UserDatabase.storeData(currentUser,dataStructure,rawData);
-
-        // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
-
-        Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-        Console.WriteLine($"{currentUser.dataUnits}");
-        Console.WriteLine($"{currentUser.rawData}");
-
-        await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
-
-        /* Doesn't work on every machine as of 10/31/2024 - James Gilliam
+        // Doesn't work on every machine as of 10/31/2024 - James Gilliam
         try
         {
             string dartExePath = @"C:\tools\dart-sdk\bin\dart.exe"; // Updated Dart executable path
@@ -211,11 +189,47 @@ public partial class ImportData : ContentPage
             }
 
             await DisplayAlert("Success", "NetworkTables Client script executed successfully.", "OK");
+
+
+            //Find and Read Text file:
+            var filePath = await FilePicker.Default.PickAsync(new PickOptions
+                {
+                    PickerTitle = "Please select the Live Robot Data .txt file import"
+                });
+                if (string.IsNullOrEmpty(filePath.FullPath)) {
+                    throw new Exception("No or invalid .txt was selected. Export failed.");
+                }
+
+            DataImport dataStructure = new DataImport();
+            List<List<List<double>>> rawData = dataStructure.FromRobot(filePath.FullPath); //Also appropriately reconstructions the dataStructure
+
+
+
+            //TODO: Need popup to name the session of data imported from the Robot
+            string newName = await DisplayPromptAsync(
+                "Name New Data Session",
+                $"Enter a new name for this data session:",
+                initialValue: "",
+                placeholder: "New Session Name"
+            );
+            dataStructure.sessionName = newName;
+
+            await UserDatabase.storeData(currentUser,dataStructure,rawData);
+
+
+            DataContainer dataContainer = new DataContainer(currentUser);
+            dataContainer.storeUpdates(); // Just in case (may be unnecessary)
+
+
+            Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+            Console.WriteLine($"{currentUser.dataUnits}");
+            Console.WriteLine($"{currentUser.rawData}");
+
+            await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
         }
-        */
     }
 }

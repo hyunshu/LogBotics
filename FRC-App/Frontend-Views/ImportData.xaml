@@ -47,6 +47,13 @@
                     VerticalOptions="CenterAndExpand" />
         </Frame>
 
+        <!-- Output Label -->
+        <Label x:Name="OutputLabel"
+                Text=" " 
+                FontSize="Medium" 
+                TextColor="White" 
+                HorizontalOptions="Center" />
+
         <!-- Export Data Button -->
         <Frame CornerRadius="10" Padding="10" BorderColor="#D1D1D1">
             <Button Text="Export Data" 
