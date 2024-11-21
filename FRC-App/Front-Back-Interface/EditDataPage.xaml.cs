@@ -89,10 +89,40 @@ public partial class EditDataPage : ContentPage
             SelectedDataType = SelectedSession.getDataType(dataTypesNames[DataTypePicker.SelectedIndex]);
             SelectedDataUnit = SelectedDataType.getColumn(dataUnitsNames[DataUnitPicker.SelectedIndex]);
 
+            // Check if the selected data unit is "Time (s)"
+            if (dataUnitsNames[DataUnitPicker.SelectedIndex] == "Time (s)")
+            {
+                ValueSlider.Minimum = 0;
+                ValueSlider.Maximum = 100;
+
+                // Optionally reset the slider to a default value within the range
+                ValueSlider.Value = 50; // Default to midpoint
+                ValueEntry.Text = "50.00";
+                CurrentValueLabel.Text = "Current Value: 50.00";
+            }
+            else if (SelectedDataUnit != null && SelectedDataUnit.Data.Count > 0)
+            {
+                // Dynamically update the slider range for other data units
+                double minValue = SelectedDataUnit.Data.Min();
+                double maxValue = SelectedDataUnit.Data.Max();
+
+                ValueSlider.Minimum = minValue;
+                ValueSlider.Maximum = maxValue;
+
+                // Optionally reset the slider to the midpoint of the range
+                double midpoint = (minValue + maxValue) / 2;
+                ValueSlider.Value = midpoint;
+
+                ValueEntry.Text = midpoint.ToString("F2");
+                CurrentValueLabel.Text = $"Current Value: {midpoint:F2}";
+            }
+
+            // Populate the DataValuePicker
             DataValuePicker.ItemsSource = Enumerable.Range(0, SelectedDataUnit.Data.Count).ToList();
             DataValuePicker.SelectedIndex = -1;
         }
     }
+
 
     private void OnDataValueSelected(object sender, EventArgs e) {
         if (DataValuePicker.SelectedIndex != -1)
@@ -116,6 +146,29 @@ public partial class EditDataPage : ContentPage
 
     private void OnSaveClicked(object sender, EventArgs e)
     {
+        // Validate that all dropdowns have a selected item
+        if (DataSessionPicker.SelectedIndex == -1)
+        {
+            DisplayAlert("Error", "Please select a Data Session.", "OK");
+            return;
+        }
+        if (DataTypePicker.SelectedIndex == -1)
+        {
+            DisplayAlert("Error", "Please select a Data Type.", "OK");
+            return;
+        }
+        if (DataUnitPicker.SelectedIndex == -1)
+        {
+            DisplayAlert("Error", "Please select a Data Unit.", "OK");
+            return;
+        }
+        if (DataValuePicker.SelectedIndex == -1)
+        {
+            DisplayAlert("Error", "Please select a Data Value.", "OK");
+            return;
+        }
+
+        // Ensure SelectedDataUnit and SelectedValueIndex are valid
         if (SelectedDataUnit != null && SelectedValueIndex >= 0)
         {
             // Update the value in the data unit
@@ -130,6 +183,12 @@ public partial class EditDataPage : ContentPage
 
             // Persist changes to the data container
             dataContainer.storeUpdates();
+
+            DisplayAlert("Success", "Data saved successfully.", "OK");
+        }
+        else
+        {
+            DisplayAlert("Error", "An unexpected error occurred while saving data.", "OK");
         }
     }
 }
