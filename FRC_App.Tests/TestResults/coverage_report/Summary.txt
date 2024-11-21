@@ -1,5 +1,5 @@
 Summary
-  Generated on: 11/18/2024 - 1:35:26 PM
+  Generated on: 11/20/2024 - 7:20:54 PM
   Coverage date: 11/18/2024 - 1:27:43 PM
   Parser: Cobertura
   Assemblies: 1
@@ -9,7 +9,7 @@ Summary
   Covered lines: 44
   Uncovered lines: 2051
   Coverable lines: 2095
-  Total lines: 4372
+  Total lines: 4298
   Branch coverage: 3.2% (17 of 526)
   Covered branches: 17
   Total branches: 526
