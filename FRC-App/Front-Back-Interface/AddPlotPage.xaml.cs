@@ -293,7 +293,6 @@ public partial class AddPlotPage : ContentPage
 		}
 		DataSessionPicker.ItemsSource = null;
 		DataSessionPicker.ItemsSource = sessionNames;
-
 	}
 
 	private async void OnLoadSessionClicked(object sender, EventArgs e)
