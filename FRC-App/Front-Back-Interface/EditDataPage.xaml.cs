@@ -89,22 +89,41 @@ public partial class EditDataPage : ContentPage
             SelectedDataType = SelectedSession.getDataType(dataTypesNames[DataTypePicker.SelectedIndex]);
             SelectedDataUnit = SelectedDataType.getColumn(dataUnitsNames[DataUnitPicker.SelectedIndex]);
 
-            // Check if the selected data unit is "Time (s)"
-            if (dataUnitsNames[DataUnitPicker.SelectedIndex] == "Time (s)")
+            // Check for specific data units and set the slider range
+            string selectedUnit = dataUnitsNames[DataUnitPicker.SelectedIndex];
+
+            if (selectedUnit == "Time (s)")
             {
                 ValueSlider.Minimum = 0;
                 ValueSlider.Maximum = 100;
-
-                // Optionally reset the slider to a default value within the range
                 ValueSlider.Value = 50; // Default to midpoint
                 ValueEntry.Text = "50.00";
                 CurrentValueLabel.Text = "Current Value: 50.00";
             }
+            else if (selectedUnit == "X-Acceleration (ft/s^2)" || 
+                    selectedUnit == "Y-Acceleration (ft/s^2)" || 
+                    selectedUnit == "Z-Acceleration (ft/s^2)")
+            {
+                ValueSlider.Minimum = 0;
+                ValueSlider.Maximum = 1;
+                ValueSlider.Value = 0.5; // Default to midpoint
+                ValueEntry.Text = "0.50";
+                CurrentValueLabel.Text = "Current Value: 0.50";
+            }
+            else if (selectedUnit == "Forward Input (bool)" || 
+                    selectedUnit == "Backward Input (bool)")
+            {
+                ValueSlider.Minimum = 0;
+                ValueSlider.Maximum = 1;
+                ValueSlider.Value = 0; // Default to 0
+                ValueEntry.Text = "0.00";
+                CurrentValueLabel.Text = "Current Value: 0.00";
+            }
             else if (SelectedDataUnit != null && SelectedDataUnit.Data.Count > 0)
             {
                 // Dynamically update the slider range for other data units
-                double minValue = SelectedDataUnit.Data.Min();
-                double maxValue = SelectedDataUnit.Data.Max();
+                double minValue = 0;
+                double maxValue = 10;
 
                 ValueSlider.Minimum = minValue;
                 ValueSlider.Maximum = maxValue;
@@ -122,7 +141,6 @@ public partial class EditDataPage : ContentPage
             DataValuePicker.SelectedIndex = -1;
         }
     }
-
 
     private void OnDataValueSelected(object sender, EventArgs e) {
         if (DataValuePicker.SelectedIndex != -1)
