@@ -1,5 +1,4 @@
-﻿using FRC_App.Services;
-
+﻿
 namespace FRC_App;
 
 public partial class App : Application
@@ -12,7 +11,7 @@ public partial class App : Application
 		InitializeComponent();
         // Initialize GlobalSettings so it can be accessed throughout the app
         GlobalSettings = new GlobalFontSettingsViewModel();
-		MainPage = new AppShell();
+		MainPage = new NavigationPage(new LoginPage());
 	}
 
 	protected override async void OnStart()

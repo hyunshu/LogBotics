@@ -11,39 +11,42 @@ public class DataContainer {
     public DataContainer(User user) {
         this.user = user;
         this.sessions = new List<Session>{};
+        
+        if (!string.IsNullOrEmpty(user.sessions)) {
+            List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
+            foreach (string sessionName in sessions) {
+                Session session = new Session();
+                session.Name = sessionName;
+                session.DataTypes = new List<DataType>{};
 
-        List<string> sessions = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList();
-        foreach (string sessionName in sessions) {
-            Session session = new Session();
-            session.Name = sessionName;
-            session.DataTypes = new List<DataType>{};
+                DataImport dataStructure = new DataImport();
+                List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user,sessionName);
 
-            DataImport dataStructure = new DataImport();
-            //List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user,sessionName);
-            List<List<List<double>>> rawData = dataStructure.RetrieveRawData(user);
-
-            int fileNum = 0;
-            foreach (List<List<double>> type in rawData)
-            {
-                DataType dataType = new DataType();
-                dataType.Name = dataStructure.dataTypes[fileNum];   
-                dataType.Columns = new List<Column>{};
-
-                int columnNum = 0;
-                foreach (List<double> columnData in type)
+                int fileNum = 0;
+                foreach (List<List<double>> type in rawData)
                 {
-                    Column column = new Column();
-                    column.Label = dataStructure.dataUnits[fileNum][columnNum];
-                    column.Data = columnData;
+                    DataType dataType = new DataType();
+                    dataType.Name = dataStructure.dataTypes[fileNum];   
+                    dataType.Columns = new List<Column>{};
 
-                    dataType.Columns.Add(column);
-                    columnNum++;
+                    int columnNum = 0;
+                    foreach (List<double> columnData in type)
+                    {
+                        Column column = new Column();
+                        column.Label = dataStructure.dataUnits[fileNum][columnNum];
+                        column.Data = columnData;
+
+                        dataType.Columns.Add(column);
+                        columnNum++;
+                    }
+
+                    session.DataTypes.Add(dataType);
+                    fileNum++;
                 }
-
-                session.DataTypes.Add(dataType);
-                fileNum++;
+                this.sessions.Add(session);
             }
-            this.sessions.Add(session);
+        } else {
+            sessions = new List<Session>{};
         }
     }
 

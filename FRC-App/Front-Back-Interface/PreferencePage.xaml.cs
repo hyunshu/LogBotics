@@ -11,10 +11,10 @@ public partial class PreferencePage : ContentPage, INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public PreferencePage(User user)
+    public PreferencePage()
     {
         InitializeComponent();
-        currentUser = user;
+        currentUser = UserSession.CurrentUser;
 
         // Set BindingContext to the global settings view model
         BindingContext = App.GlobalSettings;
@@ -102,7 +102,7 @@ public partial class PreferencePage : ContentPage, INotifyPropertyChanged
         /* Skeleton code for navigating to account settings page
         await Navigation.PushAsync(new AccountSettingsPage(currentUser));
         */
-        await Navigation.PushAsync(new EditAccountInfoPage(currentUser));
+        await Shell.Current.GoToAsync("///editaccountinfopage");
     }
 
     private async void OnLogOutClicked(object sender, EventArgs e)

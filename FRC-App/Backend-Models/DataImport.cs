@@ -99,12 +99,12 @@ public class DataImport
     }
 
 
-    public List<List<List<double>>> FromRobot(string directoryPath, string fileName) {
+    public List<List<List<double>>> FromRobot(string filePath) {
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
 
-        var filestream = new FileStream(directoryPath + fileName,
+        var filestream = new FileStream(filePath,
                                           FileMode.Open,
                                           FileAccess.Read,
                                           FileShare.ReadWrite);
@@ -167,67 +167,66 @@ public class DataImport
      * @param rawData
      * @param fileName
      */
-    public List<List<List<double>>> FromCSV(string directoryPath, string fileName)
+    public List<List<List<double>>> FromCSV(List<string> filePaths)
     {
-        this.sessionName = fileName;
-
-        //Testing Only need this ordering part to run the testcases:
-        String[] oldFileNames = Directory.GetFiles(directoryPath); //Rename to fileNames if not ordering for test cases
-        String[] fileNames = new String[4];
-
-        List<string> dataTypesFormat = new List<string> { "Motor", "Sensor", "ControlSystem", "Accelerometer" };
-        for (int i = 0; i < 4; i++) {
-            foreach (string file2 in oldFileNames) {
-                string readFileName2 = file2.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
-                string secondHalf = readFileName2.Split("_",StringSplitOptions.RemoveEmptyEntries).Last();
-                int typeEnd = secondHalf.IndexOf(".csv", StringComparison.Ordinal);
-                string dataType = secondHalf.Substring(0, typeEnd);
-                if (dataTypesFormat[i].Equals(dataType)) {
-                    fileNames[i] = file2;
-                }
+        List<string> sessionNames = new List<string>{};
+        foreach (string filePath in filePaths) {
+            string readFileName = filePath.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
+            string readSessionName = readFileName.Split("_",StringSplitOptions.RemoveEmptyEntries).First();
+            if (string.IsNullOrEmpty(readSessionName) || readFileName.Count(t => t == '_') != 1) {
+                throw new Exception("Improper filename format! Couldn't read the sessionName. Naming format should all be: <sessionName>_<dataType>.csv");
+            }
+            sessionNames.Add(readSessionName);
+        }
+        string sessionNameTest = sessionNames[0];
+        foreach (string sessionName in sessionNames) {
+            if (sessionNameTest != sessionName) {
+                throw new Exception("Improper import! Should only be importing data from one session.");
             }
         }
-        //Testing Only need this ordering part to run the testcases
+        this.sessionName = sessionNameTest;
+
 
         List<string> dataTypes = new List<string> {};
         List<List<string>> dataUnits = new List<List<string>> {};
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
 
-        foreach (string file in fileNames)
+        foreach (string file in filePaths)
         {
             string readFileName = file.Split("\\",StringSplitOptions.RemoveEmptyEntries).Last();
             int nameEnd = readFileName.IndexOf("_", StringComparison.Ordinal);
-            if (fileName.Equals(readFileName.Split("_",StringSplitOptions.RemoveEmptyEntries).First())) {
                 
-                int typeEnd = readFileName.IndexOf(".csv", StringComparison.Ordinal);
-                string dataType = readFileName.Substring(nameEnd + 1, typeEnd - nameEnd - 1);
-                dataTypes.Add(dataType);
+            int typeEnd = readFileName.IndexOf(".csv", StringComparison.Ordinal);
+            string dataType = readFileName.Substring(nameEnd + 1, typeEnd - nameEnd - 1);
+            if (string.IsNullOrEmpty(dataType)) {
+                throw new Exception("Improper filename format! Couldn't read one of the dataTypes. Naming format should all be: <sessionName>_<dataType>.csv");
+            }
+            dataTypes.Add(dataType);
 
-                using (StreamReader reader = new StreamReader(file)) 
+            using (StreamReader reader = new StreamReader(file)) 
+            {
+                string labels = reader.ReadLine();
+                List<string> fileUnits = labels.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
+                dataUnits.Add(fileUnits);
+
+                String line = "";
+                List<List<double>> fileData = new List<List<double>>(fileUnits.Count());
+                for (int i=0;i<fileUnits.Count();i++) fileData.Add(new List<double>{});
+
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string labels = reader.ReadLine();
-                    List<string> fileUnits = labels.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
-                    dataUnits.Add(fileUnits);
-
-                    String line = "";
-                    List<List<double>> fileData = new List<List<double>>(fileUnits.Count());
-                    for (int i=0;i<fileUnits.Count();i++) fileData.Add(new List<double>{});
-
-                    while ((line = reader.ReadLine()) != null)
+                    string[] columns = line.Split(',',StringSplitOptions.RemoveEmptyEntries);
+                    // Loop over each data step (row):
+                    int j = 0;
+                    foreach (var x in columns)
                     {
-                        string[] columns = line.Split(',',StringSplitOptions.RemoveEmptyEntries);
-                        // Loop over each data step (row):
-                        int j = 0;
-                        foreach (var x in columns)
-                        {
-                            // Loop over each label (column):
-                            double val = Double.Parse(x);
-                            fileData[j].Add(val);
-                            j++;
-                        }
+                        // Loop over each label (column):
+                        double val = Double.Parse(x);
+                        fileData[j].Add(val);
+                        j++;
                     }
-                    rawData.Add(fileData);
                 }
+                rawData.Add(fileData);
             }
         }
 
@@ -312,13 +311,20 @@ public class DataImport
      * @param sessionName
      * @returns rawData
      */
-    public List<List<List<double>>> RetrieveRawData(User user)
+    public List<List<List<double>>> RetrieveRawData(User user, string sessionName)
     {
-        this.dataTypes = user.dataTypes.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        this.sessionName = sessionName;
+        int sessionIndex = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList().FindIndex(x => x.Equals(sessionName));
+        string dataTypesString = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string dataUnitsString = user.dataUnits.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+        string rawDataString = user.rawData.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
+
+
+        this.dataTypes = dataTypesString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
 
 
         this.dataUnits.Clear();
-        List<string> filesUnits = user.dataUnits.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesUnits = dataUnitsString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesUnits)
         {
             List<string> units = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -327,7 +333,7 @@ public class DataImport
 
 
         List<List<List<double>>> rawData = new List<List<List<double>>> {};
-        List<string> filesData = user.rawData.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
+        List<string> filesData = rawDataString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
         foreach (string file in filesData)
         {
             List<List<double>> z = new List<List<double>> {};
@@ -346,50 +352,5 @@ public class DataImport
         }
         return rawData;
     }
-    // public List<List<List<double>>> RetrieveRawData(User user, string sessionName)
-    // {
-    //     this.sessionName = sessionName;
-    //     int sessionIndex = user.sessions.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList().FindIndex(x => x.Equals(sessionName));
-    //     string dataTypesString = user.dataTypes.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-    //     string dataUnitsString = user.dataUnits.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-    //     string rawDataString = user.rawData.Split("|",StringSplitOptions.RemoveEmptyEntries).ToList()[sessionIndex];
-
-
-    //     this.dataTypes = dataTypesString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-
-
-    //     this.dataUnits.Clear();
-    //     List<string> filesUnits = dataUnitsString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //     foreach (string file in filesUnits)
-    //     {
-    //         List<string> units = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //         this.dataUnits.Add(units);
-    //     }
-
-
-    //     List<List<List<double>>> rawData = new List<List<List<double>>> {};
-    //     List<string> filesData = rawDataString.Split("_",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //     foreach (string file in filesData)
-    //     {
-    //         List<List<double>> z = new List<List<double>> {};
-    //         List<string> columnsData = file.Split(";",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //         foreach (string column in columnsData)
-    //         {
-    //             List<double> y = new List<double> {};
-    //             List<string> rowsData = column.Split(",",StringSplitOptions.RemoveEmptyEntries).ToList();
-    //             foreach (var x in rowsData) 
-    //             {
-    //                 y.Add(Double.Parse(x));
-    //             }
-    //             z.Add(y);
-    //         }
-    //         rawData.Add(z);
-    //     }
-    //     return rawData;
-    // }
-
-    public void SendRawData()
-    {
-        // TODO
-    }
+    
 }

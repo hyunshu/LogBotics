@@ -24,7 +24,8 @@ void main() async {
   String userHome = Platform.environment['USERPROFILE'] ??
       Platform.environment['HOME'] ??
       '.';
-  File dataFile = File('$userHome/Documents/robot_data_$timestamp.txt');
+  File dataFile = File(
+      'C:/Users/Jenna/Documents/GitHub/LogBotics/FRC-App/robot_data_$timestamp.txt');
   IOSink fileSink = dataFile.openWrite(mode: FileMode.append);
 
   // Subscribe to motor output topic
@@ -58,17 +59,17 @@ void main() async {
   });
 
   await for (Object? data in motorOutputSub.stream()) {
-    String logEntry = 'Motor Output (from stream): $data\n';
+    String logEntry = 'Motor: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
   await for (Object? data in encoderValuesSub.stream()) {
-    String logEntry = 'Encoder Values (from stream): $data\n';
+    String logEntry = 'Encoder: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
   await for (Object? data in pigeonPositionSub.stream()) {
-    String logEntry = 'Pigeon Position (from stream): $data\n';
+    String logEntry = 'Pigeon: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 

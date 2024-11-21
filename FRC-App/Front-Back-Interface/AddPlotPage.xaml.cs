@@ -6,24 +6,27 @@ using LiveChartsCore.SkiaSharpView.SKCharts;
 using PdfSharpCore.Pdf;
 using PdfSharpCore.Drawing;
 using LiveChartsCore.SkiaSharpView.VisualElements;
+using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using MimeKit.Text;
 
 namespace FRC_App;
 
 public partial class AddPlotPage : ContentPage
 {
-
+	public int selectedChart { get; private set; }
 	public User currentUser { get; private set; }
 	public Session sessionData { get; private set; }
 	public DataContainer userData { get; private set; }
-	public ObservableCollection<CartesianChart> chartCollection { get; set; }
-	public ObservableCollection<string> chartTitles { get; set; } 
+	public ObservableCollection<CartesianChart> chartCollection { get; set; } 
 	public ObservableCollection<Grid> chartGrids { get; set; } 
+	public Plot[] plots { get; set; } 
 	
 	public int numPlots;
-	public AddPlotPage(User user)
+	public AddPlotPage()
 	{
 		InitializeComponent();
-		currentUser = user;
+		currentUser = UserSession.CurrentUser;
 		chartCollection = new ObservableCollection<CartesianChart>
 		{
 			chart1,
@@ -43,9 +46,11 @@ public partial class AddPlotPage : ContentPage
 			ChartGrid5,
 			ChartGrid6
 		};
+
+		plots = new Plot[6];
 		numPlots = 0;
+		selectedChart = -1;
 		BindingContext = this;
-		chartTitles = new ObservableCollection<string>();
 	}
 
 	private async void AddPlot(object sender, EventArgs e) {
@@ -74,6 +79,7 @@ public partial class AddPlotPage : ContentPage
 		userData = new DataContainer(currentUser);
 		TypesDropDown.ItemsSource = this.sessionData.getDataTypeNames();
 		TypesStack.IsVisible = true;
+		EditChartStack.IsVisible = false;
 	}
 
 	private async void changeSession() {
@@ -138,7 +144,7 @@ public partial class AddPlotPage : ContentPage
 	}
 
 	private void renderNewPlot (Plot newPlot) {
-		CartesianChart newChart = newPlot.GetLineChart();
+		CartesianChart newChart = newPlot.GetLineChart(SKColors.Blue);
 
 		for (int i = 0; i < chartCollection.Count; i++) {
 			var currChart = chartCollection[i];
@@ -147,6 +153,7 @@ public partial class AddPlotPage : ContentPage
 				currChart.Series = newChart.Series;
 				currChart.Title = newChart.Title; 
 				currGrid.IsVisible = true;
+				plots[i] = newPlot;
 				break;
 			}
 		}
@@ -155,35 +162,145 @@ public partial class AddPlotPage : ContentPage
 	}
 
 
-	private async void OnDeleteChart1Clicked(object sender, EventArgs e) {
+	private void OnDeleteChart1Clicked(object sender, EventArgs e) {
 		chartGrids[0].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart2Clicked(object sender, EventArgs e) {
+	private void OnSelectChart1Clicked(object sender, EventArgs e) {
+		selectedChart = 0;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart2Clicked(object sender, EventArgs e) {
 		chartGrids[1].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart3Clicked(object sender, EventArgs e) {
+	private void OnSelectChart2Clicked(object sender, EventArgs e) {
+		selectedChart = 1;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart3Clicked(object sender, EventArgs e) {
 		chartGrids[2].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
+	}
+
+	private void OnSelectChart3Clicked(object sender, EventArgs e) {
+		selectedChart = 2;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
 	}
 
 	private async void OnDeleteChart4Clicked(object sender, EventArgs e) {
 		chartGrids[3].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart5Clicked(object sender, EventArgs e) {
+	private void OnSelectChart4Clicked(object sender, EventArgs e) {
+		selectedChart = 3;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart5Clicked(object sender, EventArgs e) {
 		chartGrids[4].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
 
-	private async void OnDeleteChart6Clicked(object sender, EventArgs e) {
+	private void OnSelectChart5Clicked(object sender, EventArgs e) {
+		selectedChart = 4;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void OnDeleteChart6Clicked(object sender, EventArgs e) {
 		chartGrids[5].IsVisible = false;
+		EditChartStack.IsVisible = false;
 		numPlots--;
 	}
+
+	private void OnSelectChart6Clicked(object sender, EventArgs e) {
+		selectedChart = 5;
+		TypesStack.IsVisible = false;
+		EditChartStack.IsVisible = true;
+	}
+
+	private void SaveChartEdits(object sender, EventArgs e) {
+		CartesianChart chart = chartCollection[selectedChart];
+		Plot plot = plots[selectedChart];
+
+		string selectedChartType = ChartsDropDown.SelectedItem?.ToString();
+		if (!string.IsNullOrEmpty(selectedChartType)) {
+			switch (selectedChartType)
+			{
+				case "Scatter":
+					chart.Series = plot.GetScatterChart(SKColors.Blue).Series;
+					break;
+				case "Line":
+					chart.Series = plot.GetLineChart(SKColors.Blue).Series;
+					break;
+				case "Step Line":
+					chart.Series = plot.GetStepLineChart(SKColors.Blue).Series;
+					break;
+				case "Row":
+					chart.Series = plot.GetRowChart(SKColors.Blue).Series;
+					break;
+				default:
+					break;
+			}
+		}
+
+		string selectedChartColor = ColorDropDown.SelectedItem?.ToString();
+		if (!string.IsNullOrEmpty(selectedChartColor)) {
+			var newColor = GetSKColor(selectedChartColor);
+
+			if (plot.isLineChart(chart)) {
+				chart.Series = plot.GetLineChart(newColor).Series;
+			} else if (plot.isScatterChart(chart)) {
+				chart.Series = plot.GetScatterChart(newColor).Series;
+			} else if (plot.isStepLineChart(chart)) {
+				chart.Series = plot.GetStepLineChart(newColor).Series;
+			} else if (plot.isRowChart(chart)) {
+				chart.Series = plot.GetRowChart(newColor).Series;
+			}
+		}
+
+		string newTitle = ChartTitleEntry.Text;
+		if (!string.IsNullOrEmpty(newTitle)) {
+			plot.Title = newTitle;
+			chart.Title = new LabelVisual 
+			{
+				Text = newTitle,
+				TextSize = 20,
+                Padding = new LiveChartsCore.Drawing.Padding(15)
+			};
+		}
+
+		EditChartStack.IsVisible = false;
+	}
+
+	private SKColor GetSKColor(string colorName) {
+    	return colorName.ToLower() switch
+		{
+			"black" => SkiaSharp.SKColors.Black,
+			"red" => SkiaSharp.SKColors.Red,
+			"green" => SkiaSharp.SKColors.Green,
+			"blue" => SkiaSharp.SKColors.Blue,
+			"orange" => SkiaSharp.SKColors.Orange,
+			"purple" => SkiaSharp.SKColors.Purple,
+			"white" => SkiaSharp.SKColors.White,
+			_ => SkiaSharp.SKColors.Gray // Default color if not matched
+		};
+	}	
 
 	private async void ExportToJpeg(object sender, EventArgs e) {
 		if (numPlots == 0) {

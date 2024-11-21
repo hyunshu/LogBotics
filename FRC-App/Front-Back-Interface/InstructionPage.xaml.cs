@@ -8,10 +8,10 @@ namespace FRC_App
     {
         public User currentUser { get; private set; }
 
-        public InstructionPage(User user)
+        public InstructionPage()
         {
             InitializeComponent();
-            currentUser = user;
+            currentUser = UserSession.CurrentUser;
         }
     }
 }

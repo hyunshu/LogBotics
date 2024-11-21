@@ -11,12 +11,12 @@ public partial class MapPage : ContentPage
     private User currentUser;
     public bool isRenderMap = false;
 
-    public MapPage(User user, Session sessionData)
+    public MapPage()
     {
         InitializeComponent();
-        this.currentUser = user;
-        this.sessionData = sessionData;
-        LoadDataTypes();
+        this.currentUser = UserSession.CurrentUser;
+        // this.sessionData = sessionData;
+        // LoadDataTypes();
     }
 
     private void LoadDataTypes()
