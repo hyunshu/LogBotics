@@ -7,7 +7,7 @@
     <StackLayout Padding="20" Spacing="20">
 
         <!-- Instruction Label -->
-        <Label Text="Click the button below to select a file from the file family you want to import"
+        <Label Text="Click the button below to select all the CSV files from a Session you want to import."
                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"

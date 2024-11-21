@@ -1,6 +1,10 @@
 ﻿
 using Microsoft.Extensions.Logging;
 using SkiaSharp.Views.Maui.Controls.Hosting; 
+#if WINDOWS
+	using FRC_App.Platforms.Windows; 
+#endif
+
 
 namespace FRC_App;
 
@@ -18,9 +22,14 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-#if DEBUG
-		builder.Logging.AddDebug();
-#endif
+			#if WINDOWS
+				builder.Services.AddSingleton<IFilePicker, WindowsFilePicker>();
+				Console.WriteLine("WindowsFilePicker is registered!");
+			#endif
+
+			#if DEBUG
+				builder.Logging.AddDebug();
+			#endif
 
 		return builder.Build();
 	}
