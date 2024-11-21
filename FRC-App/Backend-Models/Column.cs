@@ -5,6 +5,13 @@ public class Column {
     public string Label { get; set; }
     public List<double> Data { get; set; }
 
+    public Column() { }
+
+    public Column(string Label, List<double> Data) {
+        this.Label = Label;
+        this.Data = Data;
+    }
+
     public bool Equals(Column target)
     {
         if (this.Label != target.Label) {

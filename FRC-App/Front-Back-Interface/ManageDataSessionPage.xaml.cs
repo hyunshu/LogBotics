@@ -47,8 +47,18 @@ public partial class ManageDataSessionPage : ContentPage
             // Update the session name
             Session newSession = new Session();
             newSession.Name = newName;
+            newSession.DataTypes = new List<DataType>{};
+            List<Column> emptyCols = new List<Column>{};
+            emptyCols.Add(new Column("NULL", new List<double> {0}));
+            newSession.DataTypes.Add(new DataType("NULL",emptyCols));
             dataContainer.addSession(newSession);
             dataContainer.storeUpdates();
+
+            Console.WriteLine($"Retrieved Data");
+            Console.WriteLine($"Sessions:\n{currentUser.sessions}");
+            Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+            Console.WriteLine($"{currentUser.dataUnits}");
+            Console.WriteLine($"{currentUser.rawData}");
 
             // Update the sessionsNames list and refresh the Picker
             sessionsNames = dataContainer.getSessionNames();
