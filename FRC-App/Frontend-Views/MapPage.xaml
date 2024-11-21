@@ -67,11 +67,10 @@
                         TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
                         FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
                         Clicked="OnLoadMapClicked" />
-
         </StackLayout>
 
-        <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start" Padding="10">
-             <Button Text="Load Session" 
+        <StackLayout Grid.Row="2" Grid.Column="0">
+         <Button Text="Load Session" 
                      BackgroundColor="#FF858282" 
                      TextColor="Black"
                      Clicked="OnLoadSessionClicked"/>
@@ -86,10 +85,9 @@
               </VerticalStackLayout>
         </StackLayout>
 
-
             
         <!-- Bottom-right logo -->
-        <Image Source="logbotics.png" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" WidthRequest="50" HeightRequest="50"/>
+        <Image Source="logbotics.png" Grid.Row="2" Grid.Column="1" HorizontalOptions="End" VerticalOptions="End" WidthRequest="50" HeightRequest="50"/>
     </Grid>
     </ScrollView>
 </ContentPage>

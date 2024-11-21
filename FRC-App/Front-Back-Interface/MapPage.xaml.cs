@@ -121,6 +121,7 @@ public partial class MapPage : ContentPage
 		}
 
 		sessionStack.IsVisible = false;
+        LoadDataTypes();
 	}
 
 	private async void changeSession(string selectedSession) {
