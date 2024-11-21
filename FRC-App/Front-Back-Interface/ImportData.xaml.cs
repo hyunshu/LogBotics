@@ -189,39 +189,41 @@ public partial class ImportData : ContentPage
             }
 
             await DisplayAlert("Success", "NetworkTables Client script executed successfully.", "OK");
+
+
+            //Find and Read Text file:
+            var filePath = await FilePicker.Default.PickAsync(new PickOptions
+                {
+                    PickerTitle = "Please select the Live Robot Data .txt file import"
+                });
+                if (string.IsNullOrEmpty(filePath.FullPath)) {
+                    throw new Exception("No or invalid .txt was selected. Export failed.");
+                }
+
+            DataImport dataStructure = new DataImport();
+            List<List<List<double>>> rawData = dataStructure.FromRobot(filePath.FullPath); //Also appropriately reconstructions the dataStructure
+
+
+
+            //TODO: Need popup to name the session of data imported from the Robot
+            string sessionName = "textboxEntry";
+            dataStructure.sessionName = sessionName;
+
+
+
+            await UserDatabase.storeData(currentUser,dataStructure,rawData);
+
+            // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
+            Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
+            Console.WriteLine($"{currentUser.dataUnits}");
+            Console.WriteLine($"{currentUser.rawData}");
+
+            await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
         }
         catch (Exception ex)
         {
             await DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
         }
-
-
-
-        //Find and Read Text file:
-        var filePath = await FilePicker.Default.PickAsync(new PickOptions
-            {
-                PickerTitle = "Please select a file to import"
-            });
-
-        DataImport dataStructure = new DataImport();
-        List<List<List<double>>> rawData = dataStructure.FromRobot(filePath.FullPath); //Also appropriately reconstructions the dataStructure
-
-
-
-        //TODO: Need popup to name the session of data imported from the Robot
-        string sessionName = "textboxEntry";
-        dataStructure.sessionName = sessionName;
-
-
-
-        await UserDatabase.storeData(currentUser,dataStructure,rawData);
-
-        // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
-
-        Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
-        Console.WriteLine($"{currentUser.dataUnits}");
-        Console.WriteLine($"{currentUser.rawData}");
-
-        await DisplayAlert("Success", "Data Recieved from Robot", "Continue");
     }
 }
