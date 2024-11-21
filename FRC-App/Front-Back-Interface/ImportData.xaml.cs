@@ -52,12 +52,24 @@ public partial class ImportData : ContentPage
             DataImport importDataStructure = new DataImport();
             List<List<List<double>>> recievedRawData = importDataStructure.FromCSV(filePaths);
 
+             
+
             // Get the file name
             string sessionName = filePaths[0].Split("\\",StringSplitOptions.RemoveEmptyEntries).Last().Split("_",StringSplitOptions.RemoveEmptyEntries).First();
+            string newName = await DisplayPromptAsync(
+                "Rename Data Session",
+                $"Enter a new name for this data session or leave as default:",
+                initialValue: sessionName,
+                placeholder: "New Session Name"
+            );
+
+            if (!string.IsNullOrEmpty(newName)) {
+                sessionName = newName;
+                Console.WriteLine("session name: " + sessionName);
+            }
             // Display the selected file name
             SelectedFileLabel.Text = $"CSV files selected from Session: {sessionName}";
             
-
             DataContainer container = new DataContainer(currentUser);
             if (container.getSessionNames() != null && container.getSessionNames().Any()) {
                 if (container.getSessionNames().Contains(sessionName)) {
@@ -65,7 +77,8 @@ public partial class ImportData : ContentPage
                 }
             }
 
-            UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
+            importDataStructure.sessionName = sessionName;
+            await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
 
             DataContainer updataedContainer = new DataContainer(currentUser);
             this.sessionData = updataedContainer.getSession(sessionName);
@@ -152,14 +165,18 @@ public partial class ImportData : ContentPage
         string fileName = "RealRobotData.txt";
         List<List<List<double>>> rawData = dataStructure.FromRobot(directoryPath, fileName);
 
+        string newName = await DisplayPromptAsync(
+            "Rename Data Session",
+            $"Enter a new name for this data session or leave as default:",
+            placeholder: "New Session Name"
+        );
 
+        if (string.IsNullOrEmpty(newName)) {
+            await DisplayAlert("Error", "Session name cannot be empty.", "OK");
+            return;
+        }
 
-        //TODO: Need popup to name the session of data imported from the Robot
-        string sessionName = "textboxEntry";
-        dataStructure.sessionName = sessionName;
-
-
-
+        dataStructure.sessionName = newName;
         await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
         // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
