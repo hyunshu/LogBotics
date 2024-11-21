@@ -206,14 +206,20 @@ public partial class ImportData : ContentPage
 
 
             //TODO: Need popup to name the session of data imported from the Robot
-            string sessionName = "textboxEntry";
-            dataStructure.sessionName = sessionName;
-
-
+            string newName = await DisplayPromptAsync(
+                "Name New Data Session",
+                $"Enter a new name for this data session:",
+                initialValue: "",
+                placeholder: "New Session Name"
+            );
+            dataStructure.sessionName = newName;
 
             await UserDatabase.storeData(currentUser,dataStructure,rawData);
 
-            // changeSession();  // Remove this line when changeSession button is implemented and takes an (object sender, EventArgs e)
+
+            DataContainer dataContainer = new DataContainer(currentUser);
+            dataContainer.storeUpdates(); // Just in case (may be unnecessary)
+
 
             Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
             Console.WriteLine($"{currentUser.dataUnits}");
