@@ -25,7 +25,7 @@ public partial class LoginPage : ContentPage
 				var user = await UserDatabase.GetUser(username);
 
 				if (user != null && user.Password == password) {
-					if (false){//await UserDatabase.checkActive(username)) {
+					if (await UserDatabase.checkActive(username)) {
 						await DisplayAlert("Error", "User is already online on a different device.", "OK");
 					} else if (user.IsAdmin) {
 						await DisplayAlert("Success", "Admin login successful!", "Get Started");
