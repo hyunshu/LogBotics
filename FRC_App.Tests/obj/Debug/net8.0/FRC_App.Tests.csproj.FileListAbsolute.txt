@@ -208,3 +208,4 @@ C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Tests\obj\Debug\net8.0\refint\
 C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Tests\obj\Debug\net8.0\FRC_App.Tests.pdb
 C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Tests\obj\Debug\net8.0\FRC_App.Tests.genruntimeconfig.cache
 C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Tests\obj\Debug\net8.0\ref\FRC_App.Tests.dll
+C:\Users\Jenna\Documents\GitHub\LogBotics\FRC_App.Tests\bin\Debug\net8.0\Npgsql.dll

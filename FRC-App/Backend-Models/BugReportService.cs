@@ -20,7 +20,7 @@ namespace FRC_App.Services
 
             var message = new MimeMessage();
             message.From.Add(new MailboxAddress("LogBotics App", "logboticsteam@gmail.com"));
-            message.To.Add(new MailboxAddress("Team 24", "jrigdon@purdue.edu"));
+            message.To.Add(new MailboxAddress("Team 24", "braun43@purdue.edu"));
             message.Subject = "Bug Report from LogBotics App";
 
             var bodyBuilder = new BodyBuilder
