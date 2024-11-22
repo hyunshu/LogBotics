@@ -177,4 +177,15 @@ public partial class ManageDataSessionPage : ContentPage
             await DisplayAlert("Cancelled", "Session deletion cancelled.", "OK");
         }
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+		dataContainer = new DataContainer(currentUser);
+        sessionsNames = dataContainer.getSessionNames();
+        DataSessionPicker.ItemsSource = null; // Force refresh
+        DataSessionPicker.ItemsSource = sessionsNames;
+	}
+
+
 }
