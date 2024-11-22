@@ -20,11 +20,34 @@ public partial class ImportData : ContentPage
     public User currentUser { get; private set; }
     public string sessionName { get; private set; }
     public Session sessionData { get; private set; }
+    public DataContainer dataContainer { get; private set; }
+    public List<string> sessionsNames { get; private set; }
 
     public ImportData()
     {
         InitializeComponent();
         this.currentUser = UserSession.CurrentUser;
+    }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+        dataContainer = new DataContainer(currentUser);
+        sessionsNames = dataContainer.getSessionNames();
+        DataSessionPicker.ItemsSource = null; // Force refresh
+        DataSessionPicker.ItemsSource = sessionsNames;
+	}
+
+    private void OnDataSessionSelected(object sender, EventArgs e) {
+        try {
+            if (DataSessionPicker.SelectedIndex != -1)
+            {
+                sessionName = sessionsNames[DataSessionPicker.SelectedIndex];
+                sessionData = dataContainer.getSession(sessionName);
+            }
+        } catch (Exception ex) {
+            DisplayAlert("Error", $"An error occurred: {ex.Message}", "OK");
+        }
     }
 
     private async void OnImportButtonClicked(object sender, EventArgs e)
@@ -185,7 +208,6 @@ public partial class ImportData : ContentPage
 
                 Dispatcher.Dispatch(() =>
                 {
-                    /*
                     if (!string.IsNullOrEmpty(output))
                     {
                         OutputLabel.Text = $"Output: {output}";
@@ -198,7 +220,6 @@ public partial class ImportData : ContentPage
                     {
                         OutputLabel.Text = "NetworkTables Client executed with no output.";
                     }
-                    */
                 });
 
                 process.WaitForExit();
