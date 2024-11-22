@@ -107,6 +107,8 @@ public partial class ImportData : ContentPage
             DataContainer updataedContainer = new DataContainer(currentUser);
             this.sessionData = updataedContainer.getSession(sessionName);
             this.sessionName = sessionName;
+            DataSessionPicker.ItemsSource = null; // Force refresh
+            DataSessionPicker.ItemsSource = updataedContainer.getSessionNames();
             updataedContainer.storeUpdates();
 
 
