@@ -1,4 +1,5 @@
-﻿using FRC_App.Services;
+﻿using FRC_App.Models;
+using FRC_App.Services;
 
 namespace FRC_App;
 public partial class LoginPage : ContentPage
@@ -19,20 +20,31 @@ public partial class LoginPage : ContentPage
 		string password = UserPasswordEntry.Text;
 
 		if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)) { 
-			var user = await UserDatabase.GetUser(username);
+			try
+			{
+				var user = await UserDatabase.GetUser(username);
 
-			if (user != null && user.Password == password) {
-				if (user.IsAdmin) {
-					await DisplayAlert("Success", "Admin login successful!", "Get Started");
-					// Application.Current.MainPage = new NavigationPage(new HomePage(user));  // Redirect to admin page
+				if (user != null && user.Password == password) {
+					if (false){//await UserDatabase.checkActive(username)) {
+						await DisplayAlert("Error", "User is already online on a different device.", "OK");
+					} else if (user.IsAdmin) {
+						await DisplayAlert("Success", "Admin login successful!", "Get Started");
+						await UserDatabase.login(user);
+						// Application.Current.MainPage = new NavigationPage(new HomePage(user));  // Redirect to admin page
+					} else {
+						await DisplayAlert("Success", "Login successful!", "Get Started");
+						await UserDatabase.login(user);
+						UserSession.CurrentUser = user;
+						Application.Current.MainPage = new AppShell();
+						await Shell.Current.GoToAsync("///homepage");
+					}
 				} else {
-					await DisplayAlert("Success", "Login successful!", "Get Started");
-					UserSession.CurrentUser = user;
-					Application.Current.MainPage = new AppShell();
-					await Shell.Current.GoToAsync("///homepage");
+					await DisplayAlert("Error", "Invalid username or password.", "OK");
 				}
-			} else {
-				await DisplayAlert("Error", "Invalid username or password.", "OK");
+			}
+			catch (Exception ex)
+			{
+				await DisplayAlert("Error", $"Database connection error: {ex.Message}", "OK");
 			}
 		} else {
 			await DisplayAlert("Error", "Missing info.", "OK");

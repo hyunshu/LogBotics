@@ -62,6 +62,7 @@ namespace FRC_App.Models
         public string SecurityQuestion { get; set; }
         public string SecurityAnswer { get; set; }
         public bool IsAdmin { get; set; }
+        public bool IsActivePoo { get; set; }
 
         // Below is for the user's complete set of data for their FRC mission:
         public string sessions { get; set; }

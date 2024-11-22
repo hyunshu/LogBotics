@@ -170,7 +170,9 @@ public partial class HomePage : ContentPage
 		bool answer = await DisplayAlert("Log Out", "Are you sure you want to log out?", "Yes", "No");
 		if (answer)
 		{
-			((App)Application.Current).LoadTheme("Dark Theme");
+			await UserDatabase.logout(currentUser);
+			((App)Application.Current).LoadTheme("Dark Theme"); //!!! What's going on here?
+
 			await Shell.Current.GoToAsync("///loginpage");	
 		}
 	}

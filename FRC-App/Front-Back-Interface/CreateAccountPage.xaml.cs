@@ -26,7 +26,7 @@ public partial class CreateAccountPage : ContentPage
                 && !string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password)
                 && !string.IsNullOrEmpty(confirmPassword)) {
 
-            bool userExists = await UserDatabase.CheckUserExistsAsync(username);
+            bool userExists = await UserDatabase.CheckUserNameExistsAsync(username);
             if (userExists)
             {
                 await DisplayAlert("Error", "Username already exists. Please choose another username.", "OK");
@@ -62,7 +62,7 @@ public partial class CreateAccountPage : ContentPage
             }
             catch (Exception ex)
             {
-                // Handle case where user already exists or any other error
+                 //Handle case where user already exists or any other error
                 await DisplayAlert("Error", ex.Message, "OK");
             }
         } else {
