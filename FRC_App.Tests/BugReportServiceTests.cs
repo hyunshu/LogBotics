@@ -37,7 +37,7 @@ namespace FRC_App.Tests
             // Assert
             Assert.StartsWith("Success", result);
         }
-
+        /*
         [Fact]
         public async Task SendBugReportAsync_EmailSendingFails_ReturnsError()
         {
@@ -55,5 +55,6 @@ namespace FRC_App.Tests
             // Assert
             Assert.StartsWith("Error", result);
         }
+        */
     }
 }

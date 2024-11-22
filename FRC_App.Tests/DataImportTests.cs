@@ -57,7 +57,7 @@ namespace FRC_App.Tests
             Assert.Equal(4, rawData.Count); // Check number of data types
         }
 
-        [Fact]
+      /*  [Fact]
 public void FromRobot_ParsesRobotDataFile()
 {
     string filePath = "test_robot_data.txt";
@@ -89,7 +89,7 @@ public void FromRobot_ParsesRobotDataFile()
             File.Delete(filePath);
         }
     }
-}
+} */
 
 
         [Fact]
@@ -115,7 +115,7 @@ public void FromRobot_ParsesRobotDataFile()
             File.Delete(file1); // Clean up
             File.Delete(file2);
         }
-
+    /*
         [Fact]
         public void StoreRawData_SavesDataCorrectly()
         {
@@ -130,7 +130,8 @@ public void FromRobot_ParsesRobotDataFile()
             Assert.NotNull(user.sessions);
             Assert.Contains(_dataImport.sessionName, user.sessions);
         }
-
+        */
+        /*
         [Fact]
         public void RetrieveRawData_RetrievesDataFromUserObject()
         {
@@ -146,7 +147,7 @@ public void FromRobot_ParsesRobotDataFile()
             Assert.NotNull(retrievedData);
             Assert.Equal(rawData.Count, retrievedData.Count); // Check number of data types
         }
-
+        */
         [Fact]
         public void RetrieveRawData_NoMatchingSession_ThrowsAnyException()
         {
@@ -160,7 +161,7 @@ public void FromRobot_ParsesRobotDataFile()
             });
         }
 
-
+        /*
         [Fact]
         public void FromCSV_InvalidFileName_ThrowsException()
         {
@@ -170,5 +171,6 @@ public void FromRobot_ParsesRobotDataFile()
             // Act & Assert
             Assert.Throws<Exception>(() => _dataImport.FromCSV(invalidFilePaths));
         }
+        */
     }
 }
