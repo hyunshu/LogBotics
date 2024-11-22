@@ -102,12 +102,12 @@ public partial class ImportData : ContentPage
             }
 
             importDataStructure.sessionName = sessionName;
-            await UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
+            UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
 
-            DataContainer updataedContainer = new DataContainer(currentUser);
-            this.sessionData = updataedContainer.getSession(sessionName);
+            //DataContainer updataedContainer = new DataContainer(currentUser);
+            //this.sessionData = updataedContainer.getSession(sessionName);
             this.sessionName = sessionName;
-            updataedContainer.storeUpdates();
+            //updataedContainer.storeUpdates();
 
 
             Console.WriteLine($"Retrieved Data");
@@ -251,11 +251,11 @@ public partial class ImportData : ContentPage
             );
             dataStructure.sessionName = newName;
 
-            await UserDatabase.storeData(currentUser,dataStructure,rawData);
+            UserDatabase.storeData(currentUser,dataStructure,rawData);
 
 
-            DataContainer dataContainer = new DataContainer(currentUser);
-            dataContainer.storeUpdates(); // Just in case (may be unnecessary)
+            //DataContainer dataContainer = new DataContainer(currentUser);
+            //dataContainer.storeUpdates(); // Just in case (may be unnecessary)
 
 
             Console.WriteLine($"Stored Data:\n{currentUser.dataTypes}");
