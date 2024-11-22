@@ -104,13 +104,13 @@ public partial class ImportData : ContentPage
             importDataStructure.sessionName = sessionName;
             UserDatabase.storeData(currentUser,importDataStructure,recievedRawData);
 
-            //DataContainer updataedContainer = new DataContainer(currentUser);
+            DataContainer updataedContainer = new DataContainer(currentUser);
             //this.sessionData = updataedContainer.getSession(sessionName);
             this.sessionName = sessionName;
             //updataedContainer.storeUpdates();
             DataSessionPicker.ItemsSource = null; // Force refresh
             DataSessionPicker.ItemsSource = updataedContainer.getSessionNames();
-            updataedContainer.storeUpdates();
+            //updataedContainer.storeUpdates();
 
 
             Console.WriteLine($"Retrieved Data");
@@ -211,6 +211,7 @@ public partial class ImportData : ContentPage
 
                 Dispatcher.Dispatch(() =>
                 {
+                    /*
                     if (!string.IsNullOrEmpty(output))
                     {
                         OutputLabel.Text = $"Output: {output}";
@@ -223,6 +224,7 @@ public partial class ImportData : ContentPage
                     {
                         OutputLabel.Text = "NetworkTables Client executed with no output.";
                     }
+                    */
                 });
 
                 process.WaitForExit();
