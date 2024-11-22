@@ -185,6 +185,7 @@ public partial class ImportData : ContentPage
 
                 Dispatcher.Dispatch(() =>
                 {
+                    /*
                     if (!string.IsNullOrEmpty(output))
                     {
                         OutputLabel.Text = $"Output: {output}";
@@ -197,6 +198,7 @@ public partial class ImportData : ContentPage
                     {
                         OutputLabel.Text = "NetworkTables Client executed with no output.";
                     }
+                    */
                 });
 
                 process.WaitForExit();
