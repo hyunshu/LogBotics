@@ -1,0 +1,59 @@
+Summary
+  Generated on: 11/20/2024 - 7:20:54 PM
+  Coverage date: 11/18/2024 - 1:27:43 PM
+  Parser: Cobertura
+  Assemblies: 1
+  Classes: 39
+  Files: 51
+  Line coverage: 2.1%
+  Covered lines: 44
+  Uncovered lines: 2051
+  Coverable lines: 2095
+  Total lines: 4298
+  Branch coverage: 3.2% (17 of 526)
+  Covered branches: 17
+  Total branches: 526
+  Method coverage: 0.7% (2 of 258)
+  Covered methods: 2
+  Total methods: 258
+
+FRC-App                                           2.1%
+  __XamlGeneratedCode__.__Type0DD85A13D55B24D8    0.0%
+  __XamlGeneratedCode__.__Type3A61F0EBC3C59046    0.0%
+  AxesDifferentLengthsException                   0.0%
+  Column                                          0.0%
+  DataContainer                                   0.0%
+  DataExport                                      0.0%
+  DataImport                                      0.0%
+  DataPoint                                       0.0%
+  DataType                                        0.0%
+  FRC_App.AddPlotPage                             0.0%
+  FRC_App.App                                     0.0%
+  FRC_App.AppShell                                0.0%
+  FRC_App.CreateAccountPage                       0.0%
+  FRC_App.DataEntry                               0.0%
+  FRC_App.DataManipulationPage                    0.0%
+  FRC_App.DebuggingPage                           0.0%
+  FRC_App.EditAccountInfoPage                     0.0%
+  FRC_App.ForgotPasswordPage                      0.0%
+  FRC_App.GlobalFontSettingsViewModel             0.0%
+  FRC_App.HomePage                                0.0%
+  FRC_App.ImportData                              0.0%
+  FRC_App.InstructionPage                         0.0%
+  FRC_App.LoginPage                               0.0%
+  FRC_App.MapPage                                 0.0%
+  FRC_App.MauiProgram                             0.0%
+  FRC_App.Models.User                             0.0%
+  FRC_App.PreferencePage                          0.0%
+  FRC_App.ReportBugPage                           0.0%
+  FRC_App.Resources.Styles.DarkTheme              0.0%
+  FRC_App.Resources.Styles.LightTheme             0.0%
+  FRC_App.Services.UserDatabase                   0.0%
+  FRC_App.Utilities.DseventsParser              100.0%
+  FRC_App.ValueItem                               0.0%
+  Map                                             0.0%
+  Motor                                           0.0%
+  Plot                                            0.0%
+  SameAxisException                               0.0%
+  Sensor                                          0.0%
+  Session                                         0.0%

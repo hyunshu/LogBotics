@@ -1,0 +1,3 @@
+Motor:Time (s):0.1
+Motor:Velocity (m/s):1.2
+Sensor:Angle (rad):0.5
