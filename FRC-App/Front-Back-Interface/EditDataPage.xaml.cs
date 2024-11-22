@@ -17,6 +17,8 @@ public partial class EditDataPage : ContentPage
     public Column SelectedDataUnit { get; private set; }
     public int SelectedValueIndex { get; private set; }
     public double SelectedValue { get; private set; }
+    public int minValue { get; private set; }
+    public int maxValue { get; private set; }
 
     public EditDataPage()
     {
@@ -40,22 +42,22 @@ public partial class EditDataPage : ContentPage
 
     private void OnSliderValueChanged(object sender, ValueChangedEventArgs e)
     {
-        SelectedValue = Math.Round(e.NewValue, 2);
+        SelectedValue = e.NewValue;
         ValueSlider.Value = SelectedValue;
-        ValueEntry.Text = SelectedValue.ToString("F2");
-        CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+        ValueEntry.Text = SelectedValue.ToString("G");
+        CurrentValueLabel.Text = $"Current Value: {SelectedValue:G}";
     }
 
     private void OnValueEntryChanged(object sender, TextChangedEventArgs e)
     {
         string input = ValueEntry.Text;
-        if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^\d+\.\d{2}$"))
+        if (System.Text.RegularExpressions.Regex.IsMatch(input, @"^-?\d*\.?\d*$"))
         {
             if (double.TryParse(input, out var parsedValue) && SelectedValue != parsedValue)
             {
                 SelectedValue = parsedValue;
                 ValueSlider.Value = SelectedValue;
-                CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+                CurrentValueLabel.Text = $"Current Value: {SelectedValue:G}";
             }
         }
     }
@@ -94,47 +96,26 @@ public partial class EditDataPage : ContentPage
 
             if (selectedUnit == "Time (s)")
             {
-                ValueSlider.Minimum = 0;
-                ValueSlider.Maximum = 100;
-                ValueSlider.Value = 50; // Default to midpoint
-                ValueEntry.Text = "50.00";
-                CurrentValueLabel.Text = "Current Value: 50.00";
-            }
-            else if (selectedUnit == "X-Acceleration (ft/s^2)" || 
-                    selectedUnit == "Y-Acceleration (ft/s^2)" || 
-                    selectedUnit == "Z-Acceleration (ft/s^2)")
-            {
-                ValueSlider.Minimum = 0;
-                ValueSlider.Maximum = 1;
-                ValueSlider.Value = 0.5; // Default to midpoint
-                ValueEntry.Text = "0.50";
-                CurrentValueLabel.Text = "Current Value: 0.50";
+                this.minValue = 0;
+                this.maxValue = 100;
             }
             else if (selectedUnit == "Forward Input (bool)" || 
                     selectedUnit == "Backward Input (bool)")
             {
-                ValueSlider.Minimum = 0;
-                ValueSlider.Maximum = 1;
-                ValueSlider.Value = 0; // Default to 0
-                ValueEntry.Text = "0.00";
-                CurrentValueLabel.Text = "Current Value: 0.00";
+                this.minValue = 0;
+                this.maxValue = 1;
             }
-            else if (SelectedDataUnit != null && SelectedDataUnit.Data.Count > 0)
+            else
             {
-                // Dynamically update the slider range for other data units
-                double minValue = 0;
-                double maxValue = 10;
-
-                ValueSlider.Minimum = minValue;
-                ValueSlider.Maximum = maxValue;
-
-                // Optionally reset the slider to the midpoint of the range
-                double midpoint = (minValue + maxValue) / 2;
-                ValueSlider.Value = midpoint;
-
-                ValueEntry.Text = midpoint.ToString("F2");
-                CurrentValueLabel.Text = $"Current Value: {midpoint:F2}";
+                this.minValue = -10;
+                this.maxValue = 10;
             }
+
+            ValueSlider.Minimum = minValue;
+            ValueSlider.Maximum = maxValue;
+            ValueSlider.Value = minValue;
+            ValueEntry.Text = minValue.ToString("G");
+            CurrentValueLabel.Text = $"Current Value: {minValue:G}";
 
             // Populate the DataValuePicker
             DataValuePicker.ItemsSource = Enumerable.Range(0, SelectedDataUnit.Data.Count).ToList();
@@ -157,8 +138,8 @@ public partial class EditDataPage : ContentPage
             ValuesTable.ItemsSource = tableItems;
 
             ValueSlider.Value = SelectedValue;
-            ValueEntry.Text = SelectedValue.ToString("F2");
-            CurrentValueLabel.Text = $"Current Value: {SelectedValue:F2}";
+            ValueEntry.Text = SelectedValue.ToString("G");
+            CurrentValueLabel.Text = $"Current Value: {SelectedValue:G}";
         }
     }
 
@@ -183,6 +164,24 @@ public partial class EditDataPage : ContentPage
         if (DataValuePicker.SelectedIndex == -1)
         {
             DisplayAlert("Error", "Please select a Data Value.", "OK");
+            return;
+        }
+
+        if (!System.Text.RegularExpressions.Regex.IsMatch(ValueEntry.Text, @"^-?\d*\.?\d*$"))
+        {
+            DisplayAlert("Error", "Please enter a valid number.", "OK");
+            return;
+        }
+        
+        if (SelectedValue < minValue || SelectedValue > maxValue)
+        {
+            DisplayAlert("Error", $"Please enter a value between {minValue} and {maxValue}.", "OK");
+            return;
+        }
+        if ((SelectedDataUnit.Label == "Forward Input (bool)" || SelectedDataUnit.Label == "Backward Input (bool)") 
+                && (SelectedValue != 0 && SelectedValue != 1))
+        {
+            DisplayAlert("Error", "Please enter a value of 0 or 1 for boolean inputs.", "OK");
             return;
         }
 

@@ -30,6 +30,7 @@ public partial class ManageDataSessionPage : ContentPage
         {
             selectedSessionName = sessionsNames[DataSessionPicker.SelectedIndex];
             selectedSession = dataContainer.getSession(selectedSessionName);
+            DataSessionLabel.Text = selectedSessionName;
         }
     }
     

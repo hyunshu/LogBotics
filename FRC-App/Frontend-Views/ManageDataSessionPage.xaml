@@ -1,37 +1,63 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.ManageDataSessionPage"
              Title="Manage Data Session">
     <ScrollView>
-        <VerticalStackLayout Padding="10" Spacing="15">
+        <VerticalStackLayout Padding="10" Spacing="50">
             <!-- Title -->
             <Label Text="Select a Data Session"
-                   FontSize="Large"
                    HorizontalOptions="Center"
-                   Margin="0, 10" />
+                   Margin="0, 10" 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                   />
 
             <!-- Data Session Picker -->
-            <Label Text="Data Session:" FontAttributes="Bold" />
+            <Label Text="Data Session:" FontAttributes="Bold" 
+                   FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                   TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                   FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
             <Picker x:Name="DataSessionPicker"
                     ItemsSource="{Binding DataSessions}" 
                     SelectedIndexChanged="OnDataSessionSelected" />
 
             <!-- Buttons -->
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="100">
                 <Button Text="Create"
                         Clicked="OnCreateSessionClicked"
-                        HorizontalOptions="CenterAndExpand" />
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
                 <Button Text="Rename"
                         Clicked="OnRenameSessionClicked"
-                        HorizontalOptions="CenterAndExpand" />
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
                 <Button Text="Duplicate"
                         Clicked="OnDuplicateSessionClicked"
-                        HorizontalOptions="CenterAndExpand" />
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
                 <Button Text="Delete"
                         Clicked="OnDeleteSessionClicked"
-                        HorizontalOptions="CenterAndExpand" />
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
             </StackLayout>
+
+            <!-- Data Session Label -->
+            <Label Text="Selected Data Session:" FontAttributes="Bold" HorizontalOptions="Center" 
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+            <Label x:Name="DataSessionLabel" Text="Unselected" HorizontalOptions="Center"
+                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
