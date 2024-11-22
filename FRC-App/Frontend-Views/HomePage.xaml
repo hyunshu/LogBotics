@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.HomePage"
-
              Title="Home Page">
 
     <!-- Main layout container -->
@@ -59,6 +58,27 @@
                            HorizontalOptions="Center"
                            VerticalOptions="Center" />
                 </HorizontalStackLayout>
+
+                <!-- <Button Text="Load Session" 
+                     BackgroundColor="#FF858282" 
+                     FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                     TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                     FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}"
+                     Clicked="OnLoadSessionClicked"/> -->
+                     
+                <!-- Data Session Dropdown -->
+                <!-- <VerticalStackLayout x:Name="sessionStack" IsVisible="False">
+                     <Label Text="Data Session:"
+                             FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                             TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                             FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                     <Picker x:Name="DataSessionPicker"
+                                   ItemsSource="{Binding DataSessions}"
+                                   TextColor="Black"
+                                   BackgroundColor="White"
+                                   SelectedIndexChanged="OnDataSessionSelected" />
+              </VerticalStackLayout> -->
+                                   
 
             </VerticalStackLayout>
         </Frame>

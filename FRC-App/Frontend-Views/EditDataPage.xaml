@@ -1,0 +1,106 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FRC_App.EditDataPage"
+             Title="Edit Data Page">
+    <ScrollView>
+        <StackLayout Padding="10">
+            <!-- Title of the Page -->
+            <Label Text="Select Data Session, Data Type, Data Unit, and Data Value to Manipulate" 
+                   FontSize="Large" 
+                   HorizontalOptions="Center" 
+                   Margin="0, 10" />
+
+            <!-- Data Session Picker -->
+            <Label Text="Data Session:" FontAttributes="Bold" />
+            <Picker x:Name="DataSessionPicker"
+                    ItemsSource="{Binding DataSessions}" 
+                    SelectedIndexChanged="OnDataSessionSelected" />
+
+            <!-- Data Type Picker -->
+            <Label Text="Data Type:" FontAttributes="Bold" />
+            <Picker x:Name="DataTypePicker"
+                    ItemsSource="{Binding DataTypes}"
+                    SelectedIndexChanged="OnDataTypeSelected" />
+
+            <!-- Data Unit Picker (dependent on Data Type) -->
+            <Label Text="Data Unit:" FontAttributes="Bold" />
+            <Picker x:Name="DataUnitPicker"
+                    ItemsSource="{Binding FilteredDataUnits}"
+                    SelectedIndexChanged="OnDataUnitSelected"/>
+
+            <!-- Data Value Picker (dependent on Data Type and Data Unit) -->
+            <Label Text="Data Value:" FontAttributes="Bold" />
+            <Picker x:Name="DataValuePicker"
+                    ItemsSource="{Binding DataValueNumbers}"
+                    SelectedIndexChanged="OnDataValueSelected" />
+
+            <!-- Slider for manipulating the selected value -->
+            <Label Text="Adjust Value:" FontAttributes="Bold" />
+            <Slider x:Name="ValueSlider"
+                Minimum="0"
+                Maximum="10"
+                ValueChanged="OnSliderValueChanged"
+                Margin="0, 10" />
+
+
+            <!-- Entry for manipulating the selected value -->
+            <Entry x:Name="ValueEntry"
+                   Keyboard="Numeric"
+                   HorizontalOptions="Center"
+                   WidthRequest="100"
+                   TextChanged="OnValueEntryChanged"
+                   Margin="0, 10" />
+
+            <!-- Display Current Value -->
+            <Label x:Name="CurrentValueLabel"
+                   Text="Current Value: "
+                   HorizontalOptions="Center"
+                   Margin="0, 10" />
+
+            <!-- Scrollable Table of values for the selected Data Type and Data Unit -->
+            <ScrollView>
+                <CollectionView x:Name="ValuesTable" Margin="0, 10" BackgroundColor="LightGray">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="50, *, 1"
+                                  RowDefinitions="Auto, 1"
+                                  Padding="0, 5">
+                                <!-- Order Label -->
+                                <Label Text="{Binding Order}" 
+                                       FontAttributes="Bold" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Grid.Column="0" 
+                                       Margin="5" />
+
+                                <!-- Value Label -->
+                                <Label Text="{Binding Value}" 
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       Grid.Column="1" 
+                                       Margin="5" />
+
+                                <!-- Row Divider -->
+                                <BoxView Grid.Row="1" 
+                                         Grid.ColumnSpan="3" 
+                                         HeightRequest="1" 
+                                         BackgroundColor="DarkGray" />
+
+                                <!-- Column Divider -->
+                                <BoxView Grid.Row="0" 
+                                         Grid.Column="2" 
+                                         WidthRequest="1" 
+                                         BackgroundColor="DarkGray" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+
+            <!-- Save Button -->
+            <Button Text="Save" 
+                    HorizontalOptions="Center"
+                    Clicked="OnSaveClicked" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

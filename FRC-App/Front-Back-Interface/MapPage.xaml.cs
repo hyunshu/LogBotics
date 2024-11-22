@@ -1,4 +1,5 @@
 
+using System.Collections.ObjectModel;
 using FRC_App.Models;
 using SkiaSharp;
 using SkiaSharp.Views.Maui;
@@ -7,14 +8,18 @@ namespace FRC_App;
 
 public partial class MapPage : ContentPage
 {
+    public DataContainer dataContainer { get; private set; }
     private Session sessionData;
     private User currentUser;
     public bool isRenderMap = false;
+    public bool clearCanvas = false;
+    public ObservableCollection<string> sessionNames { get; set; } 
 
     public MapPage()
     {
         InitializeComponent();
         this.currentUser = UserSession.CurrentUser;
+        sessionNames = new ObservableCollection<string>();
         // this.sessionData = sessionData;
         // LoadDataTypes();
     }
@@ -25,15 +30,26 @@ public partial class MapPage : ContentPage
         TypesDropDown.ItemsSource = dataTypeNames;
     }
 
-     private void AddAccelerometerDataToMap(object sender, EventArgs e)
+     private async void AddAccelerometerDataToMap(object sender, EventArgs e)
     {
+
+        bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		bool noSession = this.sessionData == null;
+
+		if (noSession) {
+			await DisplayAlert("Error", "You have no session selected.", "OK");
+			return;
+		}
         //logic to add the data to the map
-        DisplayAlert("Accelerometer Data", "Please fill out the right panel with your Accelerometer data.", "OK");
+        await DisplayAlert("Accelerometer Data", "Please fill out the right panel with your Accelerometer data.", "OK");
         ButtonStack.IsVisible = true;
     }
-
-    
-
 
     private void OnDataTypeSelected(object sender, EventArgs e)
         {
@@ -67,6 +83,78 @@ public partial class MapPage : ContentPage
         isRenderMap = true;
         canvasView.InvalidateSurface();
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+	{
+		base.OnNavigatedTo(args);
+
+		dataContainer = new DataContainer(currentUser);
+
+		sessionNames.Clear();
+		foreach (string session in dataContainer.getSessionNames()) {
+			sessionNames.Add(session);
+		}
+		DataSessionPicker.ItemsSource = null;
+		DataSessionPicker.ItemsSource = sessionNames;
+
+	}
+
+	private async void OnLoadSessionClicked(object sender, EventArgs e)
+	{
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to load.", "OK");
+			return;
+		} 
+
+		sessionStack.IsVisible = true;
+	}
+
+	private void OnDataSessionSelected(object sender, EventArgs e)
+	{
+		if (DataSessionPicker.SelectedIndex != -1)
+		{
+			string selectedSession = DataSessionPicker.SelectedItem as string;
+			if (!string.IsNullOrEmpty(selectedSession)) {
+				changeSession(selectedSession);
+			}
+		}
+
+		sessionStack.IsVisible = false;
+        LoadDataTypes();
+	}
+
+	private async void changeSession(string selectedSession) {
+		bool hasData = !string.IsNullOrEmpty(currentUser.rawData);
+
+		if (!hasData) {
+			await DisplayAlert("Error", "You have no data to display.", "OK");
+			return;
+		} 
+
+		if (this.sessionData != null) {
+			bool confirmChange = await DisplayAlert(
+				"Confirm Session Change", 
+				"Are you sure you want to load a new session? You will lose your current progress.", 
+				"Yes", 
+				"No"
+			);
+
+			if (!confirmChange)
+			{
+				return;
+			}
+		}
+
+		DataContainer dataContainer = new DataContainer(currentUser);
+		this.sessionData = dataContainer.getSession(selectedSession);
+
+		// remove the robots path from canvas
+        clearCanvas = true;
+        canvasView.InvalidateSurface();
+
+		await DisplayAlert("Success", "Session Loaded Successfully.", "OK");
+	}
 
 
     private async void OnCanvasViewPaintSurface(object sender, SKPaintSurfaceEventArgs e)
@@ -113,6 +201,7 @@ public partial class MapPage : ContentPage
 
     
                 canvas.DrawPath(testPath, paint);
+                isRenderMap = false;
 
 
                 // var paint = new SKPaint
@@ -148,6 +237,9 @@ public partial class MapPage : ContentPage
 
                 // canvas.DrawPath(path, paint);
 
+            } else if (clearCanvas) {
+                e.Surface.Canvas.Clear(SKColors.Transparent);
+                clearCanvas = false;
             }
             
 			// var canvas = e.Surface.Canvas;

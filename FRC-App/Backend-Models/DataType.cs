@@ -5,6 +5,13 @@ public class DataType {
     public string Name { get; set; }
     public List<Column> Columns { get; set; }
 
+    public DataType() { }
+
+    public DataType(string Name, List<Column> Columns) {
+        this.Name = Name;
+        this.Columns = Columns;
+    }
+
     /**
      * --- getColumnLabels() ---
      * Returns the list of column labels (Time (s), Angular Velocity (rpm), ect) 

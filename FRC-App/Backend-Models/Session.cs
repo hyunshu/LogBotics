@@ -1,5 +1,6 @@
 
 using FRC_App.Models;
+using SQLitePCL;
 
 //Secound (secound-highest) level of the FRC data structure:
 //i.e. holds all files in the CSV file family of a data session
@@ -9,6 +10,9 @@ public class Session {
 
     public DataImport GetImport() {
         List<List<string>> dataUnits = new List<List<string>>{};
+        if (this.DataTypes == null || !this.DataTypes.Any()){
+            return new DataImport(this.Name, new List<string>{}, new List<List<string>>{});
+        }
         foreach (DataType type in this.DataTypes) {
             dataUnits.Add(type.getColumnLabels());
         }
@@ -18,6 +22,10 @@ public class Session {
 
     public List<List<List<double>>> getRawData() {
         List<List<List<double>>> rawData = new List<List<List<double>>>{};
+
+        if (this.DataTypes == null || !this.DataTypes.Any()){
+            return rawData;
+        }
         foreach (DataType type in this.DataTypes) {
             List<List<double>> typeData = new List<List<double>>{};
             foreach (Column column in type.Columns) {
