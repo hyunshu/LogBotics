@@ -108,6 +108,9 @@ public partial class ImportData : ContentPage
             //this.sessionData = updataedContainer.getSession(sessionName);
             this.sessionName = sessionName;
             //updataedContainer.storeUpdates();
+            DataSessionPicker.ItemsSource = null; // Force refresh
+            DataSessionPicker.ItemsSource = updataedContainer.getSessionNames();
+            updataedContainer.storeUpdates();
 
 
             Console.WriteLine($"Retrieved Data");
