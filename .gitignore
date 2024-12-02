@@ -1,3 +1,7 @@
 /FRC-App/bin/Debug/
 /FRC-App/obj/Debug/
 /FRC-App/obj/
+.dart_tool/
+.packages
+package_config.json
+.pub/

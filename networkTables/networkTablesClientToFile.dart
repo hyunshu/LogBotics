@@ -47,14 +47,15 @@ void main() async {
   });
 
   // Receive encoder values data and write to file
-  encoderValuesSub.listen((data) {
+  /* encoderValuesSub.listen((data) {
     String logEntry = 'Encoder Values: $data\n';
     fileSink.write(logEntry);
   });
+  */
 
   // Receive IMU position data and write to file
   pigeonPositionSub.listen((data) {
-    String logEntry = 'Pigeon Position: $data\n';
+    String logEntry = 'IMU: Angle (deg): $data\n';
     fileSink.write(logEntry);
   });
 
@@ -68,10 +69,10 @@ void main() async {
     fileSink.write(logEntry);
   }
 
-  await for (Object? data in pigeonPositionSub.stream()) {
+  /*await for (Object? data in pigeonPositionSub.stream()) {
     String logEntry = 'Pigeon: Time (s): $data\n';
     fileSink.write(logEntry);
-  }
+  }*/
 
   // Close the file sink when done
   await fileSink.close();
