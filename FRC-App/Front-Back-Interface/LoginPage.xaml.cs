@@ -23,7 +23,7 @@ public partial class LoginPage : ContentPage
 			try
 			{
 				var user = await UserDatabase.GetUser(username);
-
+				
 				if (user != null && user.Password == password) {
 					if (await UserDatabase.checkActive(username)) {
 						await DisplayAlert("Error", "User is already online on a different device.", "OK");

@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:local="clr-namespace:FRC_App"
              x:Class="FRC_App.AddPlotPage"
              Title="AddPlotPage">
     <ScrollView>
@@ -84,9 +85,23 @@
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
                     
                     <!-- Data Selection Pickers -->
-                    <Picker x:Name="TypesDropDown" SelectedIndexChanged="SelectDataType" Title="Choose which data to plot" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
-                    <Picker x:Name="xDataDropDown" Title="Select Data type for the x-axis" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
-                    <Picker x:Name="yDataDropDown" Title="Select Data type for the y-axis" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+                    <Label Text="Data Type:" FontAttributes="Bold" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                    <Picker x:Name="TypesDropDown" SelectedIndexChanged="SelectDataType" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+
+                    <Label Text="x-axis:" FontAttributes="Bold" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                    <Picker x:Name="xDataDropDown" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
+
+                    <Label Text="y-axis:" FontAttributes="Bold" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                    <Picker x:Name="yDataDropDown" FontSize="16" TextColor="Black" TitleColor="Black" WidthRequest="250" BackgroundColor="White" />
                     
                     <!-- Button to Create Graph -->
                     <Button x:Name="SelectXandYDataButton" Text="Create Graph" BackgroundColor="#FF1B35CD" TextColor="White" CornerRadius="5" Clicked="SelectXandYData" />
@@ -98,9 +113,12 @@
          <StackLayout x:Name="EditChartStack" Grid.Row="2" Grid.Column="0" VerticalOptions="Start" HorizontalOptions="FillAndExpand" Padding="10" IsVisible="False">
             <Frame BackgroundColor="#E0E0E0" BorderColor="Black" CornerRadius="5" Padding="5">
                 <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-                    
-                <Picker x:Name="ChartsDropDown" 
-                    Title="Choose Chart Type" 
+                
+                <Label Text="Choose Chart Type" FontAttributes="Bold" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                <Picker x:Name="ChartsDropDown"
                     FontSize="16" 
                     TextColor="Black" 
                     TitleColor="Black" 
@@ -114,8 +132,11 @@
                     </Picker.Items>
                 </Picker>
 
-                <Picker x:Name="ColorDropDown" 
-                    Title="Choose Chart Color" 
+            <Label Text="Choose Chart Color" FontAttributes="Bold" 
+                        FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"
+                        TextColor="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontColor}"
+                        FontFamily="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontType}" />
+                <Picker x:Name="ColorDropDown"
                     FontSize="16" 
                     TextColor="Black" 
                     TitleColor="Black" 
