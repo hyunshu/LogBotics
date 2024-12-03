@@ -122,6 +122,14 @@ public class DataImport
             if (lineOfText == "\n" || lineOfText == "") {
                 break;
             }
+            string data = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).Last();
+            if (data == " null" || data == "") {
+                continue;
+            }
+            if (lineOfText.Count(c => c == ':') != 2 ) {
+                continue;
+            }
+            
 
             string dataType = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).First();
             if (!dataType.Any() || !dataTypes.Contains(dataType)) {
@@ -140,7 +148,7 @@ public class DataImport
 
             int unitIndex = dataUnits[typeIndex].IndexOf(dataUnit);
 
-            string data = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).Last();
+            data = lineOfText.Split(":",StringSplitOptions.RemoveEmptyEntries).Last();
             data = data.Substring(1); //remove the space
             double x = double.Parse(data);
 

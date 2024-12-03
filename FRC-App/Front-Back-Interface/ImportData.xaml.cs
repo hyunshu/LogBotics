@@ -206,8 +206,9 @@ public partial class ImportData : ContentPage
 
             using (Process process = Process.Start(startInfo))
             {
-                string output = await process.StandardOutput.ReadToEndAsync();
-                string error = await process.StandardError.ReadToEndAsync();
+                await DisplayAlert("Recording Live Robot Data", "When finished press done:", "Done");
+                //string output = await process.StandardOutput.ReadToEndAsync();
+                //string error = await process.StandardError.ReadToEndAsync();
 
                 Dispatcher.Dispatch(() =>
                 {
@@ -227,8 +228,10 @@ public partial class ImportData : ContentPage
                     */
                 });
 
-                process.WaitForExit();
+                process.Kill();
             }
+
+            System.Threading.Thread.Sleep(1000);
 
             await DisplayAlert("Success", "NetworkTables Client script executed successfully.", "OK");
 

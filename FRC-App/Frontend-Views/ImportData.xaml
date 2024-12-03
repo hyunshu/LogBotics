@@ -6,6 +6,9 @@
              Title="Data Import and Export">
     <StackLayout Padding="20" Spacing="20">
 
+        <!-- Output Label -->
+        <!--!<Label x:Name="OutputLabel" Text=" " FontSize="Medium" TextColor="White" HorizontalOptions="Center" /> -->
+
         <!-- Instruction Label -->
         <Label Text="Click the button below to select all the CSV files from a Session you want to import."
                FontSize="{Binding Source={x:Static local:App.GlobalSettings}, Path=FontSize}"

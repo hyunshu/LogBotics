@@ -1,0 +1,6 @@
+Motor: Time (s): null
+Motor Output: 0.0
+IMU: Angle (deg): -0.000003231054506613873
+Motor Output: 0.0
+IMU: Angle (deg): -0.000003231054506613873
+Motor: Time (s): 0.0
