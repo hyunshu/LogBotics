@@ -24,8 +24,7 @@ void main() async {
   String userHome = Platform.environment['USERPROFILE'] ??
       Platform.environment['HOME'] ??
       '.';
-  File dataFile = File(
-      '../FRC-App/robot_data_$timestamp.txt');
+  File dataFile = File('../FRC-App/robot_data_$timestamp.txt');
   IOSink fileSink = dataFile.openWrite(mode: FileMode.append);
 
   // Subscribe to motor output topic
@@ -41,10 +40,10 @@ void main() async {
       client.subscribePeriodic('/robot/PigeonOutput');
 
   // Receive motor output data and write to file
-  motorOutputSub.listen((data) {
+  /* motorOutputSub.listen((data) {
     String logEntry = 'Motor Output: $data\n';
     fileSink.write(logEntry);
-  });
+  }); */
 
   // Receive encoder values data and write to file
   /* encoderValuesSub.listen((data) {
@@ -59,20 +58,20 @@ void main() async {
     fileSink.write(logEntry);
   });
 
-  await for (Object? data in motorOutputSub.stream()) {
+  /* await for (Object? data in motorOutputSub.stream()) {
     String logEntry = 'Motor: Time (s): $data\n';
     fileSink.write(logEntry);
-  }
+  }*/
 
-  await for (Object? data in encoderValuesSub.stream()) {
+  /*await for (Object? data in encoderValuesSub.stream()) {
     String logEntry = 'Encoder: Time (s): $data\n';
     fileSink.write(logEntry);
-  }
+  }*/
 
-  /*await for (Object? data in pigeonPositionSub.stream()) {
+  await for (Object? data in pigeonPositionSub.stream()) {
     String logEntry = 'Pigeon: Time (s): $data\n';
     fileSink.write(logEntry);
-  }*/
+  }
 
   // Close the file sink when done
   await fileSink.close();
