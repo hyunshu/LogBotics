@@ -1,0 +1,22 @@
+Motor: Time (s): null
+Motor Output: 0.0
+Encoder Values: 0.0
+Pigeon Position: -0.000003231054506613873
+Motor Output: 0.0
+Encoder Values: 0.0
+Pigeon Position: -0.000003231054506613873
+Motor: Time (s): 0.0
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
+Pigeon Position: -0.000003231054506613873
