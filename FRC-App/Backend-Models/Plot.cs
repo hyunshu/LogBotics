@@ -43,7 +43,16 @@ public class Plot {
         int ySize = y.Data.Count;
         if (xSize != ySize)
         {
-            throw new AxesDifferentLengthsException("Error! The x-axis must have the same number of elements as the y-axis for plotting.");
+            //throw new AxesDifferentLengthsException("Error! The x-axis must have the same number of elements as the y-axis for plotting.");
+            if (xSize < ySize) {
+                for (int i = xSize; i < ySize; i++) {
+                    y.Data.RemoveAt(xSize);
+                }
+            } else {
+                for (int i = ySize; i < xSize; i++) {
+                    x.Data.RemoveAt(ySize);
+                }
+            }
         }
         this.numPoints = xSize;
 
