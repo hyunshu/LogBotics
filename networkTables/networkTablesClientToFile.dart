@@ -69,7 +69,7 @@ void main() async {
   }*/
 
   await for (Object? data in pigeonPositionSub.stream()) {
-    String logEntry = 'Pigeon: Time (s): $data\n';
+    String logEntry = 'IMU: Time (s): $data\n';
     fileSink.write(logEntry);
   }
 
